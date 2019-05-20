@@ -157,4 +157,4 @@ async function decryptMessage(key) {
 ```
 
 ## License
-[Copyright (c) 2019 shdv](https://github.com/sh-dv/hat.sh/blob/master/LICENSE.md)
+[Copyright (c) 2019 shdv](https://github.com/sh-dv/hat.sh/blob/master/LICENSE)

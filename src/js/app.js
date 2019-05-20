@@ -62,10 +62,7 @@ const DEC = {
   perms2: ['encrypt', 'decrypt'],
 }
 
-
-
 $(function(){$('[data-toggle="tooltip"]').tooltip()}) //toggle tooltip for bootstrap
-
 
 function errorMsg(msg) {
   let errTag =
@@ -137,10 +134,6 @@ function keyCheckMeter() {
   }
 }
 
-
-
-
-
 //better function to convert string to array buffer
 function str2ab(str) {
   const buf = new ArrayBuffer(str.length);
@@ -182,7 +175,6 @@ function processFinished(name, data, method, dKey) {
     keyBtn = '';
   }
 
-
   const blob = new Blob(data, { type: 'application/octet-stream' }); // pass a useful mime type here
   const url = URL.createObjectURL(blob); //create a url for blob
   const htmlTag = `<div class="result">
@@ -213,7 +205,6 @@ function processFinished(name, data, method, dKey) {
 
 }
 
-
 function generateKey() { //generate a random key for user
 
   const usedChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#_+=';
@@ -225,8 +216,6 @@ function generateKey() { //generate a random key for user
   keyCheckMeter(); //run the key strength checker
 
 }
-
-
 
 //import key
 function importSecretKey() { // import the entered key from the password input
@@ -275,8 +264,6 @@ async function deriveSecretKey() {//derive the secret key from a master key.
 }
 
 
-
-
 //file encryption function
 
 async function encryptFile() {
@@ -307,7 +294,6 @@ async function encryptFile() {
 
   });
 }
-
 
 //file decryption function
 

@@ -3,9 +3,6 @@ var $ = require("jquery");
 const popperjs = require('popper.js');
 const zxcvbn = require('zxcvbn');
 
-
-    
-
 // compute the sha256 of a string and display its hex digest.
 // function sha256(str) {
 //   // We transform the string into an arraybuffer.
@@ -67,9 +64,7 @@ const DEC = {
 
 
 
-$(function () {
-      $('[data-toggle="tooltip"]').tooltip()
-})
+$(function(){$('[data-toggle="tooltip"]').tooltip()}) //toggle tooltip for bootstrap
 
 
 function errorMsg(msg) {
@@ -84,7 +79,6 @@ function errorMsg(msg) {
       $(this).remove();
     });
   }, 4000);
-
 }
 
 //determination of file name and size 

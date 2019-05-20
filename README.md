@@ -1,6 +1,6 @@
 # Welcome to the Hat project !
 
-this is a  javascript app that provides secure file encryption using the [AES-GCM](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto) algorithm.
+this is a  javascript app that provides secure file encryption using the [AES-GCM](https://www.w3.org/TR/WebCryptoAPI/#aes-gcm) algorithm .
 
  It's **fast**, **secure** and **Serverless**, the app never uploads the files to the server.
  

@@ -16,7 +16,6 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",
     "popper.js": "^1.15.0",
-    "uglify-js": "^3.5.13",
     "zxcvbn": "^4.4.2"
   },
   "keywords": [

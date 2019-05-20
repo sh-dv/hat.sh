@@ -85,7 +85,7 @@ window.crypto.subtle.importKey(
     "jwk", //can be "jwk" or "raw"
     {   //this is an example jwk key, "raw" would be an ArrayBuffer
         kty: "oct",
-        k: "Y0zt37HgOx-BY7SQjYVmrqhPkO44Ii2Jcb9yydUDPfE",
+        k: "ipAsdxIrRE2VxV@nfoLHM9dXhcTolfB",
         alg: "A256GCM",
         ext: true,
     },

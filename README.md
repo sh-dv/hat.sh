@@ -154,7 +154,9 @@ async function decryptMessage(key) {
 ```
 ## Credits
 [zxcvbn.js](https://github.com/dropbox/zxcvbn) for Smart Password Strength Estimation
+
 [bootstrap](https://github.com/twbs/bootstrap) for the responsive css layout
+
 [font-awesome](https://github.com/FortAwesome/Font-Awesome) for the icons
 
 ## License

@@ -65,7 +65,7 @@ const DEC = {
 
 
 $(function () {
-      $('[data-toggle="tooltip"]').tooltip()
+  $('[data-toggle="tooltip"]').tooltip()
 })
 
 
@@ -75,7 +75,7 @@ function errorMsg(msg) {
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     <strong>Error!</strong> ${msg}
   </div>`;
-  document.getElementById("error").insertAdjacentHTML('beforeEnd', errTag);//inserthtml
+  document.getElementById("error").insertAdjacentHTML('beforeEnd', errTag); //inserthtml
   window.setTimeout(function () {
     $(".alert-error").fadeTo(500, 0).slideUp(500, function () {
       $(this).remove();
@@ -178,15 +178,16 @@ function processFinished(name, data, method, dKey) {
     status = "encrypted";
     keyBtn = `<button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target=".modal${randomId}"><i class="fas fa-key"></i>
     Decryption Key</button>`;
-  }
-  else {
+  } else {
     msg = " Has been <b>decrypted</b> Successfully";
     status = "decrypted"
     keyBtn = '';
   }
 
 
-  const blob = new Blob(data, { type: 'application/octet-stream' }); // pass a useful mime type here
+  const blob = new Blob(data, {
+    type: 'application/octet-stream'
+  }); // pass a useful mime type here
   const url = URL.createObjectURL(blob); //create a url for blob
   const htmlTag = `<div class="result">
   <div class="modal fade bd-example-modal-sm modal${randomId}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -212,7 +213,7 @@ function processFinished(name, data, method, dKey) {
     <hr>
   </div>
 </div><!-- end result -->`;
-  document.getElementById("results").insertAdjacentHTML('beforeEnd', htmlTag);//inserthtml
+  document.getElementById("results").insertAdjacentHTML('beforeEnd', htmlTag); //inserthtml
 
 }
 
@@ -236,26 +237,30 @@ function importSecretKey() { // import the entered key from the password input
   let rawPassword = str2ab(password.value); // convert the password entered in the input to an array buffer
   return window.crypto.subtle.importKey(
     "raw", //raw
-    rawPassword,// array buffer password
-    { length: DEC.algoLength, name: DEC.algoName1 }, //the algorithm you are using
-    false,//whether the derived key is extractable 
+    rawPassword, // array buffer password
+    {
+      length: DEC.algoLength,
+      name: DEC.algoName1
+    }, //the algorithm you are using
+    false, //whether the derived key is extractable 
     DEC.perms1 //limited to the options encrypt and decrypt
   );
 
 }
 
 // better not to use it
-async function deriveSecretKey() {//derive the secret key from a master key.
+async function deriveSecretKey() { //derive the secret key from a master key.
 
   let getSecretKey = await importSecretKey();
   let rawPassword = str2ab(password.value); // convert the password entered in the input to an array buffer
   //console.log(rawPassword);
-  return window.crypto.subtle.deriveKey(
-    {
+  return window.crypto.subtle.deriveKey({
       name: DEC.algoName1,
       salt: rawPassword, //use the entered password as a salt
       iterations: 100000,
-      hash: { name: DEC.hash },
+      hash: {
+        name: DEC.hash
+      },
     },
     getSecretKey, //your key from importKey
     { //the key type you want to create based on the derived bits
@@ -278,10 +283,6 @@ async function deriveSecretKey() {//derive the secret key from a master key.
 }
 
 
-function loadStart(){
-  
-}
-
 //file encryption function
 
 async function encryptFile() {
@@ -293,14 +294,17 @@ async function encryptFile() {
 
     fr.onloadstart = async () => {
       $(".loader").css("display", "block"); //show spinner while loading a file
-  };
-    
-    fr.onload = async () => {//load
+    };
+
+    fr.onload = async () => { //load
 
       const iv = window.crypto.getRandomValues(new Uint8Array(16)); //generate a random iv
       const content = new Uint8Array(fr.result); //encoded file content
 
-      await window.crypto.subtle.encrypt({ iv, name: DEC.algoName2 }, derivedKey, content) //encrypt
+      await window.crypto.subtle.encrypt({
+          iv,
+          name: DEC.algoName2
+        }, derivedKey, content) //encrypt
         .then(function (encrypted) {
           //returns an ArrayBuffer containing the encrypted data
           resolve(processFinished('Encrypted-' + file.name, [DEC.signature, iv, new Uint8Array(encrypted)], 1, password.value)); //create the new file buy adding signature and iv and content
@@ -312,7 +316,7 @@ async function encryptFile() {
         });
 
     }
-    
+
 
     fr.readAsArrayBuffer(file)
 
@@ -332,19 +336,22 @@ async function decryptFile() {
 
     fr.onloadstart = async () => {
       $(".loader").css("display", "block"); //show spinner while loading a file
-  };
+    };
 
-    fr.onload = async () => {//load 
+    fr.onload = async () => { //load 
       //console.log(fr.result);
-      const iv = new Uint8Array(fr.result.slice(22, 38));//take out encryption iv
+      const iv = new Uint8Array(fr.result.slice(22, 38)); //take out encryption iv
 
-      const content = new Uint8Array(fr.result.slice(38));//take out encrypted content
+      const content = new Uint8Array(fr.result.slice(38)); //take out encrypted content
 
-      await window.crypto.subtle.decrypt({ iv, name: DEC.algoName2 }, derivedKey, content)
+      await window.crypto.subtle.decrypt({
+          iv,
+          name: DEC.algoName2
+        }, derivedKey, content)
         .then(function (decrypted) {
           //returns an ArrayBuffer containing the decrypted data
 
-          resolve(processFinished(file.name.replace('Encrypted-', ''), [new Uint8Array(decrypted)], 2, password.value));//create new file from the decrypted content
+          resolve(processFinished(file.name.replace('Encrypted-', ''), [new Uint8Array(decrypted)], 2, password.value)); //create new file from the decrypted content
           //console.log("file has been successuflly decrypted");
           $(".loader").css("display", "none"); //hide spinner
 
@@ -359,7 +366,3 @@ async function decryptFile() {
 
   });
 }
-
-
-
-    

@@ -21,6 +21,21 @@ p.lead {
     font-family: 'Raleway', sans-serif;
 }
 
+.custom-file-input {
+    cursor: pointer;
+        
+
+
+}
+
+#file-placeholder {
+    overflow: hidden;
+    
+    
+    white-space: nowrap;
+    word-wrap: break-word;
+}
+
 .footer {
     position: absolute;
     bottom: 0;

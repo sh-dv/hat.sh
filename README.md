@@ -1,6 +1,6 @@
 # Welcome to the Hat project !
 
-this is a  javascript app that provides secure file encryption using the [AES-GCM](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto) algorithm.
+this is a  javascript app that provides secure file encryption using the [AES-GCM](https://www.w3.org/TR/WebCryptoAPI/#aes-gcm) algorithm .
 
  It's **fast**, **secure** and **Serverless**, the app never uploads the files to the server.
  
@@ -67,16 +67,15 @@ for more info see [WebCryptoAPI](https://developer.mozilla.org/en-US/docs/Web/AP
 
 #### AES-GCM - generateKey
 ```javascript
-window.crypto.subtle.generateKey(
+  window.crypto.subtle.generateKey(
     {
-        name: "AES-GCM",
-        length: 256, //can be  128, 192, or 256
+      name: "AES-GCM",
+      length: 256,
     },
-    false, //whether the key is extractable (i.e. can be used in exportKey)
-    ["encrypt", "decrypt"] //can "encrypt", "decrypt", "wrapKey", or "unwrapKey"
-)
+    true,
+    ["encrypt", "decrypt"]
+  )
 .then(function(key){
-    //returns a key object
     console.log(key);
 })
 .catch(function(err){
@@ -85,22 +84,16 @@ window.crypto.subtle.generateKey(
 ```
 #### AES-GCM - importKey
 ```javascript
-window.crypto.subtle.importKey(
-    "jwk", //can be "jwk" or "raw"
-    {   //this is an example jwk key, "raw" would be an ArrayBuffer
-        kty: "oct",
-        k: "ipAsdxIrRE2VxV@nfoLHM9dXhcTolfB",
-        alg: "A256GCM",
-        ext: true,
-    },
-    {   //this is the algorithm options
-        name: "AES-GCM",
-    },
-    false, //whether the key is extractable (i.e. can be used in exportKey)
-    ["encrypt", "decrypt"] //can "encrypt", "decrypt", "wrapKey", or "unwrapKey"
-)
+function importSecretKey(rawKey) {
+    return window.crypto.subtle.importKey(
+      "raw",
+      rawKey,
+      "AES-GCM",
+      true,
+      ["encrypt", "decrypt"]
+    );
+  }
 .then(function(key){
-    //returns the symmetric key
     console.log(key);
 })
 .catch(function(err){
@@ -109,12 +102,12 @@ window.crypto.subtle.importKey(
 ```
 #### AES-GCM - exportKey
 ```javascript
-window.crypto.subtle.exportKey(
-    "jwk", //can be "jwk" or "raw"
-    key //extractable must be true
-)
+async function exportCryptoKey(key) {
+    const exported = await window.crypto.subtle.exportKey(
+      "raw",
+      key
+    )
 .then(function(keydata){
-    //returns the exported key data
     console.log(keydata);
 })
 .catch(function(err){
@@ -123,52 +116,45 @@ window.crypto.subtle.exportKey(
 ```
 #### AES-GCM - encrypt
 ```javascript
-window.crypto.subtle.encrypt(
-    {
-        name: "AES-GCM",
-
-        //Don't re-use initialization vectors!
-        //Always generate a new iv every time your encrypt!
-        //Recommended to use 12 bytes length
-        iv: window.crypto.getRandomValues(new Uint8Array(12)),
-
-        //Additional authentication data (optional)
-        additionalData: ArrayBuffer,
-
-        //Tag length (optional)
-        tagLength: 128, //can be 32, 64, 96, 104, 112, 120 or 128 (default)
-    },
-    key, //from generateKey or importKey above
-    data //ArrayBuffer of data you want to encrypt
-)
-.then(function(encrypted){
-    //returns an ArrayBuffer containing the encrypted data
-    console.log(new Uint8Array(encrypted));
-})
-.catch(function(err){
-    console.error(err);
-});
+async function encryptMessage(key) {
+    let encoded = getMessageEncoding();
+    // The iv must never be reused with a given key.
+    iv = window.crypto.getRandomValues(new Uint8Array(12));
+    ciphertext = await window.crypto.subtle.encrypt(
+            {
+                name: "AES-GCM",
+                iv: iv
+            },
+            key,
+            encoded
+        )
+        .then(function (encrypted) {
+            console.log(new Uint8Array(encrypted));
+        })
+        .catch(function (err) {
+            console.error(err);
+        });
+}
 ```
 #### AES-GCM - decrypt
 ```javascript
-window.crypto.subtle.decrypt(
-    {
-        name: "AES-GCM",
-        iv: ArrayBuffer(12), //The initialization vector you used to encrypt
-        additionalData: ArrayBuffer, //The addtionalData you used to encrypt (if any)
-        tagLength: 128, //The tagLength you used to encrypt (if any)
-    },
-    key, //from generateKey or importKey above
-    data //ArrayBuffer of the data
-)
-.then(function(decrypted){
-    //returns an ArrayBuffer containing the decrypted data
-    console.log(new Uint8Array(decrypted));
-})
-.catch(function(err){
-    console.error(err);
-});
+async function decryptMessage(key) {
+    let encoded = getMessageEncoding();
+    let decrypted = await window.crypto.subtle.decrypt({
+            name: "AES-GCM",
+            iv: iv
+        },
+        key,
+        ciphertext
+       )
+       .then(function (decrypted) {
+            console.log(new Uint8Array(encrypted));
+        })
+        .catch(function (err) {
+            console.error(err);
+        });
+}
 ```
 
 ## License
-[Copyright (c) 2019 shdv](https://github.com/sh-dv/hat.sh/blob/master/LICENSE.md)
+[Copyright (c) 2019 shdv](https://github.com/sh-dv/hat.sh/blob/master/LICENSE)

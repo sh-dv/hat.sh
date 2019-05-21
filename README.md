@@ -1,3 +1,4 @@
+
 # Welcome to the Hat project !
 
 this is a  javascript app that provides secure file encryption using the [AES-GCM](https://www.w3.org/TR/WebCryptoAPI/#aes-gcm) algorithm .
@@ -151,6 +152,10 @@ async function decryptMessage(key) {
         });
 }
 ```
+## Credits
+[zxcvbn.js](https://github.com/dropbox/zxcvbn) for Smart Password Strength Estimation
+[bootstrap](https://github.com/twbs/bootstrap) for the responsive css layout
+[font-awesome](https://github.com/FortAwesome/Font-Awesome) for the icons
 
 ## License
 [Copyright (c) 2019 shdv](https://github.com/sh-dv/hat.sh/blob/master/LICENSE)

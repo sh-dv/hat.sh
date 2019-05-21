@@ -28,10 +28,6 @@ the app is cross-platform and is available to download on **macOS** and **Window
 
 ## Installation
 
-non-dependencies version of the app is available in the **Build** folder , Just run the **index.html**
-
-or =>
-
 Download or clone the repository
 
  

@@ -52,7 +52,7 @@ decryptBtn.addEventListener("click", decryptFile); //from the generateKey functi
 
 //declarations
 const DEC = {
-  signature: "Encrypted Using Hat.sh",
+  signature: "RW5jcnlwdGVkIFVzaW5nIEhhdC5zaA",
   hash: "SHA-256",
   algoName1: "PBKDF2",
   algoName2: "AES-GCM",
@@ -307,7 +307,7 @@ async function encryptFile() {
         }, derivedKey, content) //encrypt
         .then(function (encrypted) {
           //returns an ArrayBuffer containing the encrypted data
-          resolve(processFinished('Encrypted-' + file.name, [DEC.signature, iv, new Uint8Array(encrypted)], 1, password.value)); //create the new file buy adding signature and iv and content
+          resolve(processFinished('Encrypted-' + file.name, [window.atob(DEC.signature), iv, new Uint8Array(encrypted)], 1, password.value)); //create the new file buy adding signature and iv and content
           //console.log("file has been successuflly encrypted");
         })
         .catch(function (err) {

@@ -1,8 +1,10 @@
+//require the dependencies
 const bootstrap = require('bootstrap');
 var $ = require("jquery");
 const popperjs = require('popper.js');
 const zxcvbn = require('zxcvbn');
 
+// not using any more
 // compute the sha256 of a string and display its hex digest.
 // function sha256(str) {
 //   // We transform the string into an arraybuffer.
@@ -42,7 +44,7 @@ genBtn.addEventListener("click", generateKey, false); //from the generateKey fun
 let password = document.getElementById('inputPassword');
 password.addEventListener("input", keyCheckMeter, false);
 
-//encryption decryption buttons
+//encryption decryption button events
 const encryptBtn = document.getElementById("encryptBtn");
 encryptBtn.addEventListener("click", encryptFile); //from the generateKey function
 
@@ -62,13 +64,12 @@ const DEC = {
   perms2: ['encrypt', 'decrypt'],
 }
 
-
-
+//function to toggle tooltips for bootstrap
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
 
-
+//error messages handler function
 function errorMsg(msg) {
   let errTag =
     `<div class="alert alert-danger alert-error" role="alert">
@@ -81,7 +82,6 @@ function errorMsg(msg) {
       $(this).remove();
     });
   }, 4000);
-
 }
 
 //determination of file name and size 
@@ -96,12 +96,10 @@ function updateNameAndSize() {
     fileName = oFiles[nFileId].name;
   }
   let sOutput = nBytes + " bytes";
-  // optional code for multiples approximation
+  // multiples approximation
   for (let aMultiples = ["KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"], nMultiple = 0, nApprox = nBytes / 1024; nApprox > 1; nApprox /= 1024, nMultiple++) {
     sOutput = nApprox.toFixed(2) + " " + aMultiples[nMultiple];
   }
-  // end of optional code
-
   // console.log(fileName);
   //change placeholder text
   if (!inputFile.value) {
@@ -109,7 +107,6 @@ function updateNameAndSize() {
   } else {
     placeHolder.innerHTML = fileName + '  <span class="text-success">' + sOutput + '</span>';
   }
-
 
 }
 
@@ -140,11 +137,8 @@ function keyCheckMeter() {
   }
 }
 
-
-
-
-
 //better function to convert string to array buffer
+//as done in the webcrypto documentation
 function str2ab(str) {
   const buf = new ArrayBuffer(str.length);
   const bufView = new Uint8Array(buf);
@@ -154,6 +148,7 @@ function str2ab(str) {
   return buf;
 }
 
+// optional functions but
 // not as good as the one above
 // function convertStringToArray(string) {
 //   var trans = new TextEncoder("utf-8");
@@ -165,7 +160,7 @@ function str2ab(str) {
 // }
 
 
-//this function generates the html tag and provieds the file that needs to be downloaded
+//this function generates the html tag and provieds the file that needs to be downloaded as an html tag
 function processFinished(name, data, method, dKey) {
 
   //methods 1->encryption , 2->decryption
@@ -184,10 +179,9 @@ function processFinished(name, data, method, dKey) {
     keyBtn = '';
   }
 
-
   const blob = new Blob(data, {
     type: 'application/octet-stream'
-  }); // pass a useful mime type here
+  }); // meaning download this file
   const url = URL.createObjectURL(blob); //create a url for blob
   const htmlTag = `<div class="result">
   <div class="modal fade bd-example-modal-sm modal${randomId}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -217,9 +211,8 @@ function processFinished(name, data, method, dKey) {
 
 }
 
-
-function generateKey() { //generate a random key for user
-
+//generate a random key for user
+function generateKey() { 
   const usedChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#_+=';
   let keyArray = new Uint8Array(16); //lenght of the key
   window.crypto.getRandomValues(keyArray); //randomize
@@ -230,10 +223,9 @@ function generateKey() { //generate a random key for user
 
 }
 
-
-
 //import key
-function importSecretKey() { // import the entered key from the password input
+// import the entered key from the password input
+function importSecretKey() { 
   let rawPassword = str2ab(password.value); // convert the password entered in the input to an array buffer
   return window.crypto.subtle.importKey(
     "raw", //raw
@@ -279,88 +271,98 @@ async function deriveSecretKey() { //derive the secret key from a master key.
   //     console.error(err);
   // });
 
-
 }
-
 
 //file encryption function
-
 async function encryptFile() {
-  const derivedKey = await deriveSecretKey(); //requiring the key
-  const file = inputFile.files[0]; //file input
-  const fr = new FileReader(); //request a file read
+  //check if file and password inputs are entered
+  if (!inputFile.value || !password.value) {
+    errorMsg("Please browse a file and enter a Key")
+  } else {
+    
+    const derivedKey = await deriveSecretKey(); //requiring the key
+    const file = inputFile.files[0]; //file input
+    const fr = new FileReader(); //request a file read
 
-  const n = new Promise((resolve, reject) => {
+    const n = new Promise((resolve, reject) => {
 
-    fr.onloadstart = async () => {
-      $(".loader").css("display", "block"); //show spinner while loading a file
-    };
+      fr.onloadstart = async () => {
+        $(".loader").css("display", "block"); //show spinner while loading a file
+      };
 
-    fr.onload = async () => { //load
+      fr.onload = async () => { //load
 
-      const iv = window.crypto.getRandomValues(new Uint8Array(16)); //generate a random iv
-      const content = new Uint8Array(fr.result); //encoded file content
-
-      await window.crypto.subtle.encrypt({
-          iv,
-          name: DEC.algoName2
-        }, derivedKey, content) //encrypt
-        .then(function (encrypted) {
-          //returns an ArrayBuffer containing the encrypted data
-          resolve(processFinished('Encrypted-' + file.name, [window.atob(DEC.signature), iv, new Uint8Array(encrypted)], 1, password.value)); //create the new file buy adding signature and iv and content
-          //console.log("file has been successuflly encrypted");
-        })
-        .catch(function (err) {
-          errorMsg("An error occured while Encrypting the file, try again!"); //reject
-        });
+        const iv = window.crypto.getRandomValues(new Uint8Array(16)); //generate a random iv
+        const content = new Uint8Array(fr.result); //encoded file content
+        // encrypt the file
+        await window.crypto.subtle.encrypt({
+            iv,
+            name: DEC.algoName2
+          }, derivedKey, content) 
+          .then(function (encrypted) {
+            //returns an ArrayBuffer containing the encrypted data
+            resolve(processFinished('Encrypted-' + file.name, [window.atob(DEC.signature), iv, new Uint8Array(encrypted)], 1, password.value)); //create the new file buy adding signature and iv and content
+            //console.log("file has been successuflly encrypted");
+          })
+          .catch(function (err) {
+            errorMsg("An error occured while Encrypting the file, try again!"); //reject
+          });
         $(".loader").css("display", "none"); //hide spinner
-    }
+      }
+      //read the file as buffer
+      fr.readAsArrayBuffer(file)
 
-
-    fr.readAsArrayBuffer(file)
-
-  });
+    });
+  }
 }
+
 
 
 //file decryption function
 
+
 async function decryptFile() {
 
-  const derivedKey = await deriveSecretKey(); //requiring the key
-  const file = inputFile.files[0]; //file input
-  const fr = new FileReader(); //request a file read
+  if (!inputFile.value || !password.value) {
+    errorMsg("Please browse a file and enter a Key")
+  } else {
 
-  const d = new Promise((resolve, reject) => {
+    const derivedKey = await deriveSecretKey(); //requiring the key
+    const file = inputFile.files[0]; //file input
+    const fr = new FileReader(); //request a file read
 
-    fr.onloadstart = async () => {
-      $(".loader").css("display", "block"); //show spinner while loading a file
-    };
+    const d = new Promise((resolve, reject) => {
 
-    fr.onload = async () => { //load 
-      //console.log(fr.result);
-      const iv = new Uint8Array(fr.result.slice(22, 38)); //take out encryption iv
+      fr.onloadstart = async () => {
+        $(".loader").css("display", "block"); //show spinner while loading a file
+      };
 
-      const content = new Uint8Array(fr.result.slice(38)); //take out encrypted content
+      fr.onload = async () => { //load 
+        //console.log(fr.result);
+        const iv = new Uint8Array(fr.result.slice(22, 38)); //take out encryption iv
 
-      await window.crypto.subtle.decrypt({
-          iv,
-          name: DEC.algoName2
-        }, derivedKey, content)
-        .then(function (decrypted) {
-          //returns an ArrayBuffer containing the decrypted data
+        const content = new Uint8Array(fr.result.slice(38)); //take out encrypted content
 
-          resolve(processFinished(file.name.replace('Encrypted-', ''), [new Uint8Array(decrypted)], 2, password.value)); //create new file from the decrypted content
-          //console.log("file has been successuflly decrypted");
-        })
-        .catch(function () {
-          errorMsg("You have entered a wrong Decryption Key!");
-        });
+        await window.crypto.subtle.decrypt({
+            iv,
+            name: DEC.algoName2
+          }, derivedKey, content)
+          .then(function (decrypted) {
+            //returns an ArrayBuffer containing the decrypted data
 
-      $(".loader").css("display", "none"); //hide spinner
-    }
+            resolve(processFinished(file.name.replace('Encrypted-', ''), [new Uint8Array(decrypted)], 2, password.value)); //create new file from the decrypted content
+            //console.log("file has been successuflly decrypted");
+          })
+          .catch(function () {
+            errorMsg("You have entered a wrong Decryption Key!");
+          });
 
-    fr.readAsArrayBuffer(file) //read the file as buffer
+        $(".loader").css("display", "none"); //hide spinner
+      }
 
-  });
+      fr.readAsArrayBuffer(file) //read the file as buffer
+
+    });
+  }
+
 }

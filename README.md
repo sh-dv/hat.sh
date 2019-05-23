@@ -11,6 +11,8 @@ this is a  javascript app that provides secure file encryption using the [AES-GC
  You can **Type** a Decryption Key or **Generate** one through our secure key generator
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/sh-dv/hat.sh)
+[![HitCount](http://hits.dwyl.io/sh-dv/hatsh.svg)](http://hits.dwyl.io/sh-dv/hatsh)
+
 
 ## How to use
 just simply browse a file , type a decryption key or use our secure key generator , and encrypt or decrypt.

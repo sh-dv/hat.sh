@@ -54,7 +54,7 @@ decryptBtn.addEventListener("click", decryptFile); //from the generateKey functi
 
 //declarations
 const DEC = {
-  signature: "RW5jcnlwdGVkIFVzaW5nIEhhdC5zaA",
+  signature: "RW5jcnlwdGVkIFVzaW5nIEhhdC5zaA", //add a line in the file that says "encrypted by Hat.sh :)"
   hash: "SHA-256",
   algoName1: "PBKDF2",
   algoName2: "AES-GCM",

@@ -7,7 +7,6 @@ this is a  javascript app that provides secure file encryption using the [AES-GC
  
  the app can encrypt any **type** of files at any **size** within seconds.
  
- it uses the  [zxcvbn.js](https://github.com/dropbox/zxcvbn) library for **Smart** Password **Strength** Estimation
  
  You can **Type** a Decryption Key or **Generate** one through our secure key generator
 

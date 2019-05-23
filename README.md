@@ -1,20 +1,21 @@
 
 # Welcome to the Hat project !
 
-this is a  javascript app that provides secure file encryption using the [AES-GCM](https://www.w3.org/TR/WebCryptoAPI/#aes-gcm) algorithm .
+this is a  javascript app that provides secure file encryption using the [AES-GCM](https://www.w3.org/TR/WebCryptoAPI/#aes-gcm) algorithm.
 
  It's **fast**, **secure** and **Serverless**, the app never uploads the files to the server.
  
  the app can encrypt any **type** of files at any **size** within seconds.
  
- it uses the  [zxcvbn.js](https://github.com/dropbox/zxcvbn) library for **Smart** Password **Strength** Estimation
  
- You can **Type** a Decryption Key or **Generate** one through our secure key generator
+ You can **Type** a Decryption Key or **Generate** one through our secure key generator .
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/sh-dv/hat.sh)
 
+
+
 ## How to use
-just simply browse a file , type a decryption key or use our secure key generator , and encrypt or decrypt.
+just simply browse a file , type a decryption key or use our secure key generator, and encrypt or decrypt.
 
 ![enter image description here](https://i.imgur.com/ziBhQhP.gif)
 

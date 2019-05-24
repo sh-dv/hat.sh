@@ -160,4 +160,4 @@ async function decryptMessage(key) {
 [font-awesome](https://github.com/FortAwesome/Font-Awesome) for the icons
 
 ## License
-[Copyright (c) 2019 shdv](https://github.com/sh-dv/hat.sh/blob/master/LICENSE)
+[Copyright (c) 2019 sh-dv](https://github.com/sh-dv/hat.sh/blob/master/LICENSE)

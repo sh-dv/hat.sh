@@ -51,6 +51,8 @@ encryptBtn.addEventListener("click", encryptFile); //from the generateKey functi
 const decryptBtn = document.getElementById("decryptBtn");
 decryptBtn.addEventListener("click", decryptFile); //from the generateKey function
 
+const resetBtn = document.getElementById("resetBtn");
+resetBtn.addEventListener("click", resetInputs); //reset inputs on click
 
 //declarations
 const DEC = {
@@ -84,8 +86,10 @@ function errorMsg(msg) {
   }, 4000);
 }
 
+
 //determination of file name and size 
 function updateNameAndSize() {
+  showResetBtn();
   let nBytes = 0,
     oFiles = inputFile.files,
     nFiles = oFiles.length,
@@ -108,10 +112,29 @@ function updateNameAndSize() {
     placeHolder.innerHTML = fileName + '  <span class="text-success">' + sOutput + '</span>';
   }
 
+
 }
+ 
+//show and hide reset btn from html
+function showResetBtn(){$("#resetBtn").css("display", "");}
+function hideResetBtn(){$("#resetBtn").css("display", "none");}
+
+//reset inputs
+//if inputs are set reset them on click
+function resetInputs(){
+  if (inputFile.value != 0 || password.value != 0) {
+    inputFile.value = "";
+    password.value = "";
+    updateNameAndSize();
+    hideResetBtn();
+  } 
+}
+
+
 
 //check how strong is the password entered using zxcvbn.js
 function keyCheckMeter() {
+  showResetBtn();
   let strength = {
     0: "Very Bad",
     1: "Bad",
@@ -319,7 +342,6 @@ async function encryptFile() {
 
 
 //file decryption function
-
 
 async function decryptFile() {
 

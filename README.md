@@ -11,6 +11,7 @@ in a small amount of code the app can encrypt any **type** of files at any **siz
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/sh-dv/hat.sh)
 
+[https://hat.sh](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/sh-dv/hat.sh)
 
 
 ## How to use

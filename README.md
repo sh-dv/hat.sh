@@ -7,7 +7,7 @@ this is a  javascript app that provides secure file encryption using the [AES-GC
  
 in a small amount of code the app can encrypt any **type** of files at any **size** within seconds.
  
- To use the app all you have to do is **Browse** a file ,  **Type** a Decryption Key or **Generate** one through our secure key generator. and your encrypted file is ready to download.
+ To use the app all you have to do is **Browse** a file,  **Type** a Decryption Key or **Generate** one through our secure key generator. and your encrypted file is ready to download.
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/sh-dv/hat.sh)
 

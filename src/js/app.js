@@ -32,7 +32,7 @@ const DEC = {
   hash: "SHA-256",
   algoName1: "PBKDF2",
   algoName2: "AES-GCM",
-  algoLength: 128,
+  algoLength: 256,
   itr: 100000,
   perms1: ["deriveKey"],
   perms2: ['encrypt', 'decrypt'],

@@ -99,6 +99,7 @@ function resetInputs(){
     password.value = "";
     updateNameAndSize();
     hideResetBtn();
+    keyCheckMeter();
   } 
 }
 
@@ -106,7 +107,6 @@ function resetInputs(){
 
 //check how strong is the password entered using zxcvbn.js
 function keyCheckMeter() {
-  showResetBtn();
   let strength = {
     0: "Very Bad",
     1: "Bad",
@@ -127,6 +127,7 @@ function keyCheckMeter() {
   // Update the text indicator
   if (val !== "") {
     text.innerHTML = strength[result.score];
+    showResetBtn();
   } else {
     text.innerHTML = "none.";
   }

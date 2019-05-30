@@ -17,6 +17,10 @@ h2.title {
     font-weight: bold;
 }
 
+h2 a , h2 a:hover{
+    color: #000;
+}
+
 p.lead {
     font-family: 'Raleway', sans-serif;
 }

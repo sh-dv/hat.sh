@@ -153,12 +153,12 @@ function processFinished(name, data, method, dKey) {
   let keyBtn;
   const randomId = Math.floor((Math.random() * 100) + 1);
   if (method == 1) {
-    msg = " Has been <b>encrypted</b> Successfully";
+    msg = "Successfully Encrypted";
     status = "encrypted";
     keyBtn = `<button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target=".modal${randomId}"><i class="fas fa-key"></i>
     Decryption Key</button>`;
   } else {
-    msg = " Has been <b>decrypted</b> Successfully";
+    msg = "Successfully Decrypted";
     status = "decrypted"
     keyBtn = '';
   }
@@ -184,12 +184,14 @@ function processFinished(name, data, method, dKey) {
       </div>
     </div>
 
-  <div class="alert alert-light" role="alert">
-    <strong>Success!</strong><samp> The file <span class="badge badge-light">${name.replace('Encrypted-', '')}</span>${msg}</samp>
-    <p><a class="btn btn-secondary btn-sm" href="${url}" download="${name}" role="button"><i class="fas fa-download"></i> ${status}
-        file </a> ${keyBtn}</p>
+  <div class="alert alert-outline ${status}" role="alert">
+    <i class="fas fa-check"></i> ${name.replace('Encrypted-', '')} was <strong>${msg}</strong>
     <hr>
-  </div>
+    <div class="btn-group">
+      <a class="btn btn-outline-secondary btn-sm" href="${url}" download="${name}" role="button"><i class="fas fa-download"></i> ${status}
+          file </a> ${keyBtn}
+    </div>
+  </div><!-- end alert -->
 </div><!-- end result -->`;
   document.getElementById("results").insertAdjacentHTML('beforeEnd', htmlTag); //inserthtml
 

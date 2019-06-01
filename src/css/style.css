@@ -27,15 +27,46 @@ p.lead {
 
 .custom-file-input {
     cursor: pointer;
-
-
-
 }
 
 #file-placeholder {
     overflow: hidden;
     white-space: nowrap;
     word-wrap: break-word;
+    text-align: left;
+}
+
+.alert-error {
+    -webkit-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.1);
+    box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.1);
+}
+
+.alert-outline {
+    background: #fefefe;
+    margin-bottom: 10px;
+    -webkit-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.1);
+    box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.1);
+}
+
+.alert.encrypted {
+    color: #155724;
+    border-color: #c3e6cb;
+}
+
+.alert.encrypted hr {
+    border-top-color: #b1dfbb;
+}
+
+
+.alert.decrypted {
+    color: #004085;
+    border-color: #b8daff;
+}
+
+.alert.decrypted hr {
+    border-top-color: #9fcdff;
 }
 
 .footer {

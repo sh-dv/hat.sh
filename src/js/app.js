@@ -193,7 +193,7 @@ function processFinished(name, data, method, dKey) {
     </div>
   </div><!-- end alert -->
 </div><!-- end result -->`;
-  document.getElementById("results").insertAdjacentHTML('beforeEnd', htmlTag); //inserthtml
+  document.getElementById("results").insertAdjacentHTML('afterbegin', htmlTag); //inserthtml
 
 }
 

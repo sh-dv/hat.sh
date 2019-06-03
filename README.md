@@ -11,7 +11,6 @@ To use the app all you have to do is **Browse** a file,  **Type** a Decryption K
 
 [![https://github.com/sh-dv/hat.sh](https://travis-ci.org/sh-dv/hat.sh.svg?branch=master)](https://github.com/sh-dv/hat.sh)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/sh-dv/hat.sh)
-[![https://hat.sh](http://hits.dwyl.io/sh-dv/hatsh.svg)](https://github.com/sh-dv/hat.sh)
 
 
 ## How to use

@@ -8,7 +8,11 @@
 
     <link rel="stylesheet" href="src/css/style.css">
 
-    <title>The Hat Project | Hat.sh</title>
+    <title>About Hat.sh | Hat.sh | The Hat Project</title>
+    <meta name="Description" content="encrypt and decrypt files securely in your browser using the AES 256 algorithm.">
+    <meta name="Keywords"
+        content="encrypt decrypt encryption file-encryption javascript client-side serverless decryption aes aes-encryption aes-256 aes-128 encryption-decryption webcrypto webcryptoapi crypto browser in-browser">
+
 </head>
 
 <body>
@@ -31,23 +35,90 @@
         </li>
     </ul>
 
+
+    <div class="jumbotron jumbotron-fluid bg-light">
+        <div class="container">
+            <h2 class="display-4 title">About <a href="/">Hat.sh</a></h2>
+        </div>
+    </div>
+
     <div class="container">
 
         <div class="col-sm-12">
-            <h2 class="display-4 title">About Hat.sh</h2>
+            <h2 class="display-4 title"></h2>
             <p class="lead">
-                this is a  javascript app that provides secure file encryption using the <a href="https://www.w3.org/TR/WebCryptoAPI/#aes-gcm">AES-GCM 256</a> algorithm from <a href="
-                https://www.w3.org/TR/WebCryptoAPI/#aes-gcm">WebCryptoAPI</a> provided by your browser.<br>
+                this is a javascript app that provides secure file encryption using the <a
+                    href="https://www.w3.org/TR/WebCryptoAPI/#aes-gcm">AES-256-GCM</a> algorithm from <a href="
+                https://www.w3.org/TR/WebCryptoAPI/#aes-gcm">WebCryptoAPI</a> included in your browser.<br>
 
-                It's <b>fast</b>, <b>secure</b> and <b>Serverless</b>, the app never uploads the files to the server.<br>
-                
-               in a small amount of code the app can encrypt any **type** of files at any **size** within seconds.<br>
-                
-                To use the app all you have to do is <b>Browse</b> a file ,  <b>Type</b> a Decryption Key or <b>Generate</b> one through our secure key generator . and your encrypted file is ready to download.
-                
+                It's <u>fast</u>, <u>secure</u> and <u>Serverless</u>, the app never uploads the files to the
+                server.<br>
+
+                in a small amount of code the app can encrypt any type of files at any size within seconds.<br>
+
+                To use the app all you have to do is <u>Browse</u> a file , <u>Type</u> a Decryption Key or
+                <u>Generate</u> one through our secure key generator . and your encrypted file is ready to download.
+
             </p>
+        </div>
+    </div>
 
+    <div class="jumbotron jumbotron-fluid bg-light">
+        <div class="container">
+            <h2 class="display-4 title">How does it work?</h2>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="col-sm-12">
+            <div class="card-group">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Password</h5>
+                        <p class="card-text">(password-based key derivation)<br>deriving a cryptographic key from the
+                            given password
+                            using the PBKDF2 algorithm which is executed 100k times</p>
+                        <p class="card-text">
+                            <center><b>1</b></center>
+                        </p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Cryptographic key</h5>
+                        <p class="card-text">combining the password entered and a password-based salt and the iterations
+                            to create a cryptographic key<br><small
+                                class="text-muted">(pjRxtpw3j3IQV2wsTzuj7QlThozYCKlIc28PX..)</small></p>
+                        <p class="card-text">
+                            <center><b>2</b></center>
+                        </p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Encrypted file</h5>
+                        <p class="card-text">loading the selected file content and running the encryption algorithm with
+                            the derived cryptographic key in combination with a number used once to implement randomised
+                            encryption</p>
+                        <p class="card-text">
+                            <center><b>3</b></center>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="jumbotron jumbotron-fluid bg-light">
+        <div class="container">
             <h2 class="display-4 title">FAQ</h2>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="col-sm-12">
             <h5>Are there log files or type of records?</h2>
                 <p><b>NO.</b> hat.sh never stores any files or passwords, it all happens locally in your browser.</p>
                 <br>

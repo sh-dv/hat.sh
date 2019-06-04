@@ -104,7 +104,6 @@ function resetInputs(){
 }
 
 
-
 //check how strong is the password entered using zxcvbn.js
 function keyCheckMeter() {
   let strength = {

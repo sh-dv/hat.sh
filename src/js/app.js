@@ -288,7 +288,7 @@ async function encryptFile() {
             //returns an ArrayBuffer containing the encrypted data
             resolve(processFinished('Encrypted-' + file.name, [window.atob(DEC.signature), iv, new Uint8Array(encrypted)], 1, password.value)); //create the new file buy adding signature and iv and content
             //console.log("file has been successuflly encrypted");
-            resetInputs(); // reset file and key inputs
+            resetInputs(); // reset file and key inputs when done
           })
           .catch(function (err) {
             errorMsg("An error occured while Encrypting the file, try again!"); //reject
@@ -337,7 +337,7 @@ async function decryptFile() {
 
             resolve(processFinished(file.name.replace('Encrypted-', ''), [new Uint8Array(decrypted)], 2, password.value)); //create new file from the decrypted content
             //console.log("file has been successuflly decrypted");
-            resetInputs(); // reset file and key inputs
+            resetInputs(); // reset file and key inputs when done
           })
           .catch(function () {
             errorMsg("You have entered a wrong Decryption Key!");

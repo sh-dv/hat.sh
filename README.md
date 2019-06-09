@@ -1,7 +1,7 @@
 
 <p align="center">
   <a href="" rel="noopener">
- <img width=200px height=150px src="https://i.imgur.com/yNLXpGO.png"></a>
+ <img width=200px height=170px src="https://i.imgur.com/yNLXpGO.png"></a>
 </p>
 
 <h3 align="center">Hat.sh</h3>

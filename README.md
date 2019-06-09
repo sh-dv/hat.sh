@@ -1,5 +1,24 @@
 
-# Welcome to the Hat project !
+<p align="center">
+  <a href="" rel="noopener">
+ <img width=200px height=200px src="https://i.imgur.com/yNLXpGO.png"></a>
+</p>
+
+<h3 align="center">Hat.sh</h3>
+
+<div align="center">
+
+  [![Status](https://img.shields.io/badge/status-active-success.svg)]()
+  [![https://github.com/sh-dv/hat.sh](https://travis-ci.org/sh-dv/hat.sh.svg?branch=master)](https://github.com/sh-dv/hat.sh)
+  [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/sh-dv/hat.sh)
+
+</div>
+
+---
+
+<p align="center"> Free, Fast, Secure and serverless File Encryption.
+    <br> 
+</p>
 
 [hat.sh](https://hat.sh) is a  javascript app that provides secure file encryption using the [AES-256-GCM](https://www.w3.org/TR/WebCryptoAPI/#aes-gcm) algorithm from [WebCryptoAPI](https://www.w3.org/TR/WebCryptoAPI/#aes-gcm) provided by your browser. it was coded following the WebCrypto [Documentations](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto)
 
@@ -9,8 +28,7 @@ in a small amount of code the app can encrypt any **type** of files at any **siz
  
 To use the app all you have to do is **Browse** a file,  **Type** a Decryption Key or **Generate** one through our secure key generator. and your encrypted file is ready to download.
 
-[![https://github.com/sh-dv/hat.sh](https://travis-ci.org/sh-dv/hat.sh.svg?branch=master)](https://github.com/sh-dv/hat.sh)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/sh-dv/hat.sh)
+
 
 
 ## How to use

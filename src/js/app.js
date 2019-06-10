@@ -234,7 +234,7 @@ async function deriveSecretKey() { //derive the secret key from a master key.
   return window.crypto.subtle.deriveKey({
       name: DEC.algoName1,
       salt: rawPassword, //use the entered password as a salt
-      iterations: DEC.itr,
+      iterations: 100000,
       hash: {
         name: DEC.hash
       },

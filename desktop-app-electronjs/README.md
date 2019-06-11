@@ -32,9 +32,7 @@ To use the app all you have to do is **Browse** a file,  **Type** a Decryption K
 
 ## Downloads
 
-**macOS :** https://#
-**windows:** https://#
-**linux:** https://
+ [**macOS**](https://github.com/sh-dv/hat.sh/releases/download/release-builds/hat.sh-mac.zip) , [**Windows**](https://github.com/sh-dv/hat.sh/releases/download/release-builds/hat.sh-win.zip) and [**linux**](https://github.com/sh-dv/hat.sh/releases/download/release-builds/hat.sh-linux.zip)
 
 
 

@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <title>Hat.sh | A Free, Fast, Secure client side File Encryption.</title>
+  <meta name="Description" content="encrypt and decrypt files securely in your browser using the AES 256 algorithm.">
+  <meta name="Keywords"
+    content="encrypt decrypt encryption file-encryption javascript client-side serverless decryption aes aes-encryption aes-256 aes-128 encryption-decryption webcrypto webcryptoapi crypto browser in-browser">
+
+</head>
+
+<body>
+
+  <ul class="nav justify-content-end">
+
+    <li class="nav-item">
+      <a class="nav-link disabled" target="_blank" href="https://ko-fi.com/shdvapps">Donate</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link disabled" href="https://github.com/sh-dv/hat.sh" target="_blank"><i
+          class="fab fa-github fa-lg"></i></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link disabled"
+        href="https://twitter.com/intent/tweet?original_referer=https%3A%2F%2Fpublish.twitter.com%2F%3FbuttonType%3DTweetButton%26widget%3DButton&ref_src=twsrc%5Etfw&text=Check%20Out%20This%20File%20Encryption%20app%20App:%20https://hat.sh"
+        target="_blank"><i class="fab fa-twitter fa-lg"></i></a>
+    </li>
+  </ul>
+
+  <div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+
+      <div class="col sm-12 col-md-8 col-lg-6">
+        <h2 class="display-4 title"><a href="index.html">Hat.sh <img src="assets/logo.png" width="75"></a></h2>
+        <p class="lead">
+          A Free,
+          <u>Fast</u>,
+          <u>Secure</u> and
+          <u>Serverless</u> File Encryption.
+        </p>
+
+        <div class="custom-file">
+          <input type="file" class="custom-file-input" id="customFile">
+          <label class="custom-file-label" for="customFile">
+            <div id="file-placeholder">Choose a file to encrypt/decrypt</div>
+          </label>
+        </div>
+
+        <br>
+        <br>
+
+        <div class="form-group">
+          <div class="input-group mb-3">
+            <label for="inputPassword"></label>
+            <input type="text" id="inputPassword" placeholder="Enter a Decryption Key or generate one (recommended)"
+              class="form-control mx-sm-6" aria-describedby="passwordHelpInline">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" id="generateButton" data-toggle="tooltip"
+                data-placement="right" title="Generate Secure Key"><i class="fas fa-sync-alt"></i></button>
+            </div>
+          </div>
+
+          <small id="passwordHelpInline" class="text-muted">
+            <b>Strength</b>: <span id="strength-text"></span>
+          </small>
+          <div class="progress progress-sm">
+            <div class="progress-bar bg-secondary" id="strength-meter" role="progressbar" style="width: 4;"
+              aria-valuenow="0" aria-valuemin="0" aria-valuemax="4"></div>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-outline-dark" id="encryptBtn">Encrypt</button>
+        <button type="button" class="btn btn-outline-dark" id="decryptBtn">Decrypt</button>
+        <button type="button" class="btn btn-outline-danger" id="resetBtn" style="display: none"><i
+            class="fas fa-redo"></i> Reset</button>
+        <br>
+        <small class="text-muted">
+          files are not uploaded to server, everything is done offline in your browser.
+        </small>
+        <br>
+        <br>
+
+        <div id="error"></div>
+
+      </div>
+      <!--end col-->
+    </div><!-- end row -->
+    <br>
+    <br>
+
+    <div class="row h-100 justify-content-center align-items-center">
+      <div class="col-sm-12 col-md-8 col-lg-6" id="results"></div>
+      <!--end col-->
+    </div><!-- end row -->
+
+  </div><!-- end container -->
+  <br>
+  <div class="footer">
+    <nav class="navbar  navbar-light bg-light">
+      <ul class="nav navbar-nav mx-auto">
+        <li class="nav-item">
+          <div class="nav-link">built and developed with <i class="fas fa-heart" style="color:#e74c3c;"></i>
+            by <a href="https://github.com/sh-dv" target="_blank" class="text-dark"> Shadi.</a>
+            <br> BTC:<a href="#" 
+              class="text-white bg-secondary">39DZXSrBuDN9ttTSnFDaaFcg4mix1MAXRQ</a></div>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <div class="loader">
+    <div class="sk-folding-cube">
+      <div class="sk-cube1 sk-cube"></div>
+      <div class="sk-cube2 sk-cube"></div>
+      <div class="sk-cube4 sk-cube"></div>
+      <div class="sk-cube3 sk-cube"></div>
+    </div>
+  </div>
+  <!-- bundled app file js -->
+  <script src="assets/js/bundle.js"></script>
+  <!-- You can also require other files to run in this process -->
+  <script src="./renderer.js"></script>
+</body>
+
+</html>

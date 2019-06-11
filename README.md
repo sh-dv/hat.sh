@@ -40,7 +40,7 @@ just simply browse a file, type a decryption key or use our secure key generator
 
 ## Offline Use
 
-the app is cross-platform and is available to download on **macOS** and **Windows**
+the app is cross-platform and is available to download on [**macOS**](https://github.com/sh-dv/hat.sh/releases/download/release-builds/hat.sh-mac.zip) , [**Windows**](https://github.com/sh-dv/hat.sh/releases/download/release-builds/hat.sh-win.zip) and [**linux**](https://github.com/sh-dv/hat.sh/releases/download/release-builds/hat.sh-linux.zip)
 
 ## Requirements
 [NodeJS and NPM](https://www.npmjs.com/get-npm)

@@ -45,7 +45,7 @@ the app is cross-platform and is available to download on [**macOS**](https://gi
 ## Requirements
 [NodeJS and NPM](https://www.npmjs.com/get-npm)
 
-[Browserify](http://browserify.org/#install) which lets you require('modules') in the browser by bundling up all of your dependencies. or you can serve the app in NodeJS `$ node app.js`
+[Browserify](http://browserify.org/#install) which lets you require('modules') in the browser by bundling up all of your dependencies.
 
 ## Installation
 

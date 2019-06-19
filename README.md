@@ -4,7 +4,11 @@
  <img src="https://i.imgur.com/F8nNzHi.png"></a>
 </p>
 
-<a href="https://hat.sh"><h3 align="center">Hat.sh</h3></a>
+<a href="https://hat.sh" style="color:#000;">
+  <h3 align="center">
+    Hat.sh
+  </h3>
+</a>
 
 <div align="center">
 

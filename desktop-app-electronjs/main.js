@@ -55,18 +55,31 @@ app.on('activate', function () {
 
 const template = [
   // { role: 'appMenu' }
-  ...(process.platform === 'darwin' ? [{
-    label: app.getName(),
-    submenu: [
-      { role: 'quit' }
-    ]
-  }] : [])
-  
-]
+  ...(process.platform === 'darwin'
+    ? [
+        {
+          label: app.getName(),
+          submenu: [{ role: 'quit' }]
+        },
+        {
+          label: 'Edit',
+          submenu: [
+            { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
+            { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
+            { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
+            {
+              label: 'Select All',
+              accelerator: 'CmdOrCtrl+A',
+              selector: 'selectAll:'
+            }
+          ]
+        }
+      ]
+    : [])
+];
 
 const menu = Menu.buildFromTemplate(template)
 Menu.setApplicationMenu(menu)
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-

@@ -1,6 +1,6 @@
 {
   "name": "hat.sh",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A Free, Fast, Secure and Serverless File Encryption.",
   "main": "main.js",
   "scripts": {
@@ -13,7 +13,10 @@
   "author": "shdv",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^5.0.2",
+    "electron": "^5.0.8",
     "electron-packager": "^13.1.1"
+  },
+  "dependencies": {
+    "electron-context-menu": "^0.13.0"
   }
 }

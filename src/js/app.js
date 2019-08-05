@@ -225,7 +225,7 @@ function importSecretKey() {
 
 }
 
-// better not to use it
+
 async function deriveSecretKey() { //derive the secret key from a master key.
 
   let getSecretKey = await importSecretKey();

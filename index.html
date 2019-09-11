@@ -1,21 +1,22 @@
 <!doctype html>
 <html lang="en">
-
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <link rel="stylesheet" href="src/css/style.css">
-
-    <title>The Hat Project | Hat.sh</title>
+    <link rel="stylesheet" href="style.css">
+    <title>Hat.sh | A Free, Fast, Secure client side File Encryption.</title>
+    <meta name="Description" content="encrypt and decrypt files securely in your browser using the AES 256 algorithm.">
+    <meta name="Keywords"
+        content="encrypt decrypt encryption file-encryption javascript client-side serverless decryption aes aes-encryption aes-256 aes-128 encryption-decryption webcrypto webcryptoapi crypto browser in-browser">
 </head>
-
 <body>
-
     <ul class="nav justify-content-end">
         <li class="nav-item">
             <a class="nav-link disabled" href="about.html">About</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link disabled" href="#downloadAppModal" data-toggle="modal">Download</a>
         </li>
         <li class="nav-item">
             <a class="nav-link disabled" target="_blank" href="https://ko-fi.com/shdvapps">Donate</a>
@@ -30,30 +31,46 @@
                 target="_blank"><i class="fab fa-twitter fa-lg"></i></a>
         </li>
     </ul>
-
-
+    
+    <!--Download Modal -->
+    <div class="modal fade" id="downloadAppModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Downloads</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <center>
+                        <a href="https://github.com/sh-dv/hat.sh/releases/download/release-builds/hat.sh-win.zip"><b>Windows</b> <i class="fab fa-windows fa-lg"></i></a><br>
+                        <a href="https://github.com/sh-dv/hat.sh/releases/download/release-builds/hat.sh-mac.zip"><b>macOS</b> <i class="fab fa-apple fa-lg"></i></a><br>
+                        <a href="https://github.com/sh-dv/hat.sh/releases/download/release-builds/hat.sh-linux.zip"><b>linux</b> <i class="fab fa-ubuntu fa-lg"></i></a><br>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container h-100">
         <div class="row h-100 justify-content-center align-items-center">
-
             <div class="col sm-12 col-md-8 col-lg-6">
-                <h2 class="display-4 title"><a href="/">Hat.sh <img src="src/assets/logo.png" width="75"></a></h2>
+                <h2 class="display-4 title"><a href="/">Hat.sh <img src="logo.png" width="75"></a></h2>
                 <p class="lead">
                     A Free,
                     <u>Fast</u>,
                     <u>Secure</u> and
                     <u>Serverless</u> File Encryption.
                 </p>
-
                 <div class="custom-file">
                     <input type="file" class="custom-file-input" id="customFile">
                     <label class="custom-file-label" for="customFile">
                         <div id="file-placeholder">Choose a file to encrypt/decrypt</div>
                     </label>
                 </div>
-
                 <br>
                 <br>
-
                 <div class="form-group">
                     <div class="input-group mb-3">
                         <label for="inputPassword"></label>
@@ -66,7 +83,6 @@
                                     class="fas fa-sync-alt"></i></button>
                         </div>
                     </div>
-
                     <small id="passwordHelpInline" class="text-muted">
                         <b>Strength</b>: <span id="strength-text"></span>
                     </small>
@@ -75,7 +91,6 @@
                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="4"></div>
                     </div>
                 </div>
-
                 <button type="button" class="btn btn-outline-dark" id="encryptBtn">Encrypt</button>
                 <button type="button" class="btn btn-outline-dark" id="decryptBtn">Decrypt</button>
                 <button type="button" class="btn btn-outline-danger" id="resetBtn" style="display: none"><i
@@ -85,28 +100,23 @@
                     files are not uploaded to server, everything is done offline in your browser.
                 </small>
                 <br>
+                <small class="text-muted">
+                    if you have a file that was encrypted before 10/9/2019 use this <a href="https://hatsh-cu8yt3d0c.now.sh ">early build</a>.
+                </small>
                 <br>
-
+                <br>
                 <div id="error"></div>
-
             </div>
             <!--end col-->
         </div><!-- end row -->
         <br>
         <br>
-
         <div class="row h-100 justify-content-center align-items-center">
-            <div class="col-sm-12 col-md-8 col-lg-6" id="results">
-
-
-
-            </div>
+            <div class="col-sm-12 col-md-8 col-lg-6" id="results"></div>
             <!--end col-->
         </div><!-- end row -->
-
     </div><!-- end container -->
     <br>
-
     <div class="footer">
         <nav class="navbar  navbar-light bg-light">
             <ul class="nav navbar-nav mx-auto">
@@ -129,8 +139,5 @@
     </div>
     <!-- bundled app file js -->
     <script src="bundle.js"></script>
-
-
 </body>
-
 </html>

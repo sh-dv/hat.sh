@@ -34,6 +34,7 @@ const DEC = {
   algoName2: "AES-GCM",
   algoLength: 256,
   itr: 100000,
+  salt: window.crypto.getRandomValues(new Uint8Array(16)),
   perms1: ["deriveKey"],
   perms2: ['encrypt', 'decrypt'],
 }
@@ -205,7 +206,6 @@ function generateKey() {
   const randomizedKey = String.fromCharCode.apply(null, keyArray);
   password.value = randomizedKey; //output the new key to the key input
   keyCheckMeter(); //run the key strength checker
-
 }
 
 //import key
@@ -226,14 +226,14 @@ function importSecretKey() {
 }
 
 
-async function deriveSecretKey() { //derive the secret key from a master key.
+async function deriveEncryptionSecretKey() { //derive the secret key from a master key.
 
   let getSecretKey = await importSecretKey();
   let rawPassword = str2ab(password.value); // convert the password entered in the input to an array buffer
   //console.log(rawPassword);
   return window.crypto.subtle.deriveKey({
       name: DEC.algoName1,
-      salt: rawPassword, //use the entered password as a salt
+      salt: DEC.salt,
       iterations: DEC.itr,
       hash: {
         name: DEC.hash
@@ -265,7 +265,7 @@ async function encryptFile() {
     errorMsg("Please browse a file and enter a Key")
   } else {
     
-    const derivedKey = await deriveSecretKey(); //requiring the key
+    const derivedKey = await deriveEncryptionSecretKey(); //requiring the key
     const file = inputFile.files[0]; //file input
     const fr = new FileReader(); //request a file read
 
@@ -286,7 +286,7 @@ async function encryptFile() {
           }, derivedKey, content) 
           .then(function (encrypted) {
             //returns an ArrayBuffer containing the encrypted data
-            resolve(processFinished('Encrypted-' + file.name, [window.atob(DEC.signature), iv, new Uint8Array(encrypted)], 1, password.value)); //create the new file buy adding signature and iv and content
+            resolve(processFinished('Encrypted-' + file.name, [window.atob(DEC.signature), iv, DEC.salt, new Uint8Array(encrypted)], 1, password.value)); //create the new file buy adding signature and iv and content
             //console.log("file has been successuflly encrypted");
             resetInputs(); // reset file and key inputs when done
           })
@@ -304,6 +304,7 @@ async function encryptFile() {
 
 
 
+
 //file decryption function
 
 async function decryptFile() {
@@ -312,7 +313,7 @@ async function decryptFile() {
     errorMsg("Please browse a file and enter a Key")
   } else {
 
-    const derivedKey = await deriveSecretKey(); //requiring the key
+    
     const file = inputFile.files[0]; //file input
     const fr = new FileReader(); //request a file read
 
@@ -323,10 +324,46 @@ async function decryptFile() {
       };
 
       fr.onload = async () => { //load 
+        
+
+        async function deriveDecryptionSecretKey() { //derive the secret key from a master key.
+
+          let getSecretKey = await importSecretKey();
+          let rawPassword = str2ab(password.value); // convert the password entered in the input to an array buffer
+          //console.log(rawPassword);
+          return window.crypto.subtle.deriveKey({
+              name: DEC.algoName1,
+              salt: new Uint8Array(fr.result.slice(38, 54)), //get salt from encrypted file.
+              iterations: DEC.itr,
+              hash: {
+                name: DEC.hash
+              },
+            },
+            getSecretKey, //your key from importKey
+            { //the key type you want to create based on the derived bits
+              name: DEC.algoName2,
+              length: DEC.algoLength,
+            },
+            false, //whether the derived key is extractable 
+            DEC.perms2 //limited to the options encrypt and decrypt
+          )
+          //console.log the key
+          // .then(function(key){
+          //     //returns the derived key
+          //     console.log(key);
+          // })
+          // .catch(function(err){
+          //     console.error(err);
+          // });
+        
+        }
+
         //console.log(fr.result);
+        const derivedKey = await deriveDecryptionSecretKey(); //requiring the key
+
         const iv = new Uint8Array(fr.result.slice(22, 38)); //take out encryption iv
 
-        const content = new Uint8Array(fr.result.slice(38)); //take out encrypted content
+        const content = new Uint8Array(fr.result.slice(54)); //take out encrypted content
 
         await window.crypto.subtle.decrypt({
             iv,

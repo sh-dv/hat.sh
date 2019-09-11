@@ -313,7 +313,6 @@ async function decryptFile() {
     errorMsg("Please browse a file and enter a Key")
   } else {
 
-    
     const file = inputFile.files[0]; //file input
     const fr = new FileReader(); //request a file read
 
@@ -325,7 +324,6 @@ async function decryptFile() {
 
       fr.onload = async () => { //load 
         
-
         async function deriveDecryptionSecretKey() { //derive the secret key from a master key.
 
           let getSecretKey = await importSecretKey();

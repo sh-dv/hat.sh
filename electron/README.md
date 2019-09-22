@@ -35,6 +35,29 @@ To use the app all you have to do is **Browse** a file,  **Type** a Decryption K
  [**macOS**](https://github.com/sh-dv/hat.sh/releases/download/release-builds/hat.sh-mac.zip) , [**Windows**](https://github.com/sh-dv/hat.sh/releases/download/release-builds/hat.sh-win.zip) and [**linux**](https://github.com/sh-dv/hat.sh/releases/download/release-builds/hat.sh-linux.zip)
 
 
+## Installation using electron
+
+Download or clone the repository
+
+ 
+
+    $ git clone https://github.com/sh-dv/hat.sh.git hat.sh
+
+go to the app electron directory
+
+    cd [app directory] /elctron
+
+open terminal and install the node modules that are in the package.json file
+
+    sudo npm install
+after the packages are installed just run the app
+
+    npm start
+to package the app for multiple os systems:
+
+    npm run package-[os name] (mac,win,linux) 
+
+
 
 ## How to use
 just simply browse a file, type a decryption key or use our secure key generator, and encrypt or decrypt.

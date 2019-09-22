@@ -45,7 +45,7 @@ Download or clone the repository
 
 go to the app electron directory
 
-    cd [app directory] /elctron
+    cd [app directory]/elctron
 
 open terminal and install the node modules that are in the package.json file
 
@@ -53,9 +53,9 @@ open terminal and install the node modules that are in the package.json file
 after the packages are installed just run the app
 
     npm start
-to package the app for multiple os systems:
+to package the app for multiple os systems (mac,win,linux) :
 
-    npm run package-[os name] (mac,win,linux) 
+    npm run package-[os name] 
 
 
 

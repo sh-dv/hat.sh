@@ -11,11 +11,15 @@
   [![Status](https://img.shields.io/badge/status-active-success.svg)](#)
   [![Build](https://travis-ci.org/sh-dv/hat.sh.svg?branch=master)](https://travis-ci.org/sh-dv/hat.sh)
   [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](#)
-  <p align="center">
-    <a href="https://www.producthunt.com/posts/hat-sh?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-hat-sh" target="_blank">
+
+<a href="https://www.producthunt.com/posts/hat-sh?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-hat-sh" target="_blank">
     <img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=157956&theme=dark&period=daily" alt="hat.sh - Free, fast, secure and serverless file encryption | Product Hunt Embed" width="250px"/>
-    </a>
-  </p>
+</a>
+<br>
+<a href="https://www.privacytools.io/software/encryption-tools/" target="_blank">
+    <img src="https://i.imgur.com/Euyd1ap.png" alt="hat.sh - Free, fast, secure and serverless file encryption" width="250px"/>
+</a>
+
 </div>
 
 ---

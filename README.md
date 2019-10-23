@@ -14,7 +14,12 @@
   <p align="center">
     <a href="https://www.producthunt.com/posts/hat-sh?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-hat-sh" target="_blank">
     <img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=157956&theme=dark&period=daily" alt="hat.sh - Free, fast, secure and serverless file encryption | Product Hunt Embed" width="250px"/>
+    </a><br>
+    <a href="https://www.privacytools.io/software/encryption-tools/" target="_blank">
+    <img src="https://i.imgur.com/Euyd1ap.png" alt="hat.sh - Free, fast, secure and serverless file encryption" width="250px"/>
     </a>
+
+    
   </p>
 </div>
 

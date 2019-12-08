@@ -216,11 +216,10 @@ function importSecretKey() {
     "raw", //raw
     rawPassword, // array buffer password
     {
-      length: DEC.algoLength,
       name: DEC.algoName1
     }, //the algorithm you are using
     false, //whether the derived key is extractable 
-    DEC.perms1 //limited to the options encrypt and decrypt
+    DEC.perms1 //limited to the option deriveKey
   );
 
 }

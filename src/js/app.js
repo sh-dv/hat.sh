@@ -29,11 +29,11 @@ resetBtn.addEventListener("click", resetInputs); //reset inputs on click
 //declarations
 const DEC = {
   signature: "RW5jcnlwdGVkIFVzaW5nIEhhdC5zaA", //add a line in the file that says "encrypted by Hat.sh :)"
-  hash: "SHA-256",
+  hash: "SHA-512",
   algoName1: "PBKDF2",
   algoName2: "AES-GCM",
   algoLength: 256,
-  itr: 100000,
+  itr: 80000,
   salt: window.crypto.getRandomValues(new Uint8Array(16)),
   perms1: ["deriveKey"],
   perms2: ['encrypt', 'decrypt'],

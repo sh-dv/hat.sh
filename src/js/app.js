@@ -228,8 +228,7 @@ function importSecretKey() {
 async function deriveEncryptionSecretKey() { //derive the secret key from a master key.
 
   let getSecretKey = await importSecretKey();
-  let rawPassword = str2ab(password.value); // convert the password entered in the input to an array buffer
-  //console.log(rawPassword);
+
   return window.crypto.subtle.deriveKey({
       name: DEC.algoName1,
       salt: DEC.salt,
@@ -326,8 +325,7 @@ async function decryptFile() {
         async function deriveDecryptionSecretKey() { //derive the secret key from a master key.
 
           let getSecretKey = await importSecretKey();
-          let rawPassword = str2ab(password.value); // convert the password entered in the input to an array buffer
-          //console.log(rawPassword);
+
           return window.crypto.subtle.deriveKey({
               name: DEC.algoName1,
               salt: new Uint8Array(fr.result.slice(38, 54)), //get salt from encrypted file.

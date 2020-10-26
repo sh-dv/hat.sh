@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="src/css/style.css">
 
     <title>About Hat.sh | Hat.sh | The Hat Project</title>
-    <meta name="Description" content="encrypt and decrypt files securely in your browser using the AES 256 algorithm.">
+    <meta name="Description" content="Encrypt and decrypt files securely in your browser using the AES 256 algorithm.">
     <meta name="Keywords"
         content="encrypt decrypt encryption file-encryption javascript client-side serverless decryption aes aes-encryption aes-256 aes-128 encryption-decryption webcrypto webcryptoapi crypto browser in-browser">
 
@@ -47,18 +47,15 @@
         <div class="col-sm-12">
             
             <p class="lead">
-                this is a javascript app that provides secure file encryption using the <a
-                    href="https://www.w3.org/TR/WebCryptoAPI/#aes-gcm">AES-256-GCM</a> algorithm from <a href="
-                https://www.w3.org/TR/WebCryptoAPI/#aes-gcm">WebCryptoAPI</a> included in your browser.<br>
-
-                It's <u>fast</u>, <u>secure</u> and <u>Serverless</u>, the app never uploads the files to the
-                server.<br>
-
-                in a small amount of code the app can encrypt any type of files at any size within seconds.<br>
-
-                To use the app all you have to do is <u>Browse</u> a file , <u>Type</u> a Decryption Key or
-                <u>Generate</u> one through our secure key generator . and your encrypted file is ready to download.
-
+                Hat.sh is a Javascript app that provides secure file encryption using the <a
+                    href="https://www.w3.org/TR/WebCryptoAPI/#aes-gcm">AES-256-GCM</a> algorithm from the <a href="
+                https://www.w3.org/TR/WebCryptoAPI/#aes-gcm">WebCryptoAPI</a> included in your browser.
+                <br>
+                It's <u>fast</u>, <u>secure</u> and runs <u>locally</u> - the app never uploads any files to the
+                server.
+                <br>
+                To encrypt a file, click <u>Browse</u>, select a file, <u>type</u> in a password or
+                <u>generate</u> one using the built-in password generator, and then press <u>Encrypt</u>. Within a few seconds, the encrypted file will be ready to download.
             </p>
         </div>
     </div>
@@ -75,9 +72,9 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Password</h5>
-                        <p class="card-text">(password-based key derivation)<br>deriving a cryptographic key from the
+                        <p class="card-text">An encryption key is derived from the
                             given password
-                            using the PBKDF2-SHA512 algorithm which is executed 80k times</p>
+                            using the PBKDF2-SHA512 algorithm.</p>
                         <p class="card-text">
                             <center><b>1</b></center>
                         </p>
@@ -85,9 +82,9 @@
                 </div>
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Cryptographic key</h5>
-                        <p class="card-text">combining the password entered and a completely random salt and the iterations
-                            to create a cryptographic key<br><small
+                        <h5 class="card-title">Key Derivation</h5>
+                        <p class="card-text">PBKDF2 uses a random salt and 80,000 iterations
+                            to generate a unique 256-bit encryption key.<br><small
                                 class="text-muted">(pjRxtpw3j3IQV2wsTzuj7QlThozYCKlIc28PX..)</small></p>
                         <p class="card-text">
                             <center><b>2</b></center>
@@ -96,10 +93,8 @@
                 </div>
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Encrypted file</h5>
-                        <p class="card-text">loading the selected file content and running the encryption algorithm with
-                            the derived cryptographic key in combination with a number used once to implement randomised
-                            encryption</p>
+                        <h5 class="card-title">Encryption</h5>
+                        <p class="card-text">The file is read into memory and encrypted using AES-GCM with the generated key and a 128-bit random nonce.</p>
                         <p class="card-text">
                             <center><b>3</b></center>
                         </p>
@@ -119,34 +114,32 @@
 
     <div class="container">
         <div class="col-sm-12">
-            <h5>Are there log files or type of records?</h5>
-                <p><b>NO.</b> hat.sh never stores any files or passwords, it all happens locally in your browser.</p>
+            <h5>Does Hat.sh log or store any of my data?</h5>
+                <p><b>NO</b>, Hat.sh never stores any of your data. The program runs locally in your browser.</p>
                 <br>
-                <h5>Is the app free?</h5>
-                    <p><b>YES.</b> hat.sh is free and always will be, we depend only on <a
-                            href="https://ko-fi.com/shdvapps">donations</a></p>
+                <h5>Is Hat.sh free?</h5>
+                    <p><b>YES</b>, Hat.sh is free and always will be. However, please consider <a
+                            href="https://ko-fi.com/shdvapps">donating</a> to support the project.</p>
                     <br>
-                    <h5>How to use?</h5>
-                        <p>it's very simple, browse a file, generate a key or type one, click the button!.</p>
+                    <h5>How do I use Hat.sh?</h5>
+                        <p>1) Browse for a file, 2) enter a password or randomly generate a password, 3) click the 'Encrypt' or 'Decrypt' button, and 4) download the encrypted file.</p>
                         <br>
-                        <h5>Is there a file type or size limit?</h5>
-                            <p>No, the app accepts any type at any size.</p>
+                        <h5>Which file types are supported? Is there a file size limit?</h5>
+                            <p>Hat.sh accept all file types. There's no file size limit, meaning files of any size can be encrypted.</p>
                             <br>
-                            <h5>Is it secure?</h5>
-                                <p>Yes, the app encrypts the file using the <a
+                            <h5>Is Hat.sh secure?</h5>
+                                <p>Yes, the app encrypts files using the <a
                                         href="https://www.w3.org/TR/WebCryptoAPI/#aes-gcm">AES-GCM</a> algorithm
-                                    provided by the Web Crypto.<br> everything is done offline in your browser. No data
-                                    is going to be sent to any server</p>
+                                    provided by the WebCryptoAPI.<br> Everything is done offline in your browser - no data
+                                    is sent to any server.</p>
                                 <br>
-                                <h5>I forgot my Encryption Key, can i restore it?</h5>
-                                    <p><B>NO</B> as mentioned above, we don't keep any data. once you encrypt a file
-                                        make sure to save the Key.</p>
+                                <h5>I forgot my password, can I still decrypt my files?</h5>
+                                    <p><B>NO</B>, we don't know your password. Make sure you remember your password before encrypting any files.</p>
                                     </p>
                                     <br>
-                                    <h5>How can i contribute?</h5>
-                                    <p>Hat.sh is an <a href="https://github.com/sh-dv/hat.sh">open-source app</a>, it's
-                                        currently in the beta version, you can help making it better by commiting. it's
-                                        maintained only in the free time , Will appreciate your help by donating.</p>
+                                    <h5>How can I contribute?</h5>
+                                    <p>Hat.sh is an <a href="https://github.com/sh-dv/hat.sh">open-source application</a>. You can help make it better by making commits on GitHub. The project is
+                                        maintained in my free time. Donations of any size are appreciated.</p>
                                     <br>
         </div>
 
@@ -160,9 +153,9 @@
         <nav class="navbar  navbar-light bg-light">
             <ul class="nav navbar-nav mx-auto">
                 <li class="nav-item">
-                    <div class="nav-link">built and developed with <i class="fas fa-heart" style="color:#e74c3c;"></i>
+                    <div class="nav-link">Built and developed with <i class="fas fa-heart" style="color:#e74c3c;"></i>
                         by <a href="https://github.com/sh-dv" class="text-dark"> Shadi.</a>
-                        <br> BTC:<a href="bitcoin:39DZXSrBuDN9ttTSnFDaaFcg4mix1MAXRQ"
+                        <br> BTC: <a href="bitcoin:39DZXSrBuDN9ttTSnFDaaFcg4mix1MAXRQ"
                             class="text-white bg-secondary">39DZXSrBuDN9ttTSnFDaaFcg4mix1MAXRQ</a></div>
                 </li>
             </ul>

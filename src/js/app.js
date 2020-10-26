@@ -199,8 +199,8 @@ function processFinished(name, data, method, dKey) {
 
 //generate a random key for user
 function generateKey() { 
-  const usedChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#_+=';
-  let keyArray = new Uint8Array(16); //lenght of the key
+  const usedChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&_-+=~';
+  let keyArray = new Uint8Array(20); //length of the key
   window.crypto.getRandomValues(keyArray); //randomize
   keyArray = keyArray.map(x => usedChars.charCodeAt(x % usedChars.length));
   const randomizedKey = String.fromCharCode.apply(null, keyArray);

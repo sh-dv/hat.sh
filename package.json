@@ -1,6 +1,6 @@
 {
   "name": "hat.sh",
-  "version": "1.2.0",
+  "version": "1.4.0",
   "description": "The Hat Project",
   "main": "app.js",
   "scripts": {

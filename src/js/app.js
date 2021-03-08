@@ -177,9 +177,7 @@ function processFinished(name, data, method, dKey) {
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-            <div class="modal-body">
-                  ${dKey}
-            </div>
+            <div class="modal-body">${dKey}</div>
         </div>
       </div>
     </div>

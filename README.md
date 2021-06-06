@@ -65,7 +65,7 @@ should be running on http://localhost:1989
 
 ## Browser Compatibility
 - check out [service-worker fetch event compatibility.](https://developer.mozilla.org/en-US/docs/Web/API/FetchEvent)
-- for now safari and mobile browsers are not supported, but we will be adding support to them but with some file size limitations (max 2gb)
+- for now safari and few mobile browsers are not supported, but we will be adding support to them but with some file size limitations (max 2gb)
 
 
 

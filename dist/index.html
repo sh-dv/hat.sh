@@ -32,198 +32,6 @@
         <!--end header-->
 
 
-        <!--whats new Modal -->
-        <div class="modal fade" id="whatsNewModal" tabindex="-1" aria-labelledby="whatsNewModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="whatsNewModalLabel">what's new?</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body">
-
-                <strong>Memory efficient large file chunked encryption using streams with libsodium.js 🎉</strong>
-                <p class="mt-3">
-                - switching to <code>xchacha20poly1305</code> for symmetric stream encryption and <code>Argon2id</code> for password-based key derivation. instead of AES-256-GCM and PBKDF2.
-                </p>
-
-                <p class="mt-3">
-                - using the libsodium library for all cryptography instead of the WebCryptoApi.
-                </p>
-
-                <strong>How this new version is different?</strong>
-                <p class="mt-3">
-                - in this version, the app doesn't read the whole file in memory. instead, it's sliced into 64MB chunks that are processed ony by one.
-                </p>
-                
-                <p class="mt-3">
-                - since we are not using any server-side processing, the app registers a fake download URL <code>(/file)</code> that is going to be handled by the service-worker fetch api.
-                </p>
-
-                <p class="mt-3">
-                - if all validations are passed, a new stream is initialized. then, file chunks are transferred from the main app to the service-worker file via messages.
-                </p>
-
-                <p class="mt-3">
-                - each chunk is encrypted/decrypted on it's on and added to the stream.
-                </p>
-
-                <p class="mt-3">
-                - after each chunk is written on disk it is going to be immediately garbage collected by the browser, this leads to never having more than a few chunks in the memory at the same time.
-                </p>
-
-                <strong>ToDos 👨‍💻 :</strong>
-
-                <p class="mt-3">
-                - add support to safari and mobile browsers (next week)
-                <br>
-                - handle stream back pressures.
-                <br>
-                - improve ui (switching to ReactJs and tailwindcss upon release).
-                </p>
-
-                <strong>projected release date : 1/9/2021</strong>
-
-            </div>
-
-            <div class="modal-footer got-it" >
-                <div class="d-grid gap-2">
-                <button type="button" class="btn btn-black" data-bs-dismiss="modal">
-                    got it 👍
-                </button>
-                </div>
-            </div>
-            </div>
-        </div>
-        </div>
-    <!--end modal-->
-
-
-  
-<!-- supported modal -->
-<div
-class="modal fade"
-id="supportModal"
-data-bs-backdrop="static"
-data-bs-keyboard="false"
-tabindex="-1"
-aria-labelledby="supportModalLabel"
-aria-hidden="true"
->
-<div class="modal-dialog modal-dialog-centered">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title" id="supportModalLabel"></h5>
-    </div>
-    <div class="modal-body bg-white">
-      <div class="icon-box">
-        <div class="icon"><i class="fas fa-exclamation-circle" style="color: #000; background-color: #f2f2f2;"></i></div>
-        <h4 class="title">Browser Not Supported!</h4>
-        <p class="description text-muted">
-          <strong style="color: rgb(74, 85, 104)"></strong>
-          Browser not yet supported for this beta. please try it using <strong>chrome</strong> or <strong>firefox</strong> on desktop, or check us out later.
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-<!-- end supported modal -->
-
-
-<!-- enc modal -->
-      <div
-      class="modal fade"
-      id="encModal"
-      data-bs-backdrop="static"
-      data-bs-keyboard="false"
-      tabindex="-1"
-      aria-labelledby="encryptModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="encryptModalLabel"></h5>
-            <button
-              type="button"
-              class="btn-close"
-              id="encModalCloseBtn"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body bg-white">
-            <div class="icon-box">
-              <div class="icon"><i class="fas fa-lock"></i></div>
-              <h4 class="title">Success!</h4>
-              <p class="description text-muted">
-                <strong style="color: rgb(74, 85, 104)" id="encModalFileName"></strong>
-                was loaded successfully and ready to be encrypted & downloaded!
-              </p>
-            </div>
-          </div>
-          <div class="modal-footer p-3">
-            <div class="mx-auto">
-              <button type="button" class="btn btn-light" id="copyPassword">
-                <i class="fas fa-copy"></i> <span id="copyPasswordTitle">Decryption Password</span> 
-              </button>
-              <span id="copyPasswordInput"></span>
-              <a id="encBtn" class="btn btn-purple"> <i class="fas fa-download"></i> Encrypted File</a>
-
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-<!-- end enc modal -->
-
-<!-- dec modal -->
-<div
-class="modal fade"
-id="decModal"
-data-bs-backdrop="static"
-data-bs-keyboard="false"
-tabindex="-1"
-aria-labelledby="decryptModalLabel"
-aria-hidden="true"
->
-<div class="modal-dialog modal-dialog-centered">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title" id="decryptModalLabel"></h5>
-      <button
-        type="button"
-        class="btn-close"
-        id="decModalCloseBtn"
-        data-bs-dismiss="modal"
-        aria-label="Close"
-      ></button>
-    </div>
-    <div class="modal-body bg-white">
-      <div class="icon-box">
-        <div class="icon"><i class="fas fa-unlock"></i></div>
-        <h4 class="title">Success!</h4>
-        <p class="description text-muted">
-          <strong style="color: rgb(74, 85, 104)" id="decModalFileName"></strong>
-          was loaded successfully and ready to be decrypted & downloaded!
-        </p>
-      </div>
-    </div>
-    <div class="modal-footer p-3">
-      <div class="mx-auto">
-
-        <a id="decBtn" class="btn btn-purple"> <i class="fas fa-download"></i> Decrypted File</a>
-
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-<!-- end dec modal -->
-
-
     <!-- start hero -->
     <div class="px-4 mb-4 text-center text-gray">
         <h4 class="">Hat.sh v2.0 beta is here 👋</h4>
@@ -375,6 +183,200 @@ aria-hidden="true"
     </div>
     <!--end main container-->
 
+
+
+        <!--whats new Modal -->
+        <div class="modal fade" id="whatsNewModal" tabindex="-1" aria-labelledby="whatsNewModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="whatsNewModalLabel">what's new?</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+  
+              <div class="modal-body">
+  
+                  <strong>Memory efficient large file chunked encryption using streams with libsodium.js 🎉</strong>
+                  <p class="mt-3">
+                  - switching to <code>xchacha20poly1305</code> for symmetric stream encryption and <code>Argon2id</code> for password-based key derivation. instead of AES-256-GCM and PBKDF2.
+                  </p>
+  
+                  <p class="mt-3">
+                  - using the libsodium library for all cryptography instead of the WebCryptoApi.
+                  </p>
+  
+                  <strong>How this new version is different?</strong>
+                  <p class="mt-3">
+                  - in this version, the app doesn't read the whole file in memory. instead, it's sliced into 64MB chunks that are processed ony by one.
+                  </p>
+                  
+                  <p class="mt-3">
+                  - since we are not using any server-side processing, the app registers a fake download URL <code>(/file)</code> that is going to be handled by the service-worker fetch api.
+                  </p>
+  
+                  <p class="mt-3">
+                  - if all validations are passed, a new stream is initialized. then, file chunks are transferred from the main app to the service-worker file via messages.
+                  </p>
+  
+                  <p class="mt-3">
+                  - each chunk is encrypted/decrypted on it's on and added to the stream.
+                  </p>
+  
+                  <p class="mt-3">
+                  - after each chunk is written on disk it is going to be immediately garbage collected by the browser, this leads to never having more than a few chunks in the memory at the same time.
+                  </p>
+  
+                  <strong>ToDos 👨‍💻 :</strong>
+  
+                  <p class="mt-3">
+                  - add support to safari and mobile browsers (next week)
+                  <br>
+                  - handle stream back pressures.
+                  <br>
+                  - improve ui (switching to ReactJs and tailwindcss upon release).
+                  </p>
+  
+                  <strong>projected release date : 1/9/2021</strong>
+  
+              </div>
+  
+              <div class="modal-footer got-it" >
+                  <div class="d-grid gap-2">
+                  <button type="button" class="btn btn-black" data-bs-dismiss="modal">
+                      got it 👍
+                  </button>
+                  </div>
+              </div>
+              </div>
+          </div>
+          </div>
+      <!--end modal-->
+  
+  
+    
+  <!-- supported modal -->
+  <div
+  class="modal fade"
+  id="supportModal"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="supportModalLabel"
+  aria-hidden="true"
+  >
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="supportModalLabel"></h5>
+        <button type="button" class="btn-close" id="supportModalCloseBtn" data-bs-dismiss="modal" aria-label="Close"></button> 
+      </div>
+      <div class="modal-body bg-white">
+        <div class="icon-box">
+          <div class="icon"><i class="fas fa-exclamation-circle" style="color: #000; background-color: #f2f2f2;"></i></div>
+          <h4 class="title">Browser Not Supported!</h4>
+          <p class="description text-muted">
+            <strong style="color: rgb(74, 85, 104)"></strong>
+            Browser not yet supported for this beta. please try it using <strong>chrome</strong> or <strong>firefox</strong> on desktop, or check us out later.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <!-- end supported modal -->
+  
+  
+  <!-- enc modal -->
+        <div
+        class="modal fade"
+        id="encModal"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="encryptModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="encryptModalLabel"></h5>
+              <button
+                type="button"
+                class="btn-close"
+                id="encModalCloseBtn"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body bg-white">
+              <div class="icon-box">
+                <div class="icon"><i class="fas fa-lock"></i></div>
+                <h4 class="title">Success!</h4>
+                <p class="description text-muted">
+                  <strong style="color: rgb(74, 85, 104)" id="encModalFileName"></strong>
+                  was loaded successfully and ready to be encrypted & downloaded!
+                </p>
+              </div>
+            </div>
+            <div class="modal-footer p-3">
+              <div class="mx-auto">
+                <button type="button" class="btn btn-light" id="copyPassword">
+                  <i class="fas fa-copy"></i> <span id="copyPasswordTitle">Decryption Password</span> 
+                </button>
+                <span id="copyPasswordInput"></span>
+                <a id="encBtn" class="btn btn-purple"> <i class="fas fa-download"></i> Encrypted File</a>
+  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  <!-- end enc modal -->
+  
+  <!-- dec modal -->
+  <div
+  class="modal fade"
+  id="decModal"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="decryptModalLabel"
+  aria-hidden="true"
+  >
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="decryptModalLabel"></h5>
+        <button
+          type="button"
+          class="btn-close"
+          id="decModalCloseBtn"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body bg-white">
+        <div class="icon-box">
+          <div class="icon"><i class="fas fa-unlock"></i></div>
+          <h4 class="title">Success!</h4>
+          <p class="description text-muted">
+            <strong style="color: rgb(74, 85, 104)" id="decModalFileName"></strong>
+            was loaded successfully and ready to be decrypted & downloaded!
+          </p>
+        </div>
+      </div>
+      <div class="modal-footer p-3">
+        <div class="mx-auto">
+  
+          <a id="decBtn" class="btn btn-purple"> <i class="fas fa-download"></i> Decrypted File</a>
+  
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <!-- end dec modal -->
+  
 
     <script src="build.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>

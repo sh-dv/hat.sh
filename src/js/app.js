@@ -194,7 +194,7 @@ function processFinished(name, data, method, dKey) {
     </div>
 
   <div class="alert alert-outline ${status}" role="alert">
-    <i class="fas fa-check"></i> ${name.replace('Encrypted-', '')} was <strong>${msg}</strong>
+    <i class="fas fa-check"></i> ${escapeHTML(name.replace('Encrypted-', ''))} was <strong>${msg}</strong>
     <hr>
     <div class="btn-group">
       <a class="btn btn-outline-secondary btn-sm" href="${url}" download="${name}" role="button"><i class="fas fa-download"></i> ${status}

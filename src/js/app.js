@@ -99,7 +99,6 @@ function updateNameAndSize() {
 
 }
 
- 
 //show and hide reset btn from html
 function showResetBtn(){$("#resetBtn").css("display", "");}
 function hideResetBtn(){$("#resetBtn").css("display", "none");}

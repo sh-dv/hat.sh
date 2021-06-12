@@ -59,6 +59,17 @@ function errorMsg(msg) {
   }, 4000);
 }
 
+function escapeHTML(unsafe) {
+  return unsafe.replace(/[<>&'"]/g, function (c) {
+    switch (c) {
+      case '<': return '&lt;';
+      case '>': return '&gt;';
+      case '&': return '&amp;';
+      case '\'': return '&apos;';
+      case '"': return '&quot;';
+    }
+  });
+}
 
 //determination of file name and size 
 function updateNameAndSize() {
@@ -82,11 +93,12 @@ function updateNameAndSize() {
   if (!inputFile.value) {
     placeHolder.innerHTML = "Choose a file to encrypt/decrypt";
   } else {
-    placeHolder.innerHTML = fileName + '  <span class="text-success">' + sOutput + '</span>';
+    placeHolder.innerHTML = escapeHTML(fileName) + '  <span class="text-success">' + sOutput + '</span>';
   }
 
 
 }
+
  
 //show and hide reset btn from html
 function showResetBtn(){$("#resetBtn").css("display", "");}
@@ -177,7 +189,7 @@ function processFinished(name, data, method, dKey) {
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-            <div class="modal-body">${dKey}</div>
+            <div class="modal-body">${escapeHTML(dKey)}</div>
         </div>
       </div>
     </div>

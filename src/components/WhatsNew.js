@@ -139,8 +139,7 @@ export default function WhatsNew() {
 
             <p className={classes.listing}>
               - handle stream back pressures.
-              <br />- improve ui (switching to ReactJs and tailwindcss upon
-              release).
+              
             </p>
 
             <strong>projected release date : 1/9/2021</strong>

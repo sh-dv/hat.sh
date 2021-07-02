@@ -1,0 +1,25 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+
+body {
+  background-color: #fafafa;
+}
+
+
+.wrapper {
+  border-radius: 8px;
+}
+
+.file-area {
+  padding: 20px;
+  border: 5px dashed #ebebeb;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+

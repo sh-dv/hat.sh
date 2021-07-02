@@ -51,15 +51,12 @@ open terminal and install the node modules that are in the package.json file
 
     npm install
 
-build the app
+run the app in dev mode
 
-    npm run build
-    
-then start the app by running:
+    npm run dev
 
-    npm run serve
 
-should be running on http://localhost:1989
+should be running on http://localhost:3000
 
 
 
@@ -73,9 +70,9 @@ should be running on http://localhost:1989
 
 [libsodium.js](https://github.com/jedisct1/libsodium.js)
 
-[bootstrap](https://github.com/twbs/bootstrap) for the responsive css layout
+[next.js](https://nextjs.org/)
 
-[font-awesome](https://github.com/FortAwesome/Font-Awesome) for the icons
+[material-ui](https://material-ui.com/)
 
 ## License
 [Copyright (c) 2021 sh-dv](https://github.com/sh-dv/hat.sh/blob/v2-beta/LICENSE)

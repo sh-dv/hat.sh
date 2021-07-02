@@ -95,7 +95,7 @@ export default function EncryptionPanel() {
 
   const handleFileInput = (selectedFile) => {
     file = selectedFile;
-    console.log("file inserted", file);
+    // console.log("file inserted", file);
     setFile(selectedFile);
   };
 
@@ -136,7 +136,7 @@ export default function EncryptionPanel() {
     setIsDownloading(true);
     navigator.serviceWorker.ready.then((reg) => {
       let password = Password;
-      console.log(password);
+      // console.log(password);
       Promise.all([
         file.slice(0, 11).arrayBuffer(), //signature
         file.slice(11, 27).arrayBuffer(), //salt
@@ -157,13 +157,13 @@ export default function EncryptionPanel() {
         });
       });
 
-      console.log("dec requested");
+      // console.log("dec requested");
     });
   };
 
   const startDecryption = () => {
-    console.log("start Decryption");
-    console.log("START WITH", file);
+    // console.log("start Decryption");
+    // console.log("START WITH", file);
     navigator.serviceWorker.ready.then((reg) => {
       file
         .slice(
@@ -183,7 +183,7 @@ export default function EncryptionPanel() {
   };
 
   const continueDecryption = (e) => {
-    console.log("continue decryption at index", index, " with file", file);
+    // console.log("continue decryption at index", index, " with file", file);
     navigator.serviceWorker.ready.then((reg) => {
       file
         .slice(
@@ -202,16 +202,8 @@ export default function EncryptionPanel() {
   };
 
   useEffect(() => {
-    if (File && Password) {
-      console.log("yes there is a password", Password, "and file", File);
-    } else {
-      console.log("no file");
-    }
-  });
-
-  useEffect(() => {
     navigator.serviceWorker.addEventListener("message", (e) => {
-      console.log(e);
+      // console.log(e);
       switch (e.data.reply) {
         case "wrongPassword":
           // console.log('wrong password');
@@ -230,17 +222,17 @@ export default function EncryptionPanel() {
           break;
 
         case "decKeysGenerated":
-          console.log("dec keys generated!");
+          // console.log("dec keys generated!");
           startDecryption();
           break;
 
         case "continueDecryption":
-          console.log("need to decrypt more chunks!");
+          // console.log("need to decrypt more chunks!");
           continueDecryption(e);
           break;
 
         case "decryptionFinished":
-          console.log("decrypted!");
+          // console.log("decrypted!");
           setIsDownloading(false);
           handleNext();
           break;

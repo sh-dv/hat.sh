@@ -96,7 +96,7 @@ const LimitedEncryptionPanel = () => {
 
   const handleLimitedFileInput = (selectedFile) => {
     file = selectedFile;
-    console.log("file inserted", file);
+    // console.log("file inserted", file);
 
     if (file.size > MAX_FILE_SIZE) {
       setLargeFile(true);
@@ -116,7 +116,7 @@ const LimitedEncryptionPanel = () => {
     const sodium = _sodium;
 
     limitedSalt = sodium.randombytes_buf(sodium.crypto_pwhash_SALTBYTES);
-    console.log("salt", limitedSalt);
+    // console.log("salt", limitedSalt);
 
     limitedKey = sodium.crypto_pwhash(
       32,
@@ -174,7 +174,7 @@ const LimitedEncryptionPanel = () => {
     }
 
     if (!limitedLast) {
-      console.log("not yet, continue encryption", limitedEncryptedChunk);
+      // console.log("not yet, continue encryption", limitedEncryptedChunk);
       continueLimitedEncryption(file);
     }
   };
@@ -192,13 +192,13 @@ const LimitedEncryptionPanel = () => {
   };
 
   const requestLimitedEncryption = async () => {
-    console.log("start imited enc");
+    // console.log("start imited enc");
     await limitedEncKeyGenerator(Password);
     startLimitedEncryption(File);
   };
 
   const handleFinishedEncryption = () => {
-    console.log("encryptionFinished", limitedEncFileBuff);
+    // console.log("encryptionFinished", limitedEncFileBuff);
     setIsEncrypting(false);
     handleNext();
   };
@@ -215,13 +215,7 @@ const LimitedEncryptionPanel = () => {
     link.click();
   };
 
-  useEffect(() => {
-    if (File && Password) {
-      console.log("yes there is a password", Password, "and file", File);
-    } else {
-      console.log("no file");
-    }
-  });
+
 
   return (
     <div className={classes.root} {...getRootProps()}>

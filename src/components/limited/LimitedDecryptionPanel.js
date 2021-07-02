@@ -108,7 +108,7 @@ const LimitedDecryptionPanel = () => {
 
   const handleLimitedFileInput = (selectedFile) => {
     file = selectedFile;
-    console.log("file inserted", file);
+    // console.log("file inserted", file);
 
     if (file.size > MAX_FILE_SIZE) {
       setLargeFile(true);
@@ -226,7 +226,7 @@ const LimitedDecryptionPanel = () => {
         );
 
       if (limitedDecState) {
-        console.log("limited dec keys generated");
+        // console.log("limited dec keys generated");
 
         startLimitedDecryption(limitedDecState);
       }
@@ -285,7 +285,7 @@ const LimitedDecryptionPanel = () => {
     if (limitedDecResult) {
       // console.log('good key');
       let limitedDecryptedChunk = limitedDecResult.message;
-      console.log("decrypted chunk", limitedDecryptedChunk);
+      // console.log("decrypted chunk", limitedDecryptedChunk);
 
       limitedDecFileBuff.push(new Uint8Array(limitedDecryptedChunk));
 
@@ -294,7 +294,7 @@ const LimitedDecryptionPanel = () => {
         // showLimitedDecModal();
       }
       if (!limitedDecLast) {
-        console.log("continue decryption");
+        // console.log("continue decryption");
         continueLimitedDecryption(dec_state);
       }
     } else {
@@ -304,7 +304,7 @@ const LimitedDecryptionPanel = () => {
   };
 
   const handleFinishedDecryption = () => {
-    console.log("decryption finished", limitedDecFileBuff);
+    // console.log("decryption finished", limitedDecFileBuff);
     handleNext();
     setIsDecrypting(false);
   };

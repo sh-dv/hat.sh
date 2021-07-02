@@ -84,7 +84,7 @@ export default function EncryptionPanel() {
 
   const handleFileInput = (selectedFile) => {
     file = selectedFile;
-    console.log("file inserted", file);
+    // console.log("file inserted", file);
     setFile(selectedFile);
   };
 
@@ -94,19 +94,19 @@ export default function EncryptionPanel() {
 
   const handleEncryptedFileDownload = (e) => {
     e.target.setAttribute("href", "/file?name=" + File.name + ".enc");
-    console.log("enc btn clicked");
+    // console.log("enc btn clicked");
     setIsDownloading(true);
     navigator.serviceWorker.ready.then((reg) => {
       let password = Password;
-      console.log(password);
+      // console.log(password);
       reg.active.postMessage({ cmd: "requestEncryption", password });
-      console.log("enc requested");
+      // console.log("enc requested");
     });
   };
 
   const startEncryption = () => {
-    console.log("start encryption");
-    console.log("START WITH", file);
+    // console.log("start encryption");
+    // console.log("START WITH", file);
     navigator.serviceWorker.ready.then((reg) => {
       file
         .slice(0, CHUNK_SIZE)
@@ -122,7 +122,7 @@ export default function EncryptionPanel() {
   };
 
   const continueEncryption = (e) => {
-    console.log("continue encryption at index", index, " with file", file);
+    // console.log("continue encryption at index", index, " with file", file);
     navigator.serviceWorker.ready.then((reg) => {
       file
         .slice(index, index + CHUNK_SIZE)
@@ -137,30 +137,23 @@ export default function EncryptionPanel() {
     });
   };
 
-  useEffect(() => {
-    if (File && Password) {
-      console.log("yes there is a password", Password, "and file", File);
-    } else {
-      console.log("no file");
-    }
-  });
 
   useEffect(() => {
     navigator.serviceWorker.addEventListener("message", (e) => {
-      console.log(e);
+      // console.log(e);
       switch (e.data.reply) {
         case "keysGenerated":
-          console.log("keys generated!");
+          // console.log("keys generated!");
           startEncryption();
           break;
 
         case "continueEncryption":
-          console.log("need to encrypt more chunks!");
+          // console.log("need to encrypt more chunks!");
           continueEncryption(e);
           break;
 
         case "encryptionFinished":
-          console.log("encrypted!");
+          // console.log("encrypted!");
           setIsDownloading(false);
           handleNext();
           break;

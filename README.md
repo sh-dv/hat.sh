@@ -1,34 +1,83 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+<p align="center">
+  <a href="#" rel="noopener">
+ <img src="https://i.imgur.com/F8nNzHi.png"></a>
+</p>
 
-First, run the development server:
+<a href="https://v2-beta.hat.sh" style="color:#000"><h3 align="center">v2-beta.hat.sh</h3></a>
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+<div align="center">
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+  [![Status](https://img.shields.io/badge/status-active-success.svg)](#)
+  [![Build](https://travis-ci.org/sh-dv/hat.sh.svg?branch=master)](https://travis-ci.org/sh-dv/hat.sh)
+  [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](#)
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+</div>
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+---
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+this beta version demonstrates memory efficient large file chunked encryption using streams with libsodium.js 
+(with xchacha20poly1305 and argon2id)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## What's new
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- switching to xchacha20poly1305 for symmetric stream encryption and Argon2id for password-based key derivation. instead of AES-256-GCM and PBKDF2.
+- using the libsodium library for all cryptography instead of the WebCryptoApi.
+- in this version, the app doesn't read the whole file in memory. instead, it's sliced into 64MB chunks that are processed one by one.
+- since we are not using any server-side processing, the app registers a fake download URL (/file) that is going to be handled by the service-worker fetch api.
+- if all validations are passed, a new stream is initialized. then, file chunks are transferred from the main app to the 
+service-worker file via messages.
+- each chunk is encrypted/decrypted on it's on and added to the stream.
+- after each chunk is written on disk it is going to be immediately garbage collected by the browser, this leads to never having more than a few chunks in the memory at the same time.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## To Do 👨‍💻
+- handle stream back pressures
+- moving to ReactJS (next.js)
+
+## Installation
+
+Download or clone the repository
+
+    git clone --branch v2-beta https://github.com/sh-dv/hat.sh.git hat.sh-v2-beta
+
+go to the app directory
+
+    cd hat.sh-v2-beta or [app directory]
+
+open terminal and install the node modules that are in the package.json file
+
+    npm install
+
+build the app
+
+    npm run build
+    
+then start the app by running:
+
+    npm run serve
+
+should be running on http://localhost:1989
+
+
+
+## Browser Compatibility
+- check out [service-worker fetch event compatibility.](https://developer.mozilla.org/en-US/docs/Web/API/FetchEvent)
+- Safari and Mobile Broswers are supported but with a file size limitation (File Size up to 1GB)
+
+
+
+## Credits
+
+[libsodium.js](https://github.com/jedisct1/libsodium.js)
+
+[bootstrap](https://github.com/twbs/bootstrap) for the responsive css layout
+
+[font-awesome](https://github.com/FortAwesome/Font-Awesome) for the icons
+
+## License
+[Copyright (c) 2021 sh-dv](https://github.com/sh-dv/hat.sh/blob/v2-beta/LICENSE)
+

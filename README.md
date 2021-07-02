@@ -36,7 +36,6 @@ service-worker file via messages.
 
 ## To Do 👨‍💻
 - handle stream back pressures
-- moving to ReactJS (next.js)
 
 ## Installation
 

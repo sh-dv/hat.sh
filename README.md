@@ -41,11 +41,11 @@ service-worker file via messages.
 
 Download or clone the repository
 
-    git clone --branch v2-beta-next https://github.com/sh-dv/hat.sh.git hat.sh-2-beta-next
+    git clone --branch v2-beta https://github.com/sh-dv/hat.sh.git hat.sh-v2-beta
 
 go to the app directory
 
-    cd hat.sh-2-beta-next or [app directory]
+    cd hat.sh-v2-beta or [app directory]
 
 open terminal and install the node modules that are in the package.json file
 

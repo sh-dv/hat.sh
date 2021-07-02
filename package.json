@@ -3,9 +3,8 @@
   "version": "2.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "browserify service-worker/sw.js -o public/service-worker.js && next dev",
     "build": "next build && next export",
-    "serve": "serve out -l 1994",
     "start": "next start",
     "lint": "next lint"
   },
@@ -13,6 +12,7 @@
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.58",
+    "browserify": "^17.0.0",
     "libsodium-wrappers": "^0.7.9",
     "next": "11.0.1",
     "react": "17.0.2",

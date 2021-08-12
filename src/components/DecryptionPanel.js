@@ -23,6 +23,7 @@ import { Alert, AlertTitle } from "@material-ui/lab";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import RefreshIcon from "@material-ui/icons/Refresh";
+import IdleTimerContainer from "./IdleTimerContainer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,25 +32,105 @@ const useStyles = makeStyles((theme) => ({
   stepper: {
     backgroundColor: "transparent",
   },
+
+  stepIcon: {
+    "&$activeStepIcon": {
+      color: "#525252",
+    },
+    "&$completedStepIcon": {
+      color: "#525252",
+    },
+  },
+  activeStepIcon: {},
+  completedStepIcon: {},
+
   button: {
     marginTop: theme.spacing(1),
     marginRight: theme.spacing(1),
+    borderRadius: "8px",
+    border: "none",
+    color: "#3f3f3f",
+    backgroundColor: "#f3f3f3",
+    "&:hover": {
+      backgroundColor: "#e9e9e9",
+    },
+    transition: "background-color 0.2s ease-out",
+  },
+
+  browseButton: {
+    padding: 8,
+    paddingLeft: 15,
+    paddingRight: 15,
+    textTransform: "none",
+    borderRadius: "8px",
+    border: "none",
+    color: "#3f3f3f",
+    backgroundColor: "#e1e1e1",
+    "&:hover": {
+      backgroundColor: "#d2d2d2",
+    },
+    transition: "background-color 0.2s ease-out",
+    transition: "color .01s",
+  },
+
+  backButton: {
+    marginTop: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    borderRadius: "8px",
+    backgroundColor: "#e9e9e9",
+  },
+  nextButton: {
+    marginTop: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    borderRadius: "8px",
+    backgroundColor: "#464653",
+    color: "#fff",
+    "&:hover": {
+      backgroundColor: "#3f3f3f",
+    },
   },
   actionsContainer: {
     marginBottom: theme.spacing(2),
   },
   resetContainer: {
     padding: theme.spacing(3),
+    boxShadow: "rgba(149, 157, 165, 0.4) 0px 8px 24px",
+    borderRadius: "8px",
   },
 
   input: {
     display: "none",
   },
+
+  textFieldLabel: {
+    // this will be applied when input focused (label color change)
+    "&$textFieldLabelFocused": {
+      color: "#525252",
+    },
+  },
+  textFieldLabelFocused: {},
+
+  textFieldRoot: {
+    // this will be applied when hovered (input text color change)
+    "&:hover": {
+      color: "#525252",
+    },
+    // this will applied when hovered (input border color change)
+    "&:hover $textFieldNotchedOutline": {
+      borderColor: "#525252",
+    },
+    // this will be applied when focused (input border color change)
+    "&$textFieldFocused $textFieldNotchedOutline": {
+      borderColor: "#525252",
+    },
+  },
+  textFieldFocused: {},
+  textFieldNotchedOutline: {},
 }));
 
 let file, index, decFileBuff;
 
-export default function EncryptionPanel() {
+export default function DecryptionPanel() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
 
@@ -265,10 +346,20 @@ export default function EncryptionPanel() {
         className={classes.stepper}
       >
         <Step key={1}>
-          <StepLabel>{"Choose a file to decrypt"}</StepLabel>
+          <StepLabel
+            StepIconProps={{
+              classes: {
+                root: classes.stepIcon,
+                active: classes.activeStepIcon,
+                completed: classes.completedStepIcon,
+              },
+            }}
+          >
+            {"Choose a file to decrypt"}
+          </StepLabel>
           <StepContent>
-            <div className="wrapper p-3" id="encFileWrapper">
-              <div className="file-area" id="encFileArea">
+            <div className="wrapper p-3" id="decFileWrapper">
+              <div className="file-area" id="decFileArea">
                 <Typography>
                   {File ? File.name : "Drag & Drop or Browse file"}
                 </Typography>
@@ -277,14 +368,14 @@ export default function EncryptionPanel() {
                 <input
                   {...getInputProps()}
                   className={classes.input}
-                  id="contained-button-file"
+                  id="dec-file"
                   type="file"
                   onChange={(e) => handleFileInput(e.target.files[0])}
                 />
-                <label htmlFor="contained-button-file">
+                <label htmlFor="dec-file">
                   <br />
                   <Button
-                    variant="contained"
+                    className={classes.browseButton}
                     component="span"
                     startIcon={<DescriptionIcon />}
                   >
@@ -299,9 +390,8 @@ export default function EncryptionPanel() {
                 <Button
                   disabled={!File}
                   variant="contained"
-                  color="primary"
                   onClick={handleNext}
-                  className={classes.button}
+                  className={classes.nextButton}
                   fullWidth
                 >
                   {"Next"}
@@ -312,7 +402,17 @@ export default function EncryptionPanel() {
         </Step>
 
         <Step key={2}>
-          <StepLabel>{"Enter the decryption password"}</StepLabel>
+          <StepLabel
+            StepIconProps={{
+              classes: {
+                root: classes.stepIcon,
+                active: classes.activeStepIcon,
+                completed: classes.completedStepIcon,
+              },
+            }}
+          >
+            {"Enter the decryption password"}
+          </StepLabel>
           <StepContent>
             <TextField
               required
@@ -329,6 +429,19 @@ export default function EncryptionPanel() {
               value={Password ? Password : ""}
               onChange={(e) => handlePasswordInput(e.target.value)}
               fullWidth
+              InputLabelProps={{
+                classes: {
+                  root: classes.textFieldLabel,
+                  focused: classes.textFieldLabelFocused,
+                },
+              }}
+              InputProps={{
+                classes: {
+                  root: classes.textFieldRoot,
+                  focused: classes.textFieldFocused,
+                  notchedOutline: classes.textFieldNotchedOutline,
+                },
+              }}
             />
 
             <div className={classes.actionsContainer}>
@@ -336,10 +449,9 @@ export default function EncryptionPanel() {
                 <Grid container spacing={1}>
                   <Grid item>
                     <Button
-                      variant="outlined"
                       disabled={activeStep === 0}
                       onClick={handleBack}
-                      className={classes.button}
+                      className={classes.backButton}
                       fullWidth
                     >
                       Back
@@ -349,9 +461,8 @@ export default function EncryptionPanel() {
                     <Button
                       disabled={isTestingPassword || !Password}
                       variant="contained"
-                      color="primary"
                       onClick={testDecryption}
-                      className={classes.button}
+                      className={classes.nextButton}
                       startIcon={
                         isTestingPassword && (
                           <CircularProgress
@@ -380,7 +491,17 @@ export default function EncryptionPanel() {
         </Step>
 
         <Step key={3}>
-          <StepLabel>{"Download decrypted file"}</StepLabel>
+          <StepLabel
+            StepIconProps={{
+              classes: {
+                root: classes.stepIcon,
+                active: classes.activeStepIcon,
+                completed: classes.completedStepIcon,
+              },
+            }}
+          >
+            {"Download decrypted file"}
+          </StepLabel>
           <StepContent>
             <Alert severity="success" icon={<LockOpenIcon />}>
               <strong>{File ? File.name : ""}</strong> was loaded successfully
@@ -391,10 +512,9 @@ export default function EncryptionPanel() {
               <Grid container spacing={1}>
                 <Grid item>
                   <Button
-                    variant="outlined"
                     disabled={activeStep === 0}
                     onClick={handleBack}
-                    className={classes.button}
+                    className={classes.backButton}
                   >
                     Back
                   </Button>
@@ -404,7 +524,7 @@ export default function EncryptionPanel() {
                     disabled={isDownloading || !Password || !File}
                     variant="contained"
                     color="primary"
-                    className={classes.button}
+                    className={classes.nextButton}
                     startIcon={
                       isDownloading ? (
                         <CircularProgress
@@ -444,7 +564,11 @@ export default function EncryptionPanel() {
       </Stepper>
       {activeStep === 3 && (
         <Paper elevation={1} className={classes.resetContainer}>
-          <Alert variant="outlined" severity="success">
+          <Alert
+            variant="outlined"
+            severity="success"
+            style={{ border: "none" }}
+          >
             <AlertTitle>Success</AlertTitle>
             You have successfully downloaded the Decrypted file!
           </Alert>
@@ -460,6 +584,8 @@ export default function EncryptionPanel() {
           </Button>
         </Paper>
       )}
+
+      {(!isDownloading || isTestingPassword) && <IdleTimerContainer />}
     </div>
   );
 }

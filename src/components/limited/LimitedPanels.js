@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Container from "@material-ui/core/Container";
 import Tabs from "@material-ui/core/Tabs";
@@ -11,6 +11,48 @@ import Alert from "@material-ui/lab/Alert";
 import IconButton from "@material-ui/core/IconButton";
 import Collapse from "@material-ui/core/Collapse";
 import CloseIcon from "@material-ui/icons/Close";
+
+const StyledTabs = withStyles({
+  indicator: {
+    display: "none",
+  },
+})((props) => <Tabs {...props} TabIndicatorProps={{ children: <span /> }} />);
+
+const StyledTab = withStyles((theme) => ({
+  root: {
+    textTransform: "none",
+    padding: "8px",
+    transition: "background-color 0.2s ease-out",
+
+    "&$selected": {
+      backgroundColor: "#fff",
+      boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+      borderRadius: "8px",
+    },
+  },
+  selected: {},
+}))((props) => <Tab disableRipple {...props} />);
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    maxWidth: "768px",
+  },
+
+  bar: {
+    marginTop: 15,
+    backgroundColor: "#ebebeb",
+    borderRadius: "8px",
+    padding: 8,
+  },
+
+  TabPanel: {
+    marginTop: 15,
+  },
+
+  tab: {
+    color: "#3f3f3f",
+  },
+}));
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -33,27 +75,6 @@ TabPanel.propTypes = {
   index: PropTypes.any.isRequired,
   value: PropTypes.any.isRequired,
 };
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    maxWidth: "768px",
-  },
-
-  bar: {
-    marginTop: 15,
-    backgroundColor: "#ebebeb",
-    borderRadius: "8px",
-  },
-
-  TabPanel: {
-    marginTop: 15,
-  },
-
-  tab: {
-    padding: 15,
-    color: "#3f3f3f",
-  },
-}));
 
 export default function LimitedPanels() {
   const classes = useStyles();
@@ -83,7 +104,7 @@ export default function LimitedPanels() {
   };
 
   return (
-    <div>
+    <>
       <Container className={classes.root}>
         <Collapse in={alertOpen} style={{ marginTop: 35 }}>
           <Alert
@@ -108,17 +129,16 @@ export default function LimitedPanels() {
               : "You have limited experience (max file size of 1GB) due to Private browsing."}
           </Alert>
         </Collapse>
-
         <AppBar position="static" className={classes.bar} elevation={0}>
-          <Tabs
+          <StyledTabs
             value={value}
             onChange={handleChange}
+            variant="fullWidth"
             centered
-            TabIndicatorProps={{ style: { background: "#000" } }}
           >
-            <Tab label="Encryption" className={classes.tab} />
-            <Tab label="Decryption" className={classes.tab} />
-          </Tabs>
+            <StyledTab label="Encryption" className={classes.tab} />
+            <StyledTab label="Decryption" className={classes.tab} />
+          </StyledTabs>
         </AppBar>
 
         <TabPanel value={value} index={0} className={classes.TabPanel}>
@@ -128,6 +148,6 @@ export default function LimitedPanels() {
           <LimitedDecryptionPanel />
         </TabPanel>
       </Container>
-    </div>
+    </>
   );
 }

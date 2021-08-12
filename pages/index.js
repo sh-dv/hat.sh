@@ -40,9 +40,7 @@ const Home = () => {
   }, []);
 
   return (
-    <> 
-      {(swReg && browserSupport) ? <MainContainer /> : <LimitedContainer />}
-    </>
+    <>{swReg && browserSupport ? <MainContainer /> : <LimitedContainer />}</>
   );
 };
 

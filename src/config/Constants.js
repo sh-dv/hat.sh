@@ -1,4 +1,4 @@
-export const currentVersion = "2.0.4";
+export const currentVersion = "2.0.5";
 
 export const crypto_secretstream_xchacha20poly1305_ABYTES = 17;
 

@@ -40,7 +40,7 @@ export default function NavAppBar() {
               </Link>
               <VersionBadge />
             </Typography>
-            <Button color="inherit" className={classes.button}>
+            <Button color="inherit" href="/about" className={classes.button}>
               about
             </Button>
             <Button

@@ -13,11 +13,11 @@ const useStyles = makeStyles({
     marginTop: 20,
     paddingRight: 15,
     paddingLeft: 15,
-    borderRadius: ".25rem",
+    borderRadius: "8px",
     backgroundColor: "#464653",
     color: "#fff",
     "&:hover": {
-      backgroundColor: "#000",
+      backgroundColor: "#3f3f3f",
     },
   },
 
@@ -62,7 +62,7 @@ export default function WhatsNew() {
   }, [open]);
 
   return (
-    <div>
+    <>
       <Button
         onClick={handleClickOpen("paper")}
         className={classes.whatsNewBtn}
@@ -137,10 +137,7 @@ export default function WhatsNew() {
 
             <strong>ToDos 👨‍💻 :</strong>
 
-            <p className={classes.listing}>
-              - handle stream back pressures.
-              
-            </p>
+            <p className={classes.listing}>- handle stream back pressures.</p>
 
             <strong>projected release date : 1/9/2021</strong>
           </DialogContentText>
@@ -149,6 +146,6 @@ export default function WhatsNew() {
           <Button onClick={handleClose}>Got it</Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
 }

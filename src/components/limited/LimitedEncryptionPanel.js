@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDropzone } from "react-dropzone";
 import Grid from "@material-ui/core/Grid";
@@ -31,20 +31,103 @@ const useStyles = makeStyles((theme) => ({
   stepper: {
     backgroundColor: "transparent",
   },
+
+  stepIcon: {
+    "&$activeStepIcon": {
+      color: "#525252",
+    },
+    "&$completedStepIcon": {
+      color: "#525252",
+    },
+  },
+  activeStepIcon: {},
+  completedStepIcon: {},
+
   button: {
     marginTop: theme.spacing(1),
     marginRight: theme.spacing(1),
+    borderRadius: "8px",
+    border: "none",
+    color: "#3f3f3f",
+    backgroundColor: "#f3f3f3",
+    "&:hover": {
+      backgroundColor: "#e9e9e9",
+    },
+    transition: "background-color 0.2s ease-out",
+    transition: "color .01s",
+  },
+
+  browseButton: {
+    padding: 8,
+    paddingLeft: 15,
+    paddingRight: 15,
+    textTransform: "none",
+    borderRadius: "8px",
+    border: "none",
+    color: "#3f3f3f",
+    backgroundColor: "#e1e1e1",
+    "&:hover": {
+      backgroundColor: "#d2d2d2",
+    },
+    transition: "background-color 0.2s ease-out",
+    transition: "color .01s",
+  },
+  
+  backButton: {
+    marginTop: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    borderRadius: "8px",
+    backgroundColor: "#e9e9e9",
+    transition: "color .01s",
+  },
+  nextButton: {
+    marginTop: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    borderRadius: "8px",
+    backgroundColor: "#464653",
+    color: "#fff",
+    "&:hover": {
+      backgroundColor: "#3f3f3f",
+    },
+    transition: "color .01s",
   },
   actionsContainer: {
     marginBottom: theme.spacing(2),
   },
   resetContainer: {
     padding: theme.spacing(3),
+    boxShadow: "rgba(149, 157, 165, 0.4) 0px 8px 24px",
+    borderRadius: "8px",
   },
 
   input: {
     display: "none",
   },
+
+  textFieldLabel: {
+    // this will be applied when input focused (label color change)
+    "&$textFieldLabelFocused": {
+      color: "#525252",
+    },
+  },
+  textFieldLabelFocused: {},
+
+  textFieldRoot: {
+    // this will be applied when hovered (input text color change)
+    "&:hover": {
+      color: "#525252",
+    },
+    // this will applied when hovered (input border color change)
+    "&:hover $textFieldNotchedOutline": {
+      borderColor: "#525252",
+    },
+    // this will be applied when focused (input border color change)
+    "&$textFieldFocused $textFieldNotchedOutline": {
+      borderColor: "#525252",
+    },
+  },
+  textFieldFocused: {},
+  textFieldNotchedOutline: {},
 }));
 
 let file,
@@ -215,8 +298,6 @@ const LimitedEncryptionPanel = () => {
     link.click();
   };
 
-
-
   return (
     <div className={classes.root} {...getRootProps()}>
       <Backdrop open={isDragActive} style={{ zIndex: 1 }}>
@@ -242,7 +323,17 @@ const LimitedEncryptionPanel = () => {
         className={classes.stepper}
       >
         <Step key={1}>
-          <StepLabel>{"Choose a file to encrypt"}</StepLabel>
+          <StepLabel
+            StepIconProps={{
+              classes: {
+                root: classes.stepIcon,
+                active: classes.activeStepIcon,
+                completed: classes.completedStepIcon,
+              },
+            }}
+          >
+            {"Choose a file to encrypt"}
+          </StepLabel>
           <StepContent>
             <div className="wrapper p-3" id="encFileWrapper">
               <div className="file-area" id="encFileArea">
@@ -254,14 +345,14 @@ const LimitedEncryptionPanel = () => {
                 <input
                   {...getInputProps()}
                   className={classes.input}
-                  id="contained-button-file"
+                  id="enc-file"
                   type="file"
                   onChange={(e) => handleLimitedFileInput(e.target.files[0])}
                 />
-                <label htmlFor="contained-button-file">
+                <label htmlFor="enc-file">
                   <br />
                   <Button
-                    variant="contained"
+                    className={classes.browseButton}
                     component="span"
                     startIcon={<DescriptionIcon />}
                   >
@@ -276,9 +367,8 @@ const LimitedEncryptionPanel = () => {
                 fullWidth
                 disabled={!File || largeFile}
                 variant="contained"
-                color="primary"
                 onClick={handleNext}
-                className={classes.button}
+                className={classes.nextButton}
               >
                 {"Next"}
               </Button>
@@ -293,7 +383,17 @@ const LimitedEncryptionPanel = () => {
         </Step>
 
         <Step key={2}>
-          <StepLabel>{"Enter a password"}</StepLabel>
+          <StepLabel
+            StepIconProps={{
+              classes: {
+                root: classes.stepIcon,
+                active: classes.activeStepIcon,
+                completed: classes.completedStepIcon,
+              },
+            }}
+          >
+            {"Enter a password"}
+          </StepLabel>
           <StepContent>
             <TextField
               required
@@ -305,6 +405,19 @@ const LimitedEncryptionPanel = () => {
               value={Password ? Password : ""}
               onChange={(e) => handlePasswordInput(e.target.value)}
               fullWidth
+              InputLabelProps={{
+                classes: {
+                  root: classes.textFieldLabel,
+                  focused: classes.textFieldLabelFocused,
+                },
+              }}
+              InputProps={{
+                classes: {
+                  root: classes.textFieldRoot,
+                  focused: classes.textFieldFocused,
+                  notchedOutline: classes.textFieldNotchedOutline,
+                },
+              }}
             />
 
             <div className={classes.actionsContainer}>
@@ -312,10 +425,9 @@ const LimitedEncryptionPanel = () => {
                 <Grid container spacing={1}>
                   <Grid item>
                     <Button
-                      variant="outlined"
                       disabled={activeStep === 0}
                       onClick={handleBack}
-                      className={classes.button}
+                      className={classes.backButton}
                       fullWidth
                     >
                       Back
@@ -325,9 +437,8 @@ const LimitedEncryptionPanel = () => {
                     <Button
                       disabled={!Password}
                       variant="contained"
-                      color="primary"
                       onClick={handleNext}
-                      className={classes.button}
+                      className={classes.nextButton}
                       fullWidth
                     >
                       {"next"}
@@ -340,7 +451,17 @@ const LimitedEncryptionPanel = () => {
         </Step>
 
         <Step key={3}>
-          <StepLabel>{"Encrypt file"}</StepLabel>
+          <StepLabel
+            StepIconProps={{
+              classes: {
+                root: classes.stepIcon,
+                active: classes.activeStepIcon,
+                completed: classes.completedStepIcon,
+              },
+            }}
+          >
+            {"Encrypt file"}
+          </StepLabel>
           <StepContent>
             <Alert severity="success" icon={<LockOutlinedIcon />}>
               <strong>{File ? File.name : ""}</strong> was loaded successfully
@@ -351,10 +472,9 @@ const LimitedEncryptionPanel = () => {
               <Grid container spacing={1}>
                 <Grid item>
                   <Button
-                    variant="outlined"
                     disabled={activeStep === 0}
                     onClick={handleBack}
-                    className={classes.button}
+                    className={classes.backButton}
                   >
                     Back
                   </Button>
@@ -364,8 +484,7 @@ const LimitedEncryptionPanel = () => {
                     onClick={requestLimitedEncryption}
                     disabled={isEncrypting || !Password || !File}
                     variant="contained"
-                    color="primary"
-                    className={classes.button}
+                    className={classes.nextButton}
                     startIcon={
                       isEncrypting ? (
                         <CircularProgress
@@ -395,45 +514,48 @@ const LimitedEncryptionPanel = () => {
       </Stepper>
       {activeStep === 3 && (
         <Paper elevation={1} className={classes.resetContainer}>
-          <Alert variant="outlined" severity="success">
+          <Alert
+            variant="outlined"
+            severity="success"
+            style={{ border: "none" }}
+          >
             <AlertTitle>Success</AlertTitle>
             The file was successfully encrypted!
           </Alert>
 
-          <Grid>
-            <Button
-              onClick={handleEncryptedFileDownload}
-              color="primary"
-              className={classes.button}
-              variant="contained"
-              startIcon={<GetAppIcon />}
-              fullWidth
-            >
-              Download File
-            </Button>
-          </Grid>
-
           <Grid container spacing={1}>
-            <Grid item xs>
+            <Grid item xs={12} sm={12}>
+              <Button
+                onClick={handleEncryptedFileDownload}
+                className={classes.nextButton}
+                variant="contained"
+                startIcon={<GetAppIcon />}
+                fullWidth
+                style={{ textTransform: "none" }}
+              >
+                Download File
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={6}>
               <Button
                 onClick={() => {
                   navigator.clipboard.writeText(Password);
                 }}
                 className={classes.button}
-                variant="outlined"
                 startIcon={<FileCopyIcon />}
                 fullWidth
+                style={{ textTransform: "none" }}
               >
                 Decryption Password
               </Button>
             </Grid>
-            <Grid item xs>
+            <Grid item xs={12} sm={6}>
               <Button
                 onClick={handleReset}
                 className={classes.button}
-                variant="outlined"
                 startIcon={<RefreshIcon />}
                 fullWidth
+                style={{ textTransform: "none" }}
               >
                 Encrypt Another File
               </Button>

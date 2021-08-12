@@ -40,7 +40,7 @@ const _sodium = require("libsodium-wrappers");
   // console.log("sodium is ready to be used");
 
   addEventListener("message", (e) => {
-    // console.log(e.data)
+    // console.log(e.data);
 
     switch (e.data.cmd) {
       case "requestEncryption":
@@ -93,7 +93,7 @@ const _sodium = require("libsodium-wrappers");
     }
   });
 
-  const encKeyGenerator = (password, client) => {
+  let encKeyGenerator = (password, client) => {
     salt = sodium.randombytes_buf(sodium.crypto_pwhash_SALTBYTES);
     // console.log("salt", salt);
 
@@ -114,9 +114,8 @@ const _sodium = require("libsodium-wrappers");
   };
 
   const encryptFirstChunk = (chunk, last, client) => {
-
     if (!streamController) {
-      console.log("stream non existane");
+      console.log("stream does not exist");
     }
 
     streamController.enqueue(SIGNATURE);
@@ -127,19 +126,19 @@ const _sodium = require("libsodium-wrappers");
       ? sodium.crypto_secretstream_xchacha20poly1305_TAG_FINAL
       : sodium.crypto_secretstream_xchacha20poly1305_TAG_MESSAGE;
 
-    const encryptedChunk = sodium.crypto_secretstream_xchacha20poly1305_push(
+    let encryptedChunk = sodium.crypto_secretstream_xchacha20poly1305_push(
       state,
       new Uint8Array(chunk),
       null,
       tag
     );
-    // console.log(encryptedChunk);
+    // console.log("encrytped chunk", encryptedChunk);
 
     streamController.enqueue(new Uint8Array(encryptedChunk));
 
     if (last) {
       streamController.close();
-      // console.log('done');
+      // console.log("done encrypting");
       client.postMessage({ reply: "encryptionFinished" });
     }
 
@@ -153,19 +152,19 @@ const _sodium = require("libsodium-wrappers");
       ? sodium.crypto_secretstream_xchacha20poly1305_TAG_FINAL
       : sodium.crypto_secretstream_xchacha20poly1305_TAG_MESSAGE;
 
-    const encryptedChunk = sodium.crypto_secretstream_xchacha20poly1305_push(
+    let encryptedChunk = sodium.crypto_secretstream_xchacha20poly1305_push(
       state,
       new Uint8Array(chunk),
       null,
       tag
     );
-    // console.log(encryptedChunk);
+    // console.log("encryptedChunk", encryptedChunk);
 
     streamController.enqueue(encryptedChunk);
 
     if (last) {
       streamController.close();
-      // console.log('done');
+      // console.log("done encrypting");
       client.postMessage({ reply: "encryptionFinished" });
     }
 
@@ -201,23 +200,23 @@ const _sodium = require("libsodium-wrappers");
       );
 
       if (state_in) {
-        // console.log(decFileBuff);
-        // console.log(state_in);
+        // console.log("dec file buff", decFileBuff);
+        // console.log("state in", state_in);
 
         let decTestresults = sodium.crypto_secretstream_xchacha20poly1305_pull(
           state_in,
           new Uint8Array(decFileBuff)
         );
         if (decTestresults) {
-          // console.log('good key');
-          // console.log('ready to decrypt!');
+          // console.log("good key");
+          // console.log("ready to decrypt!");
           client.postMessage({ reply: "readyToDecrypt" });
         } else {
           client.postMessage({ reply: "wrongPassword" });
         }
       }
     } else {
-      // console.log('Bad file, or not encrypted using hat.sh V2');
+      // console.log("Bad file, or not encrypted using hat.sh V2");
       client.postMessage({ reply: "badFile" });
     }
   };
@@ -242,18 +241,19 @@ const _sodium = require("libsodium-wrappers");
       );
 
       if (state) {
+        // console.log("dec keys generated!");
         client.postMessage({ reply: "decKeysGenerated" });
       }
     } else {
-      // console.log('Bad file, or not encrypted using hat.sh V2');
+      // console.log("Bad file, or not encrypted using hat.sh V2");
       client.postMessage({ reply: "badFile" });
     }
   };
 
   const decryptChunks = (chunk, last, client) => {
-    // console.log(chunk);
-    // console.log(last);
-    // console.log(state);
+    // console.log("chunk", chunk);
+    // console.log("last:", last);
+    // console.log("state", state);
 
     let result = sodium.crypto_secretstream_xchacha20poly1305_pull(
       state,
@@ -261,17 +261,21 @@ const _sodium = require("libsodium-wrappers");
     );
 
     if (result) {
-      // console.log('good key');
+      // console.log("good key");
 
       let decryptedChunk = result.message;
-      // console.log(decryptedChunk);
+
+      // console.log("decrypted chunk", decryptedChunk);
+
       streamController.enqueue(new Uint8Array(decryptedChunk));
+
       if (last) {
         streamController.close();
+        // console.log("done decrypting");
         client.postMessage({ reply: "decryptionFinished" });
       }
       if (!last) {
-        // console.log('need to decrypt more');
+        // console.log("need to decrypt more");
         client.postMessage({ reply: "continueDecryption" });
       }
     } else {

@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDropzone } from "react-dropzone";
 import Grid from "@material-ui/core/Grid";
@@ -17,14 +17,12 @@ import { formatBytes } from "../../helpers/formatBytes";
 import {
   crypto_secretstream_xchacha20poly1305_ABYTES,
   MAX_FILE_SIZE,
-  SIGNATURE,
   CHUNK_SIZE,
   sigCode,
   decoder,
 } from "../../config/Constants";
 import Backdrop from "@material-ui/core/Backdrop";
 import { Alert, AlertTitle } from "@material-ui/lab";
-import LockOpenIcon from "@material-ui/icons/LockOpen";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import RefreshIcon from "@material-ui/icons/Refresh";
 const _sodium = require("libsodium-wrappers");
@@ -36,28 +34,107 @@ const useStyles = makeStyles((theme) => ({
   stepper: {
     backgroundColor: "transparent",
   },
+
+  stepIcon: {
+    "&$activeStepIcon": {
+      color: "#525252",
+    },
+    "&$completedStepIcon": {
+      color: "#525252",
+    },
+  },
+  activeStepIcon: {},
+  completedStepIcon: {},
+
   button: {
     marginTop: theme.spacing(1),
     marginRight: theme.spacing(1),
+    borderRadius: "8px",
+    border: "none",
+    color: "#3f3f3f",
+    backgroundColor: "#f3f3f3",
+    "&:hover": {
+      backgroundColor: "#e9e9e9",
+    },
+    transition: "background-color 0.2s ease-out",
+    transition: "color .01s",
+  },
+
+  browseButton: {
+    padding: 8,
+    paddingLeft: 15,
+    paddingRight: 15,
+    textTransform: "none",
+    borderRadius: "8px",
+    border: "none",
+    color: "#3f3f3f",
+    backgroundColor: "#e1e1e1",
+    "&:hover": {
+      backgroundColor: "#d2d2d2",
+    },
+    transition: "background-color 0.2s ease-out",
+    transition: "color .01s",
+  },
+
+  backButton: {
+    marginTop: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    borderRadius: "8px",
+    backgroundColor: "#e9e9e9",
+    transition: "color .01s",
+  },
+  nextButton: {
+    marginTop: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    borderRadius: "8px",
+    backgroundColor: "#464653",
+    color: "#fff",
+    "&:hover": {
+      backgroundColor: "#3f3f3f",
+    },
+    transition: "color .01s",
   },
   actionsContainer: {
     marginBottom: theme.spacing(2),
   },
   resetContainer: {
     padding: theme.spacing(3),
+    boxShadow: "rgba(149, 157, 165, 0.4) 0px 8px 24px",
+    borderRadius: "8px",
   },
 
   input: {
     display: "none",
   },
+
+  textFieldLabel: {
+    // this will be applied when input focused (label color change)
+    "&$textFieldLabelFocused": {
+      color: "#525252",
+    },
+  },
+  textFieldLabelFocused: {},
+
+  textFieldRoot: {
+    // this will be applied when hovered (input text color change)
+    "&:hover": {
+      color: "#525252",
+    },
+    // this will applied when hovered (input border color change)
+    "&:hover $textFieldNotchedOutline": {
+      borderColor: "#525252",
+    },
+    // this will be applied when focused (input border color change)
+    "&$textFieldFocused $textFieldNotchedOutline": {
+      borderColor: "#525252",
+    },
+  },
+  textFieldFocused: {},
+  textFieldNotchedOutline: {},
 }));
 
 let file,
-  limitedIndex,
-  limitedSalt,
-  limitedKey,
-  limitedState,
-  limitedHeader,
+
   limitedDecIndex,
   limitedTestDecFileBuff,
   limitedDecFileBuff;
@@ -103,7 +180,7 @@ const LimitedDecryptionPanel = () => {
     setWrongPassword(false);
     setbadFile(false);
     file = null;
-    limitedIndex = null;
+    limitedDecIndex = null;
   };
 
   const handleLimitedFileInput = (selectedFile) => {
@@ -346,7 +423,17 @@ const LimitedDecryptionPanel = () => {
         className={classes.stepper}
       >
         <Step key={1}>
-          <StepLabel>{"Choose a file to decrypt"}</StepLabel>
+          <StepLabel
+            StepIconProps={{
+              classes: {
+                root: classes.stepIcon,
+                active: classes.activeStepIcon,
+                completed: classes.completedStepIcon,
+              },
+            }}
+          >
+            {"Choose a file to decrypt"}
+          </StepLabel>
           <StepContent>
             <div className="wrapper p-3" id="encFileWrapper">
               <div className="file-area" id="encFileArea">
@@ -358,14 +445,14 @@ const LimitedDecryptionPanel = () => {
                 <input
                   {...getInputProps()}
                   className={classes.input}
-                  id="contained-button-file"
+                  id="dec-file"
                   type="file"
                   onChange={(e) => handleLimitedFileInput(e.target.files[0])}
                 />
-                <label htmlFor="contained-button-file">
+                <label htmlFor="dec-file">
                   <br />
                   <Button
-                    variant="contained"
+                    className={classes.browseButton}
                     component="span"
                     startIcon={<DescriptionIcon />}
                   >
@@ -380,9 +467,8 @@ const LimitedDecryptionPanel = () => {
                 <Button
                   disabled={!File}
                   variant="contained"
-                  color="primary"
                   onClick={handleNext}
-                  className={classes.button}
+                  className={classes.nextButton}
                   fullWidth
                 >
                   {"Next"}
@@ -399,7 +485,17 @@ const LimitedDecryptionPanel = () => {
         </Step>
 
         <Step key={2}>
-          <StepLabel>{"Enter the decryption password"}</StepLabel>
+          <StepLabel
+            StepIconProps={{
+              classes: {
+                root: classes.stepIcon,
+                active: classes.activeStepIcon,
+                completed: classes.completedStepIcon,
+              },
+            }}
+          >
+            {"Enter the decryption password"}
+          </StepLabel>
           <StepContent>
             <TextField
               required
@@ -416,6 +512,19 @@ const LimitedDecryptionPanel = () => {
               value={Password ? Password : ""}
               onChange={(e) => handlePasswordInput(e.target.value)}
               fullWidth
+              InputLabelProps={{
+                classes: {
+                  root: classes.textFieldLabel,
+                  focused: classes.textFieldLabelFocused,
+                },
+              }}
+              InputProps={{
+                classes: {
+                  root: classes.textFieldRoot,
+                  focused: classes.textFieldFocused,
+                  notchedOutline: classes.textFieldNotchedOutline,
+                },
+              }}
             />
 
             <div className={classes.actionsContainer}>
@@ -423,10 +532,9 @@ const LimitedDecryptionPanel = () => {
                 <Grid container spacing={1}>
                   <Grid item>
                     <Button
-                      variant="outlined"
                       disabled={activeStep === 0}
                       onClick={handleBack}
-                      className={classes.button}
+                      className={classes.backButton}
                       fullWidth
                     >
                       Back
@@ -436,9 +544,8 @@ const LimitedDecryptionPanel = () => {
                     <Button
                       disabled={isTestingPassword || isDecrypting || !Password}
                       variant="contained"
-                      color="primary"
                       onClick={testLimitedDecryption}
-                      className={classes.button}
+                      className={classes.nextButton}
                       startIcon={
                         (isTestingPassword || isDecrypting) && (
                           <CircularProgress
@@ -477,43 +584,60 @@ const LimitedDecryptionPanel = () => {
         </Step>
 
         <Step key={3}>
-          <StepLabel>{"Download decrypted file"}</StepLabel>
-          <StepContent>
-            <Paper elevation={1} className={classes.resetContainer}>
-              <Alert variant="outlined" severity="success">
-                <AlertTitle>Success</AlertTitle>
-                The file was successfully Decrypted!
-              </Alert>
-
-              <Grid container spacing={1} style={{ marginTop: 5 }}>
-                <Grid item xs>
-                  <Button
-                    onClick={handleDecryptedFileDownload}
-                    color="primary"
-                    className={classes.button}
-                    variant="contained"
-                    startIcon={<GetAppIcon />}
-                    fullWidth
-                  >
-                    Download File
-                  </Button>
-                </Grid>
-                <Grid item xs>
-                  <Button
-                    onClick={handleReset}
-                    className={classes.button}
-                    variant="outlined"
-                    startIcon={<RefreshIcon />}
-                    fullWidth
-                  >
-                    Decrypt Another File
-                  </Button>
-                </Grid>
-              </Grid>
-            </Paper>
-          </StepContent>
+          <StepLabel
+            StepIconProps={{
+              classes: {
+                root: classes.stepIcon,
+                active: classes.activeStepIcon,
+                completed: classes.completedStepIcon,
+              },
+            }}
+          >
+            {"Download decrypted file"}
+          </StepLabel>
         </Step>
       </Stepper>
+
+      {activeStep === 2 && (
+        <Paper elevation={1} className={classes.resetContainer}>
+          <Alert
+            variant="outlined"
+            severity="success"
+            style={{ border: "none" }}
+          >
+            <AlertTitle>Success</AlertTitle>
+            The file was successfully Decrypted!
+          </Alert>
+
+          <Grid container spacing={1} style={{ marginTop: 5 }}>
+            <Grid item xs={12}>
+              <Button
+                onClick={handleDecryptedFileDownload}
+                color="primary"
+                className={classes.nextButton}
+                variant="contained"
+                startIcon={<GetAppIcon />}
+                fullWidth
+                style={{ textTransform: "none" }}
+              >
+                Download File
+              </Button>
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                onClick={handleReset}
+                className={classes.button}
+                variant="outlined"
+                startIcon={<RefreshIcon />}
+                fullWidth
+                style={{ textTransform: "none" }}
+              >
+                Decrypt Another File
+              </Button>
+            </Grid>
+          </Grid>
+        </Paper>
+      )}
     </div>
   );
 };

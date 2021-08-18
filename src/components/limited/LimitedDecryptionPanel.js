@@ -14,6 +14,7 @@ import DescriptionIcon from "@material-ui/icons/Description";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import TextField from "@material-ui/core/TextField";
 import { formatBytes } from "../../helpers/formatBytes";
+import { formatName } from "../../helpers/formatName";
 import {
   crypto_secretstream_xchacha20poly1305_ABYTES,
   MAX_FILE_SIZE,
@@ -133,11 +134,7 @@ const useStyles = makeStyles((theme) => ({
   textFieldNotchedOutline: {},
 }));
 
-let file,
-
-  limitedDecIndex,
-  limitedTestDecFileBuff,
-  limitedDecFileBuff;
+let file, limitedDecIndex, limitedTestDecFileBuff, limitedDecFileBuff;
 
 const LimitedDecryptionPanel = () => {
   const classes = useStyles();
@@ -387,7 +384,7 @@ const LimitedDecryptionPanel = () => {
   };
 
   const handleDecryptedFileDownload = () => {
-    let fileName = File.name.slice(0, -4);
+    let fileName = formatName(File.name);
 
     let blob = new Blob(limitedDecFileBuff);
 

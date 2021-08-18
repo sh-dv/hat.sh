@@ -23,7 +23,7 @@ this beta version demonstrates memory efficient large file chunked encryption us
 
 
 
-## What's new
+## What's new in v2
 
 - switching to xchacha20poly1305 for symmetric stream encryption and Argon2id for password-based key derivation. instead of AES-256-GCM and PBKDF2.
 - using the libsodium library for all cryptography instead of the WebCryptoApi.
@@ -63,6 +63,7 @@ should be running on http://localhost:3000
 ## Browser Compatibility
 - check out [service-worker fetch event compatibility.](https://developer.mozilla.org/en-US/docs/Web/API/FetchEvent)
 - Safari and Mobile Broswers are supported but with a file size limitation (File Size up to 1GB)
+
 
 
 

@@ -28,9 +28,8 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {},
   drawer: {
-    [theme.breakpoints.up("sm")]: {
-      width: drawerWidth,
-      flexShrink: 0,
+    [theme.breakpoints.down("lg")]: {
+      display: "none",
     },
   },
   appBar: {
@@ -53,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("xl")]: {
       display: "none",
     },
   },
@@ -220,9 +219,12 @@ export default function About(props) {
                 </a>
               </Link>
             </Typography>
-            <Button color="inherit" href="/" className={classes.button}>
-              home
-            </Button>
+            
+            <Link href="/" passHref>
+              <Button color="inherit" className={classes.button}>
+                home
+              </Button>
+            </Link>
             <Button
               color="inherit"
               href="https://hat.sh"

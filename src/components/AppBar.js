@@ -40,9 +40,13 @@ export default function NavAppBar() {
               </Link>
               <VersionBadge />
             </Typography>
-            <Button color="inherit" href="/about" className={classes.button}>
-              about
-            </Button>
+            
+            <Link href="/about" passHref>
+              <Button color="inherit" className={classes.button}>
+                about
+              </Button>
+            </Link>
+
             <Button
               color="inherit"
               href="https://hat.sh"

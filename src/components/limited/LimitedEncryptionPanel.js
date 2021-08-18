@@ -21,6 +21,9 @@ import { Alert, AlertTitle } from "@material-ui/lab";
 import Backdrop from "@material-ui/core/Backdrop";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { MAX_FILE_SIZE, SIGNATURE, CHUNK_SIZE } from "../../config/Constants";
+import IconButton from "@material-ui/core/IconButton";
+import CachedIcon from "@material-ui/icons/Cached";
+import Tooltip from '@material-ui/core/Tooltip';
 
 const _sodium = require("libsodium-wrappers");
 
@@ -176,6 +179,13 @@ const LimitedEncryptionPanel = () => {
     limitedEncFileBuff = null;
     limitedIndex = null;
   };
+
+  const generatedPassword = async () => {
+    await _sodium.ready;
+    const sodium = _sodium;
+    let gPassword = sodium.to_base64(sodium.randombytes_buf(16), sodium.base64_variants.URLSAFE_NO_PADDING);
+    setPassword(gPassword);
+  }
 
   const handleLimitedFileInput = (selectedFile) => {
     file = selectedFile;
@@ -417,6 +427,13 @@ const LimitedEncryptionPanel = () => {
                   focused: classes.textFieldFocused,
                   notchedOutline: classes.textFieldNotchedOutline,
                 },
+                endAdornment: (
+                  <Tooltip title="Generate Password" placement="top">
+                    <IconButton onClick={generatedPassword}>
+                      <CachedIcon />
+                    </IconButton>
+                  </Tooltip>
+                ),
               }}
             />
 

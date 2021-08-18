@@ -9,8 +9,8 @@ const IdleTimerContainer = () => {
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const idleTimerRef = useRef(null);
   const onIdle = () => {
+    // console.log("user is idle");
     setSnackBarOpen(true);
-    console.log("user is idle");
   };
 
   return (

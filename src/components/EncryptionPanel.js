@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState, useEffect } from "react";
+
 import { makeStyles } from "@material-ui/core/styles";
 import { useDropzone } from "react-dropzone";
 import Grid from "@material-ui/core/Grid";
@@ -22,6 +23,10 @@ import Backdrop from "@material-ui/core/Backdrop";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { CHUNK_SIZE } from "../config/Constants";
 import IdleTimerContainer from "./IdleTimerContainer";
+import IconButton from "@material-ui/core/IconButton";
+import CachedIcon from "@material-ui/icons/Cached";
+import Tooltip from '@material-ui/core/Tooltip';
+import { generatePassword } from "../utils/generatePassword";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -166,6 +171,11 @@ export default function EncryptionPanel() {
     file = null;
     index = null;
   };
+
+  const generatedPassword = async () => {
+    let generated = await generatePassword();
+    setPassword(generated);
+  }
 
   const handleFileInput = (selectedFile) => {
     file = selectedFile;
@@ -362,6 +372,14 @@ export default function EncryptionPanel() {
                   focused: classes.textFieldFocused,
                   notchedOutline: classes.textFieldNotchedOutline,
                 },
+
+                endAdornment: (
+                  <Tooltip title="Generate Password" placement="top">
+                    <IconButton onClick={generatedPassword}>
+                      <CachedIcon />
+                    </IconButton>
+                  </Tooltip>
+                ),
               }}
             />
 

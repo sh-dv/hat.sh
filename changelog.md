@@ -1,4 +1,4 @@
-##V2.0.6
+## V2.0.6
 
 - Fix file name bug in decryption download.
 - Implementing the password strength checker using zxcvbn.
@@ -9,7 +9,7 @@
 - Update node.js to the newest version.
 - Adding the changelog file to github.
 
-##V2.0.5
+## V2.0.5
 
 - Fix critical bug with useEffect that leads to increased file output size.
 - Programming the markdown file parser for the hat.sh documentation.
@@ -20,12 +20,12 @@
 - Adding an emoji on the homepage.
 - Removal of extra code comments.
 
-##V2.0.4
+## V2.0.4
 - Code review.
 - Removal of unwanted lines of code.
 - Comments cleanup.
 
-##V2.0.3
+## V2.0.3
 
 - Bug fixes.
 - Changing the whole UI design.
@@ -34,14 +34,14 @@
 - Implementing a Stepper like design where the user has to go through steps to finish the encrpytion/decryption.
 - Safari and Mobile users are now limited to 1GB file.
 
-##V2.0.2
+## V2.0.2
 - A lot of bug fixes and code cleaning.
 - Adding support to Safari and Mobile browsers.
 
-##V2.0.1
+## V2.0.1
 - bug fixes.
 - Switching to React (next) instead of vanilla javascript.
 
-##V2.0.0
+## V2.0.0
 
 - The birth of hat.sh v2 beta where it introduced in-browser memory efficient large file chunked encryption using streams with libsodium.js and switchinh to xchacha20poly1305 and argon2id.

@@ -1,11 +1,10 @@
 # [Introduction](#introduction)
 ---
 
- hat.sh is a free opensource web app that provides secure file encryption in the browser. 
+ Hat.sh is a free opensource web app that provides secure file encryption in the browser. 
+
+
 <br>
-
-
-
 
 # [Features](#features)
 ---
@@ -48,7 +47,7 @@ git clone --branch v2-beta https://github.com/sh-dv/hat.sh.git hat.sh-v2-beta
 
 <br>
 
-go to the app directory
+Go to the app directory
 
 ```bash
 cd hat.sh-v2-beta or [app directory]
@@ -56,7 +55,7 @@ cd hat.sh-v2-beta or [app directory]
 
 <br>
 
-open terminal and install the packages
+Open terminal and install the packages
 
 ```bash
 npm install
@@ -64,7 +63,7 @@ npm install
 
 <br>
 
-run the app in dev mode
+Run the app in dev mode
 
 ```bash
 npm run dev
@@ -72,12 +71,12 @@ npm run dev
 
 <br>
 
-the app should be running on https://localhost:3000
+The app should be running on https://localhost:3000
 
 
 <br>
 
-if you wish to build and export the app. run :
+If you wish to build and export the app. run :
 
 ```bash
 npm run build
@@ -90,7 +89,7 @@ npm run build
 
 ### File Encryption
 
-1. open hat.sh
+1. Open hat.sh
 2. Navigate to the Encryption panel
 3. Drag & Drop or Select the file that you wish to encrypt
 4. Enter the encryption password
@@ -98,11 +97,11 @@ npm run build
 
 >You should always use a strong password!
 
-<br>
+
 
 ### File Decryption
 
-1. open hat.sh
+1. Open hat.sh
 2. Navigate to the Decryption panel
 3. Drag & Drop or Select the file that you wish to decrypt
 4. Enter the decryption password
@@ -134,7 +133,9 @@ Safari and Mobile browsers are limited to a file size of 1GB due to some issues 
 ---
 
 ### Choosing Passwords
-The majority of individuals struggle to create and remember passwords, resulting in weak passwords and password reuse. Password-based encryption is substantially less safe as a result of these improper practices. That's why it is recommended to use a password manager like [Bitwarden](https://bitwarden.com/), where you are able to generate and store a safe password.
+The majority of individuals struggle to create and remember passwords, resulting in weak passwords and password reuse. Password-based encryption is substantially less safe as a result of these improper practices. That's why it is recommended to use a password manager like [Bitwarden](https://bitwarden.com/), where you are able to generate and store a safe password.  
+
+<br>
 
 If you want to choose a password that you are able to memorize then you should type a passphrase made of 8 words or more.
 
@@ -200,10 +201,10 @@ Please report bugs via GitHub by opening an issue.
 
 ### Why should I use hat.sh?
 
-1. the app uses fast modern secure cryptographic algorithms.
-2. it's super fast and easy to use.
-3. it runs in the browser, no need to setup or install anything.
-4. it's free opensource software and can be self hosted.
+1. The app uses fast modern secure cryptographic algorithms.
+2. It's super fast and easy to use.
+3. It runs in the browser, no need to setup or install anything.
+4. It's free opensource software and can be self hosted.
 
 <hr style="height: 1px">
 

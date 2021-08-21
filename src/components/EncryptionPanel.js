@@ -27,6 +27,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CachedIcon from "@material-ui/icons/Cached";
 import Tooltip from '@material-ui/core/Tooltip';
 import { generatePassword } from "../utils/generatePassword";
+import passwordStrengthCheck from "../helpers/passwordStrengthCheck";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -138,12 +139,14 @@ let file, index;
 
 export default function EncryptionPanel() {
   const classes = useStyles();
-
+  
   const [activeStep, setActiveStep] = useState(0);
 
   const [File, setFile] = useState();
 
   const [Password, setPassword] = useState();
+
+  
 
   const [isDownloading, setIsDownloading] = useState(false);
 
@@ -176,6 +179,7 @@ export default function EncryptionPanel() {
     let generated = await generatePassword();
     setPassword(generated);
   }
+
 
   const handleFileInput = (selectedFile) => {
     file = selectedFile;
@@ -355,7 +359,7 @@ export default function EncryptionPanel() {
               id="outlined-required"
               label="Required"
               placeholder="Password"
-              helperText="Choose a strong Password"
+              helperText={Password ? "Password strength: " + passwordStrengthCheck(Password) : "Choose a strong Password"}
               variant="outlined"
               value={Password ? Password : ""}
               onChange={(e) => handlePasswordInput(e.target.value)}
@@ -507,7 +511,7 @@ export default function EncryptionPanel() {
                 fullWidth
                 style={{ textTransform: "none" }}
               >
-                Decryption Password
+                Copy Password
               </Button>
             </Grid>
             <Grid item xs={12} sm={6}>

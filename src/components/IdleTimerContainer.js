@@ -35,7 +35,7 @@ const IdleTimerContainer = () => {
             </Button>
           }
         >
-          Idle timeout alert — refresh page!
+          Session timeout due to inactivity — Please reload page
         </Alert>
       </Snackbar>
     </>

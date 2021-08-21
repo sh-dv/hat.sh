@@ -68,24 +68,26 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "20px",
 
     "& h1": {
-      marginTop: 60,
+      marginTop: 20,
       color: "#3f3f3f",
-      fontSize: "30px",
-      background: "#ebebeb",
-      padding: 15,
       borderRadius: "8px",
+      paddingBottom: 15,
     "& a": {
       textDecoration: "none",
       fontWeight: "bold",
+      fontSize: 40,
+      letterSpacing: "1px",
+      borderBottom: "1px solid #000",
+      
     }
     },
 
     "& h3": {
       color: "#3f3f3f",
-      fontSize: "20px",
-      padding: 15,
+      fontSize: "24px",
       paddingTop: 20,
       paddingBottom: 20,
+      fontWeight: "700",
     },
 
     "& a": {
@@ -93,8 +95,20 @@ const useStyles = makeStyles((theme) => ({
     },
 
     "& p": {
-      fontSize: "16px",
-      padding: 15
+      fontSize: "17px",
+      color: "#3f3f3f",
+      lineHeight: 2,
+    },
+
+    "& li": {
+      padding: 2.5,
+      fontSize: "18px",
+      color: "#3f3f3f",
+      "& a": {
+      textDecoration: "none",
+      letterSpacing: "0.5px",
+      borderBottom: "1px solid #000",
+      }
     },
 
     "& hr": {
@@ -102,7 +116,7 @@ const useStyles = makeStyles((theme) => ({
       border: "none",
       height: "1.5px",
       marginTop: 20,
-      marginBottom: 40,
+      marginBottom: 30,
     },
 
     "& ul": {
@@ -118,24 +132,26 @@ const useStyles = makeStyles((theme) => ({
     },
 
     "& pre": {
-      background: "#24343c",
+      background: "#f1f1f1",
       padding: "13px",
       margin: "20px 0",
       lineHeight: "2.3",
-      whiteSpace: "pre-wrap",
-      wordWrap: "break-word",
-      color: "#82aaff",
-      borderRadius: "8px",
+      fontSize: "16px",
+      color: "#1f1f1f",
+      borderRadius: "3px",
+      overflow: "auto",
     },
 
     "& blockquote": {
+      backgroundColor: "#f1f1f1",
       marginTop: "15px",
       color: "#535a60",
-      padding: ".8em .8em .8em 1em",
       borderLeft: "5px solid #c8ccd0",
+      marginBottom: 20,
       "& p": {
-        padding: 0,
-      }
+        padding: 10,
+      },
+      
     },
   },
 }));

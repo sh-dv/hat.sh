@@ -25,6 +25,10 @@ import LockOpenIcon from "@material-ui/icons/LockOpen";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import IdleTimerContainer from "./IdleTimerContainer";
+import IconButton from "@material-ui/core/IconButton";
+import Tooltip from '@material-ui/core/Tooltip';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -143,6 +147,8 @@ export default function DecryptionPanel() {
   const [wrongPassword, setWrongPassword] = useState(false);
 
   const [isTestingPassword, setIsTestingPassword] = useState(false);
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const [isDownloading, setIsDownloading] = useState(false);
 
@@ -418,6 +424,7 @@ export default function DecryptionPanel() {
           <StepContent>
             <TextField
               required
+              type={showPassword ? "text" : "password"}
               error={wrongPassword ? true : false}
               id={
                 wrongPassword
@@ -443,6 +450,13 @@ export default function DecryptionPanel() {
                   focused: classes.textFieldFocused,
                   notchedOutline: classes.textFieldNotchedOutline,
                 },
+                endAdornment: (
+                  <Tooltip title="Show Password" placement="top">
+                    <IconButton onClick={() => setShowPassword(!showPassword)}>
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </Tooltip>
+                ),
               }}
             />
 

@@ -24,6 +24,8 @@ import { MAX_FILE_SIZE, SIGNATURE, CHUNK_SIZE } from "../../config/Constants";
 import IconButton from "@material-ui/core/IconButton";
 import CachedIcon from "@material-ui/icons/Cached";
 import Tooltip from '@material-ui/core/Tooltip';
+import passwordStrengthCheck from "../../helpers/passwordStrengthCheck";
+
 
 const _sodium = require("libsodium-wrappers");
 
@@ -410,7 +412,7 @@ const LimitedEncryptionPanel = () => {
               id="outlined-required"
               label="Required"
               placeholder="Password"
-              helperText="Choose a strong Password"
+              helperText={Password ? "Password strength: " + passwordStrengthCheck(Password) : "Choose a strong Password"}
               variant="outlined"
               value={Password ? Password : ""}
               onChange={(e) => handlePasswordInput(e.target.value)}
@@ -563,7 +565,7 @@ const LimitedEncryptionPanel = () => {
                 fullWidth
                 style={{ textTransform: "none" }}
               >
-                Decryption Password
+                Copy Password
               </Button>
             </Grid>
             <Grid item xs={12} sm={6}>

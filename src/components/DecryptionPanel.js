@@ -26,9 +26,9 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import IdleTimerContainer from "./IdleTimerContainer";
 import IconButton from "@material-ui/core/IconButton";
-import Tooltip from '@material-ui/core/Tooltip';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import Tooltip from "@material-ui/core/Tooltip";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -144,6 +144,9 @@ export default function DecryptionPanel() {
   const [Password, setPassword] = useState();
 
   const [badFile, setbadFile] = useState(false);
+
+  const [oldVersion, setOldVersion] = useState(false);
+
   const [wrongPassword, setWrongPassword] = useState(false);
 
   const [isTestingPassword, setIsTestingPassword] = useState(false);
@@ -169,6 +172,7 @@ export default function DecryptionPanel() {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
     setWrongPassword(false);
     setbadFile(false);
+    setOldVersion(false);
   };
 
   const handleReset = () => {
@@ -177,6 +181,7 @@ export default function DecryptionPanel() {
     setPassword();
     setWrongPassword(false);
     setbadFile(false);
+    setOldVersion(false);
     file = null;
     index = null;
   };
@@ -220,7 +225,6 @@ export default function DecryptionPanel() {
   };
 
   const handleDecryptedFileDownload = (e) => {
-    
     e.target.setAttribute("href", "/file?name=" + formatName(file.name));
     setIsDownloading(true);
     navigator.serviceWorker.ready.then((reg) => {
@@ -302,6 +306,11 @@ export default function DecryptionPanel() {
 
         case "badFile":
           setbadFile(true);
+          setIsTestingPassword(false);
+          break;
+
+        case "oldVersion":
+          setOldVersion(true);
           setIsTestingPassword(false);
           break;
 
@@ -497,8 +506,15 @@ export default function DecryptionPanel() {
 
                 {badFile && (
                   <Alert severity="error">
-                    This file was not encrypted using hat.sh v2 or the file may
-                    be corrupted!
+                    This file was not encrypted using hat.sh or the file may be
+                    corrupted!
+                  </Alert>
+                )}
+
+                {oldVersion && (
+                  <Alert severity="error">
+                    This file was encrypted using an old version of hat.sh, you
+                    can decrypt this file by visiting the v1 page.
                   </Alert>
                 )}
               </div>

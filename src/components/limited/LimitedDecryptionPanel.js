@@ -19,7 +19,7 @@ import {
   crypto_secretstream_xchacha20poly1305_ABYTES,
   MAX_FILE_SIZE,
   CHUNK_SIZE,
-  sigCode,
+  sigCodes,
   decoder,
 } from "../../config/Constants";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -27,10 +27,9 @@ import { Alert, AlertTitle } from "@material-ui/lab";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import IconButton from "@material-ui/core/IconButton";
-import Tooltip from '@material-ui/core/Tooltip';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-
+import Tooltip from "@material-ui/core/Tooltip";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 const _sodium = require("libsodium-wrappers");
 
@@ -152,11 +151,14 @@ const LimitedDecryptionPanel = () => {
   const [Password, setPassword] = useState();
 
   const [badFile, setbadFile] = useState(false);
+
+  const [oldVersion, setOldVersion] = useState(false);
+
   const [wrongPassword, setWrongPassword] = useState(false);
 
   const [isTestingPassword, setIsTestingPassword] = useState(false);
   const [isDecrypting, setIsDecrypting] = useState(false);
-  
+
   const [showPassword, setShowPassword] = useState(false);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -176,6 +178,7 @@ const LimitedDecryptionPanel = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
     setWrongPassword(false);
     setbadFile(false);
+    setOldVersion(false);
   };
 
   const handleReset = () => {
@@ -184,6 +187,7 @@ const LimitedDecryptionPanel = () => {
     setPassword();
     setWrongPassword(false);
     setbadFile(false);
+    setOldVersion(false);
     file = null;
     limitedDecIndex = null;
   };
@@ -233,7 +237,7 @@ const LimitedDecryptionPanel = () => {
       ]) => {
         limitedTestDecFileBuff = limitedTestChunk; //for testing the dec password
 
-        if (decoder.decode(limitedTestSignature) === sigCode) {
+        if (decoder.decode(limitedTestSignature) === sigCodes["v2"]) {
           let decLimitedTestsalt = new Uint8Array(limitedTestSalt);
           let decLimitedTestheader = new Uint8Array(limitedTestHeader);
 
@@ -274,6 +278,11 @@ const LimitedDecryptionPanel = () => {
               setWrongPassword(true);
             }
           }
+        } else if (
+          decoder.decode(limitedTestSignature) === sigCodes["v1"].slice(0, 11)
+        ) {
+          setIsTestingPassword(false);
+          setOldVersion(true);
         } else {
           setIsTestingPassword(false);
           setbadFile(true);
@@ -288,7 +297,7 @@ const LimitedDecryptionPanel = () => {
 
     file = File;
 
-    if (decoder.decode(signautre) === sigCode) {
+    if (decoder.decode(signautre) === sigCodes["v2"]) {
       let limitedDecSalt = new Uint8Array(salt);
       let limitedDecHeader = new Uint8Array(header);
 
@@ -313,7 +322,7 @@ const LimitedDecryptionPanel = () => {
         startLimitedDecryption(limitedDecState);
       }
     } else {
-      badLimitedFile();
+      setbadFile(true);
     }
   };
 
@@ -581,8 +590,15 @@ const LimitedDecryptionPanel = () => {
 
                 {badFile && (
                   <Alert severity="error">
-                    This file was not encrypted using hat.sh v2 or the file may
-                    be corrupted!
+                    This file was not encrypted using hat.sh or the file may be
+                    corrupted!
+                  </Alert>
+                )}
+
+                {oldVersion && (
+                  <Alert severity="error">
+                    This file was encrypted using an old version of hat.sh, you
+                    can decrypt this file by visiting the v1 page.
                   </Alert>
                 )}
 

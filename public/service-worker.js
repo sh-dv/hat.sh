@@ -27207,8 +27207,11 @@ let streamController, theKey;
 const APP_URL = "http://localhost:3000" + "/file";
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
-const sigCode = "zDKO6XYXioc";
-const SIGNATURE = new Uint8Array(encoder.encode(sigCode));
+const sigCodes = {
+  v1: "Encrypted Using Hat.sh",
+  v2: "zDKO6XYXioc",
+};
+const SIGNATURE = new Uint8Array(encoder.encode(sigCodes["v2"]));
 
 let state, header, salt;
 
@@ -27379,7 +27382,7 @@ const _sodium = require("libsodium-wrappers");
     decFileBuff,
     client
   ) => {
-    if (decoder.decode(signature) === sigCode) {
+    if (decoder.decode(signature) === sigCodes["v2"]) {
       let decTestsalt = new Uint8Array(salt);
       let decTestheader = new Uint8Array(header);
 
@@ -27413,6 +27416,9 @@ const _sodium = require("libsodium-wrappers");
           client.postMessage({ reply: "wrongPassword" });
         }
       }
+    } else if (decoder.decode(signature) === sigCodes["v1"].slice(0, 11)) {
+      // console.log("old verion!")
+      client.postMessage({ reply: "oldVersion" });
     } else {
       // console.log("Bad file, or not encrypted using hat.sh V2");
       client.postMessage({ reply: "badFile" });
@@ -27420,7 +27426,7 @@ const _sodium = require("libsodium-wrappers");
   };
 
   const decKeyGenerator = (password, signature, salt, header, client) => {
-    if (decoder.decode(signature) === sigCode) {
+    if (decoder.decode(signature) === sigCodes["v2"]) {
       salt = new Uint8Array(salt);
       header = new Uint8Array(header);
 

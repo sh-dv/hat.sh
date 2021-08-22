@@ -24,7 +24,7 @@ import { MAX_FILE_SIZE, SIGNATURE, CHUNK_SIZE } from "../../config/Constants";
 import IconButton from "@material-ui/core/IconButton";
 import CachedIcon from "@material-ui/icons/Cached";
 import Tooltip from '@material-ui/core/Tooltip';
-import passwordStrengthCheck from "../../helpers/passwordStrengthCheck";
+import passwordStrengthCheck from "../../utils/passwordStrengthCheck";
 
 
 const _sodium = require("libsodium-wrappers");

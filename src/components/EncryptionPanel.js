@@ -27,7 +27,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CachedIcon from "@material-ui/icons/Cached";
 import Tooltip from '@material-ui/core/Tooltip';
 import { generatePassword } from "../utils/generatePassword";
-import passwordStrengthCheck from "../helpers/passwordStrengthCheck";
+import passwordStrengthCheck from "../utils/passwordStrengthCheck";
 
 const useStyles = makeStyles((theme) => ({
   root: {

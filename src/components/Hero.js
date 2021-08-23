@@ -33,7 +33,7 @@ export default function Hero() {
         component="p"
         className={classes.heroSubTitle}
       >
-        A free, fast, secure client-side file encryption
+        simple, fast, secure client-side file encryption
         <br />
         <WhatsNew />
       </Typography>

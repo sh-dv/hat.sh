@@ -22,7 +22,6 @@ import { Alert, AlertTitle } from "@material-ui/lab";
 import Backdrop from "@material-ui/core/Backdrop";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { CHUNK_SIZE } from "../config/Constants";
-import IdleTimerContainer from "./IdleTimerContainer";
 import IconButton from "@material-ui/core/IconButton";
 import CachedIcon from "@material-ui/icons/Cached";
 import Tooltip from '@material-ui/core/Tooltip';
@@ -137,7 +136,7 @@ const useStyles = makeStyles((theme) => ({
 
 let file, index;
 
-export default function EncryptionPanel() {
+export default function EncryptionPanel(props) {
   const classes = useStyles();
   
   const [activeStep, setActiveStep] = useState(0);
@@ -147,8 +146,11 @@ export default function EncryptionPanel() {
   const [Password, setPassword] = useState();
 
   
-
   const [isDownloading, setIsDownloading] = useState(false);
+
+  const {isEncrypting, changeIsEncrypting} = props;
+  
+  (isDownloading) ? changeIsEncrypting(true) : changeIsEncrypting(false)
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: (acceptedFile) => {
@@ -529,8 +531,7 @@ export default function EncryptionPanel() {
           </Grid>
         </Paper>
       )}
-
-      {!isDownloading && <IdleTimerContainer />}
+      
     </div>
   );
 }

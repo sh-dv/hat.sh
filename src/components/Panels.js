@@ -7,6 +7,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import EncryptionPanel from "./EncryptionPanel";
 import DecryptionPanel from "./DecryptionPanel";
+import { IdleTimerContainer } from "./IdleTimer";
 
 const StyledTabs = withStyles({
   indicator: {
@@ -77,6 +78,17 @@ export default function CustomizedTabs() {
   const classes = useStyles();
   const [value, setValue] = useState(0);
 
+  const [encryptingState, setIsEncryptingState] = useState(false);
+  const [decryptingState, setIsDecryptingState] = useState(false);
+
+  const changeIsEncrypting = (state) => {
+    setIsEncryptingState(state);
+  }
+
+  const changeIsDecrypting = (state) => {
+    setIsDecryptingState(state);
+  }
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -97,12 +109,13 @@ export default function CustomizedTabs() {
         </AppBar>
 
         <TabPanel value={value} index={0} className={classes.TabPanel}>
-          <EncryptionPanel />
+          <EncryptionPanel isEncrypting={encryptingState} changeIsEncrypting={changeIsEncrypting}/>
         </TabPanel>
         <TabPanel value={value} index={1} className={classes.TabPanel}>
-          <DecryptionPanel />
+          <DecryptionPanel isDecrypting={decryptingState} changeIsDecrypting={changeIsDecrypting}/>
         </TabPanel>
       </Container>
+      {(!encryptingState && !decryptingState) && <IdleTimerContainer />}
     </>
   );
 }

@@ -24,7 +24,6 @@ import { Alert, AlertTitle } from "@material-ui/lab";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import RefreshIcon from "@material-ui/icons/Refresh";
-import IdleTimerContainer from "./IdleTimerContainer";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import Visibility from "@material-ui/icons/Visibility";
@@ -135,7 +134,7 @@ const useStyles = makeStyles((theme) => ({
 
 let file, index, decFileBuff;
 
-export default function DecryptionPanel() {
+export default function DecryptionPanel(props) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
 
@@ -154,6 +153,10 @@ export default function DecryptionPanel() {
   const [showPassword, setShowPassword] = useState(false);
 
   const [isDownloading, setIsDownloading] = useState(false);
+
+  const {isDecrypting, changeIsDecrypting} = props;
+  
+  (isDownloading) ? changeIsDecrypting(true) : changeIsDecrypting(false)
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: (acceptedFile) => {
@@ -617,7 +620,6 @@ export default function DecryptionPanel() {
         </Paper>
       )}
 
-      {(!isDownloading || isTestingPassword) && <IdleTimerContainer />}
     </div>
   );
 }

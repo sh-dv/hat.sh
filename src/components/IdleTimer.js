@@ -5,9 +5,10 @@ import Button from "@material-ui/core/Button";
 import { Alert } from "@material-ui/lab";
 import RefreshIcon from "@material-ui/icons/Refresh";
 
-const IdleTimerContainer = () => {
+export const IdleTimerContainer = () => {
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const idleTimerRef = useRef(null);
+
   const onIdle = () => {
     // console.log("user is idle");
     setSnackBarOpen(true);
@@ -15,7 +16,16 @@ const IdleTimerContainer = () => {
 
   return (
     <>
-      <IdleTimer ref={idleTimerRef} onIdle={onIdle} timeout={30 * 1000} />
+      <IdleTimer
+        ref={idleTimerRef}
+        onIdle={onIdle}
+        timeout={30 * 1000}
+        crossTab={{
+          type: undefined,
+          channelName: "idle-timer",
+          emitOnAllTabs: true
+        }}
+      />
       <Snackbar
         anchorOrigin={{
           vertical: "bottom",
@@ -41,5 +51,3 @@ const IdleTimerContainer = () => {
     </>
   );
 };
-
-export default IdleTimerContainer;

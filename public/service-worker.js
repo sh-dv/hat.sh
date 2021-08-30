@@ -27203,7 +27203,6 @@ self.addEventListener("activate", (event) =>
   event.waitUntil(self.clients.claim())
 );
 
-let streamController, theKey;
 const APP_URL = "http://localhost:3000" + "/file";
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
@@ -27213,12 +27212,17 @@ const sigCodes = {
 };
 const SIGNATURE = new Uint8Array(encoder.encode(sigCodes["v2"]));
 
-let state, header, salt;
+let streamController, theKey, state, header, salt;
+
+// decode base64 url
+function b64_to_utf8(str) {
+  return decodeURIComponent(escape(atob(str)));
+}
 
 self.addEventListener("fetch", (e) => {
   // console.log(e); // log fetch event
   if (e.request.url.startsWith(APP_URL)) {
-    const filename = e.request.url.split("?name=")[1];
+    const filename = b64_to_utf8(e.request.url.split("?name=")[1]);
     const stream = new ReadableStream({
       start(controller) {
         streamController = controller;
@@ -27299,7 +27303,7 @@ const _sodium = require("libsodium-wrappers");
     // console.log("salt", salt);
 
     theKey = sodium.crypto_pwhash(
-      32,
+      sodium.crypto_secretstream_xchacha20poly1305_KEYBYTES,
       password,
       salt,
       sodium.crypto_pwhash_OPSLIMIT_INTERACTIVE,
@@ -27387,7 +27391,7 @@ const _sodium = require("libsodium-wrappers");
       let decTestheader = new Uint8Array(header);
 
       let decTestKey = sodium.crypto_pwhash(
-        32,
+        sodium.crypto_secretstream_xchacha20poly1305_KEYBYTES,
         password,
         decTestsalt,
         sodium.crypto_pwhash_OPSLIMIT_INTERACTIVE,
@@ -27431,7 +27435,7 @@ const _sodium = require("libsodium-wrappers");
       header = new Uint8Array(header);
 
       theKey = sodium.crypto_pwhash(
-        32,
+        sodium.crypto_secretstream_xchacha20poly1305_KEYBYTES,
         password,
         salt,
         sodium.crypto_pwhash_OPSLIMIT_INTERACTIVE,

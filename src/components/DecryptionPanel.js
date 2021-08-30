@@ -15,6 +15,7 @@ import GetAppIcon from "@material-ui/icons/GetApp";
 import TextField from "@material-ui/core/TextField";
 import { formatBytes } from "../helpers/formatBytes";
 import { formatName } from "../helpers/formatName";
+import { formatUrl } from "../helpers/formatUrl";
 import {
   crypto_secretstream_xchacha20poly1305_ABYTES,
   CHUNK_SIZE,
@@ -227,8 +228,10 @@ export default function DecryptionPanel(props) {
     });
   };
 
-  const handleDecryptedFileDownload = (e) => {
-    e.target.setAttribute("href", "/file?name=" + formatName(file.name));
+  const handleDecryptedFileDownload = async (e) => {
+    let fileName = formatName(file.name);
+    let safeUrl = await formatUrl(fileName);
+    e.target.setAttribute("href", "/file?name=" + safeUrl);
     setIsDownloading(true);
     navigator.serviceWorker.ready.then((reg) => {
       let password = Password;

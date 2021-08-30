@@ -242,7 +242,7 @@ const LimitedDecryptionPanel = () => {
           let decLimitedTestheader = new Uint8Array(limitedTestHeader);
 
           let decLimitedTestKey = sodium.crypto_pwhash(
-            32,
+            sodium.crypto_secretstream_xchacha20poly1305_KEYBYTES,
             limitedTestPassword,
             decLimitedTestsalt,
             sodium.crypto_pwhash_OPSLIMIT_INTERACTIVE,
@@ -302,7 +302,7 @@ const LimitedDecryptionPanel = () => {
       let limitedDecHeader = new Uint8Array(header);
 
       let limitedDecKey = sodium.crypto_pwhash(
-        32,
+        sodium.crypto_secretstream_xchacha20poly1305_KEYBYTES,
         password,
         limitedDecSalt,
         sodium.crypto_pwhash_OPSLIMIT_INTERACTIVE,

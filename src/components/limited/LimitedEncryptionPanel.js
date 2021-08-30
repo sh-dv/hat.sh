@@ -214,7 +214,7 @@ const LimitedEncryptionPanel = () => {
     // console.log("salt", limitedSalt);
 
     limitedKey = sodium.crypto_pwhash(
-      32,
+      sodium.crypto_secretstream_xchacha20poly1305_KEYBYTES,
       password,
       limitedSalt,
       sodium.crypto_pwhash_OPSLIMIT_INTERACTIVE,

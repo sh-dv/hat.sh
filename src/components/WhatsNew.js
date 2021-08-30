@@ -135,11 +135,6 @@ export default function WhatsNew() {
               having more than a few chunks in the memory at the same time.
             </p>
 
-            <strong>ToDos 👨‍💻 :</strong>
-
-            <p className={classes.listing}>- handle stream back pressures.</p>
-
-            <strong>projected release date : 1/9/2021</strong>
           </DialogContentText>
         </DialogContent>
         <DialogActions>

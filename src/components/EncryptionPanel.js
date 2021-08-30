@@ -15,6 +15,7 @@ import DescriptionIcon from "@material-ui/icons/Description";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import TextField from "@material-ui/core/TextField";
 import { formatBytes } from "../helpers/formatBytes";
+import { formatUrl } from "../helpers/formatUrl";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import RefreshIcon from "@material-ui/icons/Refresh";
@@ -193,8 +194,9 @@ export default function EncryptionPanel(props) {
     setPassword(selectedPassword);
   };
 
-  const handleEncryptedFileDownload = (e) => {
-    e.target.setAttribute("href", "/file?name=" + File.name + ".enc");
+  const handleEncryptedFileDownload = async (e) => {
+    let safeUrl = await formatUrl(File.name+".enc");
+    e.target.setAttribute("href", "/file?name=" + safeUrl);
     // console.log("enc btn clicked");
     setIsDownloading(true);
     navigator.serviceWorker.ready.then((reg) => {

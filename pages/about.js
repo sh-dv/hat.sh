@@ -82,6 +82,14 @@ const useStyles = makeStyles((theme) => ({
     }
     },
 
+    "& h2": {
+      color: "#3f3f3f",
+      fontSize: "26px",
+      paddingTop: 20,
+      paddingBottom: 20,
+      fontWeight: "700",
+    },
+
     "& h3": {
       color: "#3f3f3f",
       fontSize: "24px",
@@ -189,6 +197,7 @@ export default function About(props) {
           "Usage",
           "Limitations",
           "Best-Practices",
+          "Technical-Details",
           "FAQ",
         ].map((text, index) => (
           <div onClick={handleClose} key={index}>

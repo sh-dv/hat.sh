@@ -1,7 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
-
+@import url('./fonts.css');
 * {
   margin: 0;
   padding: 0;

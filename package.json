@@ -7,7 +7,7 @@
     "build": "next build && next export",
     "start": "next start",
     "lint": "next lint",
-    "serve": "serve out"
+    "serve": "serve out -l 3000"
   },
   "dependencies": {
     "@material-ui/core": "^4.12.3",

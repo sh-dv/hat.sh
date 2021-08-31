@@ -1,6 +1,10 @@
 # [CHANGELOG](#changelog)
 
 ---
+## v2.0.7
+
+- stable release of v2.
+- code review and minor bug fixes.
 
 ## V2.0.6
 

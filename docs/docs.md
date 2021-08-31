@@ -29,6 +29,9 @@ The libsodium library is used for all cryptographic algorithms. [Technical detai
 # [Installation](#installation)
 
 ---
+If you wish to self host hat.sh please follow these instructions: 
+
+<br>
 
 Download or clone the repository
 
@@ -62,14 +65,14 @@ npm run dev
 
 <br>
 
-The app should be running on https://localhost:3000
+The app should be running in dev enviroment on `localhost:3000`
 
 <br>
 
-If you wish to build and export the app. run :
+If you plan on running the app in production mode :
 
 ```bash
-npm run build
+npm run build && npm run serve
 ```
 
 <br>

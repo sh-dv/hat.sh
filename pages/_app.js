@@ -6,7 +6,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>{"hat.sh v2 beta"}</title>
+        <title>{"hat.sh - simple, fast, secure client-side file encryption"}</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta

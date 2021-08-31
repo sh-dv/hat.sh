@@ -49,7 +49,7 @@ export default function NavAppBar() {
 
             <Button
               color="inherit"
-              href="https://hat.sh"
+              href="https://v1.hat.sh"
               target="_blank"
               rel="noopener"
               className={classes.button}

@@ -144,30 +144,155 @@ Sharing decryption password can be done using a safe end-to-end encrypted messag
 
 ---
 
-## File encryption
+### Password hashing and Key derivation
+
+Password hashing functions derive a secret key of any size from a password and a salt.
+
+
+```javascript
+let salt = sodium.randombytes_buf(sodium.crypto_pwhash_SALTBYTES);
+let key = sodium.crypto_pwhash(
+  sodium.crypto_secretstream_xchacha20poly1305_KEYBYTES,
+  password,
+  salt,
+  sodium.crypto_pwhash_OPSLIMIT_INTERACTIVE,
+  sodium.crypto_pwhash_MEMLIMIT_INTERACTIVE,
+  sodium.crypto_pwhash_ALG_ARGON2ID13
+);
+```
+
+The `crypto_pwhash()` function derives an 256 bits long key from a password and a salt salt whose fixed length is 128 bits, which should be unpredictable.
+
+`randombytes_buf()` is the easiest way to fill the 128 bits of the salt.
 
 <br>
 
-### - Password hashing and Key Derivation
+`OPSLIMIT` represents a maximum amount of computations to perform.
 
-
+`MEMLIMIT` is the maximum amount of RAM that the function will use, in bytes.
 
 <br>
+
+`crypto_pwhash_OPSLIMIT_INTERACTIVE` and `crypto_pwhash_MEMLIMIT_INTERACTIVE` provide base line for these two parameters. This currently requires 64 MiB of dedicated RAM. which is suitable for in-browser operations.
+<br>
+`crypto_pwhash_ALG_ARGON2ID13` using the Argon2id algorithm version 1.3.
+
+<br>
+
+### File Encryption (stream)
+
+In order to use the app to encrypt a file, the user has to provide a valid file and a password. this password gets hashed and a secure key is derived from it with Argon2id to encrypt the file.
+
+```javascript
+let res = sodium.crypto_secretstream_xchacha20poly1305_init_push(key);
+header = res.header;
+state = res.state;
+
+let tag = last
+  ? sodium.crypto_secretstream_xchacha20poly1305_TAG_FINAL
+  : sodium.crypto_secretstream_xchacha20poly1305_TAG_MESSAGE;
+
+let encryptedChunk = sodium.crypto_secretstream_xchacha20poly1305_push(
+  state,
+  new Uint8Array(chunk),
+  null,
+  tag
+);
+
+stream.enqueue(signature, salt, header, encryptedChunk);
+```
+
+The `crypto_secretstream_xchacha20poly1305_init_push` function creates an encrypted stream where it initializes a `state` using the key and an internal, automatically generated initialization vector. It then stores the stream header into `header` that has a size of 192 bits.
+
+
+
+This is the first function to call in order to create an encrypted stream. The key will not be required any more for subsequent operations.
+
+<br>
+
+An encrypted stream starts with a short header, whose size is 192 bits. That header must be sent/stored before the sequence of encrypted messages, as it is required to decrypt the stream. The header content doesn't have to be secret because decryption with a different header would fail.
+
+
+
+A tag is attached to each message accoring to the value of `last`, which indicates if that is the last chunk of the file or not. That tag can be any of:
+
+
+1. `crypto_secretstream_xchacha20poly1305_TAG_MESSAGE`: This doesn't add any information about the nature of the message.
+2. `crypto_secretstream_xchacha20poly1305_TAG_FINAL`: This indicates that the message marks the end of the stream, and erases the secret key used to encrypt the previous sequence.
+
+
+The `crypto_secretstream_xchacha20poly1305_push()` function encrypts the file `chunk` using the `state` and the `tag`, without any additional information (`null`).
+<br>
+
+the XChaCha20 stream cipher Poly1305 MAC authentication are used for encryption.
+
+
+`stream.enqueue()` function adds the hat.sh signature(magic bytes), salt and header followed by the encrypted chunks.
+
+### File Decryption (stream)
+
+```javascript
+let state = sodium.crypto_secretstream_xchacha20poly1305_init_pull(header, key);
+
+let result = sodium.crypto_secretstream_xchacha20poly1305_pull(
+  state,
+  new Uint8Array(chunk)
+);
+
+if (result) {
+  let decryptedChunk = result.message;
+  stream.enqueue(decryptedChunk);
+
+  if (!last) {
+    // continue decryption
+  }
+}
+```
+
+The `crypto_secretstream_xchacha20poly1305_init_pull()` function initializes a state given a secret `key` and a `header`. The key is derived from the password provided during the decryption, and the header sliced from the file. The key will not be required any more for subsequent operations.
+
+<br>
+
+The `crypto_secretstream_xchacha20poly1305_pull()` function verifies that the `chunk` contains a valid ciphertext and authentication tag for the given `state`.
+
+This function will stay in a loop, until a message with the `crypto_secretstream_xchacha20poly1305_TAG_FINAL` tag is found.
+
+If the decryption key is incorrect the function returns an error.
+
+If the ciphertext or the authentication tag appear to be invalid it returns an error.
 
 ### XChaCha20-Poly1305
 
+XChaCha20 is a variant of ChaCha20 with an extended nonce, allowing random nonces to be safe.
+
+XChaCha20 doesn't require any lookup tables and avoids the possibility of timing attacks.
+
+Internally, XChaCha20 works like a block cipher used in counter mode. It uses the HChaCha20 hash function to derive a subkey and a subnonce from the original key and extended nonce, and a dedicated 64-bit block counter to avoid incrementing the nonce after each block.
+
+<br>
+
+XChaCha20 is generally recommended over plain ChaCha20 due to its extended nonce size, and its comparable performance.
+
+Authentication used is Poly1305, a Wegman-Carter authenticator designed by D. J. Bernstein.
+
+Poly1305 takes a 256 bit, one-time key and a message and produces a 128 bit tag that authenticates the message such that an attacker has a negligible chance of producing a valid tag for a inauthentic message.
+
+Poly1305 keys have to be secret, unpredictable and unique.
+
+<br>
+
 The XChaCha20-Poly1305 construction can safely encrypt a practically unlimited number of messages with the same key, without any practical limit to the size of a message. As an alternative to counters, its large nonce size (192-bit) allows random nonces to be safely used.
-<br>
+
 XChaCha20-Poly1305 applies the construction described in Daniel Bernstein's [Extending the Salsa20 nonce paper] to the ChaCha20 cipher in order to extend the nonce size to 192-bit.
-<br>
+
 This extended nonce size allows random nonces to be safely used, and also facilitates the construction of misuse-resistant schemes.
+
 <br>
+
 The XChaCha20-Poly1305 implementation in libsodium is portable across all supported architectures and It will [soon] become an IETF standard.
 
 - Encryption: XChaCha20 stream cipher
 - Authentication: Poly1305 MAC
-
-<br>
 
 ### V2 vs V1
 
@@ -260,10 +385,10 @@ There is no bounty available at the moment, but your github account will be cred
 [argon2id]: https://github.com/p-h-c/phc-winner-argon2
 [opensource]: https://github.com/sh-dv/hat.sh
 [bitwarden]: https://bitwarden.com/
-[Extending the Salsa20 nonce paper]: https://cr.yp.to/snuffle/xsalsa-20081128.pdf
+[extending the salsa20 nonce paper]: https://cr.yp.to/snuffle/xsalsa-20081128.pdf
 [soon]: https://tools.ietf.org/html/draft-irtf-cfrg-xchacha
 [github]: https://github.com/sh-dv/hat.sh
-[VeraCrypt]: https://veracrypt.fr
-[Cryptomator]: https://cryptomator.org
-[Kryptor]: https://github.com/samuel-lucas6/Kryptor
-[GPG]: https://gnupg.org
+[veracrypt]: https://veracrypt.fr
+[cryptomator]: https://cryptomator.org
+[kryptor]: https://github.com/samuel-lucas6/Kryptor
+[gpg]: https://gnupg.org

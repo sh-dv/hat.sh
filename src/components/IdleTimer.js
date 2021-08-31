@@ -19,12 +19,7 @@ export const IdleTimerContainer = () => {
       <IdleTimer
         ref={idleTimerRef}
         onIdle={onIdle}
-        timeout={30 * 1000}
-        crossTab={{
-          type: undefined,
-          channelName: "idle-timer",
-          emitOnAllTabs: true
-        }}
+        timeout={60 * 1000}
       />
       <Snackbar
         anchorOrigin={{

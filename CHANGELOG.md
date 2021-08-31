@@ -1,3 +1,7 @@
+# [CHANGELOG](#changelog)
+
+---
+
 ## V2.0.6
 
 - Fix file name bug in decryption download.
@@ -7,6 +11,7 @@
 - About page redesign (documentation).
 - Idle timer fixes.
 - Detect if the file was decrypted using an old version of hat.sh (v1).
+- Safely encode file names passed to SW.
 - Update node.js to the newest version.
 - Adding the changelog file to github.
 

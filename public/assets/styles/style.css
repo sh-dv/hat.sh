@@ -1,4 +1,6 @@
 @import url('./fonts.css');
+@import url('./highlight.css');
+
 * {
   margin: 0;
   padding: 0;

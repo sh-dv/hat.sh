@@ -24,7 +24,7 @@ export default function Hero() {
         gutterBottom
         className={classes.heroTitle}
       >
-        Hat.sh v2 beta is here{" "}
+        Hat.sh v2 is here {" "}
         <img alt="👋" src="/assets/images/wavinghand.png" width="24" />
       </Typography>
       <Typography

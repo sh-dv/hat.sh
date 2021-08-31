@@ -270,18 +270,18 @@ export default function About(props) {
             </IconButton>
 
             <Typography variant="h6" className={classes.logo}>
-              <Link href="/">
+              <Link href="#">
                 <a>
                   <img src="/assets/images/logo.png" alt="logo" width="40" />
                 </a>
               </Link>
             </Typography>
 
-            <Link href="/" passHref>
-              <Button color="inherit" className={classes.button}>
-                home
-              </Button>
-            </Link>
+            
+            <Button color="inherit" href="/" className={classes.button}>
+              home
+            </Button>
+            
             <Button
               color="inherit"
               href="https://v1.hat.sh"
@@ -293,7 +293,7 @@ export default function About(props) {
             </Button>
             <IconButton
               color="inherit"
-              href="https://github.com/sh-dv/hat.sh/tree/v2-beta"
+              href="https://github.com/sh-dv/hat.sh"
               target="_blank"
               rel="noopener"
             >

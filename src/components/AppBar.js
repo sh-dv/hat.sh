@@ -58,7 +58,7 @@ export default function NavAppBar() {
             </Button>
             <IconButton
               color="inherit"
-              href="https://github.com/sh-dv/hat.sh/tree/v2-beta"
+              href="https://github.com/sh-dv/hat.sh"
               target="_blank"
               rel="noopener"
             >

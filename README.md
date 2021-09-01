@@ -4,183 +4,85 @@
  <img src="https://i.imgur.com/F8nNzHi.png"></a>
 </p>
 
-<a href="https://hat.sh" style="color:#000"><h3 align="center">https://hat.sh</h3></a>
+<a href="https://hat.sh" style="color:#000"><h3 align="center">hat.sh</h3></a>
 
 <div align="center">
 
   [![Status](https://img.shields.io/badge/status-active-success.svg)](#)
-  [![Build](https://travis-ci.org/sh-dv/hat.sh.svg?branch=master)](https://travis-ci.org/sh-dv/hat.sh)
+  [![Node.js CI](https://github.com/sh-dv/hat.sh/actions/workflows/node.js.yml/badge.svg?branch=v2-beta)](https://github.com/sh-dv/hat.sh/actions/workflows/node.js.yml)
   [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](#)
 
-<a href="https://www.producthunt.com/posts/hat-sh?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-hat-sh" target="_blank">
-    <img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=157956&theme=dark&period=daily" alt="hat.sh - Free, fast, secure and serverless file encryption | Product Hunt Embed" width="250px"/>
-</a>
-<br>
-<a href="https://www.privacytools.io/software/encryption-tools/" target="_blank">
-    <img src="https://i.imgur.com/Euyd1ap.png" alt="hat.sh - Free, fast, secure and serverless file encryption" width="250px"/>
-</a>
 
 </div>
 
 ---
 
+[Hat.sh](https://hat.sh) is a web app that provides secure file encryption in the browser. It's **fast**, **secure** and runs **locally**, the app never uploads the files to the server. An easy to use app that uses modern secure cryptographic algorithms with chunked AEAD stream encryption/decryption.
 
-[hat.sh](https://hat.sh) is a  javascript app that provides secure file encryption using the [AES-256-GCM](https://www.w3.org/TR/WebCryptoAPI/#aes-gcm) algorithm from [WebCryptoAPI](https://www.w3.org/TR/WebCryptoAPI/#aes-gcm) provided by your browser. it was coded following the WebCrypto [Documentations](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto).
+V2 of hat.sh introduced memory efficient in-browser large file chunked encryption using streams with libsodium.js 
 
- It's **fast**, **secure** and **Serverless**, the app never uploads the files to the server.
- 
-in a small amount of code the app can encrypt any **type** of files at any **size** within seconds.
- 
-To use the app all you have to do is **Browse** a file,  **Type** a Decryption Key or **Generate** one through our secure key generator. and your encrypted file is ready to download.
+## Usage
 
-V2.0 beta is out! [check it out](https://v2-beta.hat.sh).
+![how-to-use-gif](https://i.imgur.com/EL45e9g.gif)
+
+<br>
+
+## Features
 
 
-## How to use
-just simply browse a file, type a decryption key or use our secure key generator, and encrypt or decrypt.
+### Security
 
-![how-to-use-gif](https://i.imgur.com/skJdUC8.gif)
+- XChaCha20-Poly1305 - for symmetric encryption.
+- Argon2id - for password-based key derivation.
+
+The libsodium library is used for all cryptographic algorithms.
+
+
+### Privacy
+
+- The app runs locally in your browser.
+- No data is ever collected or sent to anyone.​
+
+<br>
 
 ## Offline Use
 
-the app is cross-platform and is available to download on [**macOS**](https://github.com/sh-dv/hat.sh/releases/download/release-builds/hat.sh-mac.zip) , [**Windows**](https://github.com/sh-dv/hat.sh/releases/download/release-builds/hat.sh-win.zip) and [**linux**](https://github.com/sh-dv/hat.sh/releases/download/release-builds/hat.sh-linux.zip)
+The app can be easily self hosted, please follow the [installation](https://hat.sh/about/#installation) instructions.
 
-## Requirements
-[NodeJS and NPM](https://www.npmjs.com/get-npm)
+<br>
 
-[Browserify](http://browserify.org/#install) which lets you require('modules') in the browser by bundling up all of your dependencies.
+## What's new in v2
 
-## Installation
+- switching to xchacha20poly1305 for symmetric stream encryption and Argon2id for password-based key derivation. instead of AES-256-GCM and PBKDF2.
+- using the libsodium library for all cryptography instead of the WebCryptoApi.
+- in this version, the app doesn't read the whole file in memory. instead, it's sliced into 64MB chunks that are processed one by one.
+- since we are not using any server-side processing, the app registers a fake download URL (/file) that is going to be handled by the service-worker fetch api.
+- if all validations are passed, a new stream is initialized. then, file chunks are transferred from the main app to the 
+service-worker file via messages.
+- each chunk is encrypted/decrypted on it's on and added to the stream.
+- after each chunk is written on disk it is going to be immediately garbage collected by the browser, this leads to never having more than a few chunks in the memory at the same time.
 
-Download or clone the repository
-
- 
-
-    $ git clone https://github.com/sh-dv/hat.sh.git hat.sh
-
-go to the app directory
-
-    cd [app directory]
-
-open terminal and install the node modules that are in the package.json file
-
-    sudo npm install
-after the packages are installed 
-bundle main app.js and modules together in one file using Browserify
-
-    browserify src/js/app.js -o bundle.js
-then start the app by running index.html
+<br>
 
 ## Browser Compatibility
 We officially support the last two versions of every major browser. Specifically, we test on the following 
--   **Chrome**  on Windows, macOS, and Linux , IOS, Android
+-   **Chrome**  on Windows, macOS, and Linux , Android
 -   **Firefox**  on Windows, macOS, and Linux
 -   **Safari**  on iOS and macOS
 -   **Edge**  on Windows
--   **IE 11**  on Windows
 
-for more info see [WebCryptoAPI](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API) home page
-![enter image description here](https://i.imgur.com/hJveblf.png)
+Safari and Mobile browsers are limited to 1GB files, due to lack of support with server-worker fetch api.
 
+<br>
 
-## Crypto Examples
-
-#### AES-GCM - generateKey
-```javascript
-  window.crypto.subtle.generateKey(
-    {
-      name: "AES-GCM",
-      length: 256,
-    },
-    true,
-    ["encrypt", "decrypt"]
-  )
-.then(function(key){
-    console.log(key);
-})
-.catch(function(err){
-    console.error(err);
-});
-```
-#### AES-GCM - importKey
-```javascript
-function importSecretKey(rawKey) {
-    return window.crypto.subtle.importKey(
-      "raw",
-      rawKey,
-      "AES-GCM",
-      true,
-      ["encrypt", "decrypt"]
-    );
-  }
-.then(function(key){
-    console.log(key);
-})
-.catch(function(err){
-    console.error(err);
-});
-```
-#### AES-GCM - exportKey
-```javascript
-async function exportCryptoKey(key) {
-    const exported = await window.crypto.subtle.exportKey(
-      "raw",
-      key
-    )
-.then(function(keydata){
-    console.log(keydata);
-})
-.catch(function(err){
-    console.error(err);
-});
-```
-#### AES-GCM - encrypt
-```javascript
-async function encryptMessage(key) {
-    let encoded = getMessageEncoding();
-    // The iv must never be reused with a given key.
-    iv = window.crypto.getRandomValues(new Uint8Array(12));
-    ciphertext = await window.crypto.subtle.encrypt(
-            {
-                name: "AES-GCM",
-                iv: iv
-            },
-            key,
-            encoded
-        )
-        .then(function (encrypted) {
-            console.log(new Uint8Array(encrypted));
-        })
-        .catch(function (err) {
-            console.error(err);
-        });
-}
-```
-#### AES-GCM - decrypt
-```javascript
-async function decryptMessage(key) {
-    let encoded = getMessageEncoding();
-    let decrypted = await window.crypto.subtle.decrypt({
-            name: "AES-GCM",
-            iv: iv
-        },
-        key,
-        ciphertext
-       )
-       .then(function (decrypted) {
-            console.log(new Uint8Array(encrypted));
-        })
-        .catch(function (err) {
-            console.error(err);
-        });
-}
-```
 ## Credits
-[zxcvbn.js](https://github.com/dropbox/zxcvbn) for Smart Password Strength Estimation
 
-[bootstrap](https://github.com/twbs/bootstrap) for the responsive css layout
+[libsodium.js](https://github.com/jedisct1/libsodium.js)
 
-[font-awesome](https://github.com/FortAwesome/Font-Awesome) for the icons
+[next.js](https://nextjs.org/)
+
+[material-ui](https://material-ui.com/)
 
 ## License
-[Copyright (c) 2019 sh-dv](https://github.com/sh-dv/hat.sh/blob/master/LICENSE)
+[Copyright (c) 2021 sh-dv](https://github.com/sh-dv/hat.sh/blob/master/LICENSE)
+

@@ -4,7 +4,7 @@
  <img src="https://i.imgur.com/F8nNzHi.png"></a>
 </p>
 
-<a href="https://v2-beta.hat.sh" style="color:#000"><h3 align="center">v2-beta.hat.sh</h3></a>
+<a href="https://hat.sh" style="color:#000"><h3 align="center">hat.sh</h3></a>
 
 <div align="center">
 
@@ -17,11 +17,39 @@
 
 ---
 
+[Hat.sh](https://hat.sh) is a web app that provides secure file encryption in the browser. It's **fast**, **secure** and runs **locally**, the app never uploads the files to the server. An easy to use app that uses modern secure cryptographic algorithms with chunked AEAD stream encryption/decryption.
 
-this beta version demonstrates memory efficient large file chunked encryption using streams with libsodium.js 
-(with xchacha20poly1305 and argon2id)
+V2 of hat.sh introduced memory efficient in-browser large file chunked encryption using streams with libsodium.js 
+
+## Usage
+
+![how-to-use-gif](https://i.imgur.com/EL45e9g.gif)
+
+<br>
+
+## Features
 
 
+### Security
+
+- XChaCha20-Poly1305 - for symmetric encryption.
+- Argon2id - for password-based key derivation.
+
+The libsodium library is used for all cryptographic algorithms.
+
+
+### Privacy
+
+- The app runs locally in your browser.
+- No data is ever collected or sent to anyone.​
+
+<br>
+
+## Offline Use
+
+The app can be easily self hosted, please follow the [installation](https://hat.sh/about/#installation) instructions.
+
+<br>
 
 ## What's new in v2
 
@@ -34,38 +62,18 @@ service-worker file via messages.
 - each chunk is encrypted/decrypted on it's on and added to the stream.
 - after each chunk is written on disk it is going to be immediately garbage collected by the browser, this leads to never having more than a few chunks in the memory at the same time.
 
-## To Do 👨‍💻
-- handle stream back pressures
-
-## Installation
-
-Download or clone the repository
-
-    git clone --branch v2-beta https://github.com/sh-dv/hat.sh.git hat.sh-v2-beta
-
-go to the app directory
-
-    cd hat.sh-v2-beta or [app directory]
-
-open terminal and install the node modules that are in the package.json file
-
-    npm install
-
-run the app in dev mode
-
-    npm run dev
-
-
-should be running on http://localhost:3000
-
-
+<br>
 
 ## Browser Compatibility
-- check out [service-worker fetch event compatibility.](https://developer.mozilla.org/en-US/docs/Web/API/FetchEvent)
-- Safari and Mobile Broswers are supported but with a file size limitation (File Size up to 1GB)
+We officially support the last two versions of every major browser. Specifically, we test on the following 
+-   **Chrome**  on Windows, macOS, and Linux , Android
+-   **Firefox**  on Windows, macOS, and Linux
+-   **Safari**  on iOS and macOS
+-   **Edge**  on Windows
 
+Safari and Mobile browsers are limited to 1GB files, due to lack of support with server-worker fetch api.
 
-
+<br>
 
 ## Credits
 
@@ -76,5 +84,5 @@ should be running on http://localhost:3000
 [material-ui](https://material-ui.com/)
 
 ## License
-[Copyright (c) 2021 sh-dv](https://github.com/sh-dv/hat.sh/blob/v2-beta/LICENSE)
+[Copyright (c) 2021 sh-dv](https://github.com/sh-dv/hat.sh/blob/master/LICENSE)
 

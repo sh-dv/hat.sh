@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("sm")]: {
       width: "100%",
       marginLeft: drawerWidth,
-      zIndex: theme.zIndex.drawer + 1,
+      zIndex: theme.zIndex.drawer - 1,
     },
   },
 

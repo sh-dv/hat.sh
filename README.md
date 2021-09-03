@@ -33,8 +33,6 @@ in a small amount of code the app can encrypt any **type** of files at any **siz
  
 To use the app all you have to do is **Browse** a file,  **Type** a Decryption Key or **Generate** one through our secure key generator. and your encrypted file is ready to download.
 
-V2.0 beta is out! [check it out](https://v2-beta.hat.sh).
-
 
 ## How to use
 just simply browse a file, type a decryption key or use our secure key generator, and encrypt or decrypt.

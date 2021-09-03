@@ -20,7 +20,7 @@
 [Hat.sh](https://hat.sh) is a web app that provides secure file encryption in the browser. It's **fast**, **secure** and runs **locally**, the app never uploads the files to the server. An easy to use app that uses modern secure cryptographic algorithms with chunked AEAD stream encryption/decryption.
 
 V2 of hat.sh introduced memory efficient in-browser large file chunked encryption using streams with libsodium.js 
-
+For old V1 branch [here](https://github.com/sh-dv/hat.sh/tree/v1.5).
 ## Usage
 
 ![how-to-use-gif](https://i.imgur.com/EL45e9g.gif)

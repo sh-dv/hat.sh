@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "browserify service-worker/sw.js -o public/service-worker.js && next dev",
     "build": "next build && next export",
+    "postbuild": "node ./post-build.js",
     "start": "next start",
     "lint": "next lint",
     "serve": "serve out -l 3000"

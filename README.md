@@ -35,6 +35,7 @@ For old V1 branch [here](https://github.com/sh-dv/hat.sh/tree/v1.5).
 
 - XChaCha20-Poly1305 - for symmetric encryption.
 - Argon2id - for password-based key derivation.
+- X25519 - for key exchange.
 
 The libsodium library is used for all cryptographic algorithms.
 

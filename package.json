@@ -1,6 +1,6 @@
 {
-  "name": "hat.sh-v2-next",
-  "version": "2.0.7",
+  "name": "hat.sh",
+  "version": "2.0.8",
   "private": true,
   "scripts": {
     "dev": "browserify service-worker/sw.js -o public/service-worker.js && next dev",

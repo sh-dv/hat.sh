@@ -1,6 +1,18 @@
 # [CHANGELOG](#changelog)
 
 ---
+## v2.0.8
+
+- Adding asymmetric key cryptography.
+- Adding a key pair generator.
+- Create shareable links that contain sender's public key.
+- Possibility to choose encryption methods.
+- Hide encryption passwords by default
+- Removal of idle timer.
+- File validation checks are now performed before passwords entry.
+- Documentation enhancement.
+- Bug fixes and code review.
+
 ## v2.0.7
 
 - stable release of v2.

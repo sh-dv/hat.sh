@@ -14,6 +14,7 @@ Hat.sh is a free [opensource] web app that provides secure file encryption in th
 
 - [XChaCha20-Poly1305] - for symmetric encryption.
 - [Argon2id] - for password-based key derivation.
+- [X25519] - for key exchange.
 
 The libsodium library is used for all cryptographic algorithms. [Technical details here](#technical-details).
 
@@ -23,6 +24,16 @@ The libsodium library is used for all cryptographic algorithms. [Technical detai
 
 - The app runs locally in your browser.
 - No data is ever collected or sent to anyone.​
+
+<br>
+
+### Functionality
+
+- Secure encryption/decryption of files with passwords or keys.
+- Secure random password generation.
+- Assymetric key pair generation.
+- Authenticated key exchange.
+- Password strength estimation.
 
 <br>
 
@@ -83,21 +94,23 @@ npm run build && npm run serve
 
 ### File Encryption
 
-1. Open hat.sh
-2. Navigate to the Encryption panel
-3. Drag & Drop or Select the file that you wish to encrypt
-4. Enter the encryption password
-5. Download the encrypted file
+1. Open hat.sh.
+2. Navigate to the Encryption panel.
+3. Drag & Drop or Select the file that you wish to encrypt.
+4. Choose encryption method and enter the password/keys.
+5. Download the encrypted file.
 
 > You should always use a strong password!
 
+> Never share your private key to anyone! Only public keys should be exchanged.
+
 ### File Decryption
 
-1. Open hat.sh
-2. Navigate to the Decryption panel
-3. Drag & Drop or Select the file that you wish to decrypt
-4. Enter the decryption password
-5. Download the decrypted file
+1. Open hat.sh.
+2. Navigate to the Decryption panel.
+3. Drag & Drop or Select the file that you wish to decrypt.
+4. Enter the decryption password/keys.
+5. Download the decrypted file.
 
 <br>
 
@@ -131,15 +144,143 @@ The majority of individuals struggle to create and remember passwords, resulting
 
 If you want to choose a password that you are able to memorize then you should type a passphrase made of 8 words or more.
 
+### Using public key encryption instead of a password
+
+If you are encrypting a file that you are going to share it with someone else then you probably should encrypt it with the recepient public key and your private key.
+
 ### Sharing Encrypted Files
 
-If you plan on sending the file you have encrypted, you can do that in any safe file sharing app.
+If you plan on sending someone an encrypted file, use your private key and their public key to encrypt the file.
+
+The file can be shared in any safe file sharing app.
+
+### Sharing the public key
+
+Public keys are allowed to be shared, they can be sent as `.public` file or as text.
+
+> Never share your private key to anyone! Only public keys should be exchanged.
+
+### Storing the Public & Private keys
+
+Make sure to store your encrytion keys in a safe place and make a backup to an external storage.
+
+Storing your private key in cloud storage is not recommended!
 
 ### Sharing Decryption Passwords
 
 Sharing decryption password can be done using a safe end-to-end encrypted messaging app. It's recommended to use a _Disappearing Messages_ feature, and to delete the password after the recepient has decrypted the file.
 
 > Never choose the same password for different files.
+
+<br>
+
+
+# [FAQ](#faq)
+
+---
+
+### Does the app log or store any of my data?
+
+No, hat.sh never stores any of your data. It only runs locally in your browser.
+
+<hr style="height: 1px">
+
+### Is hat.sh free?
+
+Yes, Hat.sh is free and always will be. However, please consider donating to support the project.
+
+<hr style="height: 1px">
+
+### Which file types are supported? Is there a file size limit?
+
+Hat.sh accepts all file types. There's no file size limit, meaning files of any size can be encrypted.
+
+Safari browser and mobile/smartphones browsers are limited to 1GB.
+
+<hr style="height: 1px">
+
+### I forgot my password, can I still decrypt my files?
+
+No, we don't know your password. Always make sure to store your passwords in a password manager.
+
+<hr style="height: 1px">
+
+### Why am i seeing a notice that says "You have limited experience (max file size of 1GB)"?
+
+It means that your browser doesn't support the server-worker fetch api. Hence, you are limited to small size files. see [Limitations](#limitations) for more info.
+
+<hr style="height: 1px">
+
+### Is it safe to share my public key?
+
+Yes. Public keys are allowed to be shared, they can be sent as `.public` file or as text.
+
+But make sure to never share your private key with anyone!
+
+<hr style="height: 1px">
+
+### Why the app asks for my private key in the public key encryption mode"?
+
+Because Hat.sh uses authenticated encryption. For verification and decryption, the recepient must provide the public key that belongs to the sender, this way can verify that the encrypted file was not tampered with, and was sent from the sender.
+
+<hr style="height: 1px">
+
+### I have lost my private key, is it possible to recover it?
+
+Nope. lost private keys cannot be recovered.
+
+Also, if you feel that your private key has been compromised (e.g accidentally shared / computer hacked) then you must decrypt all files that were encrypted with that key, generate a new keypair and re-encrypt the files.
+
+<hr style="height: 1px">
+
+### How do i generate a keypair (Public & Private)?
+
+In the encryption panel, choose Public key mode, then you can see a button that says "Generate now", make sure to [store the keys safely](#best-practices).
+
+<hr style="height: 1px">
+
+### Does the app connect to the internet?
+
+Once you visit the site and the page loads, it runs only offline.
+
+<hr style="height: 1px">
+
+### How can I contribute?
+
+Hat.sh is an open-source application. You can help make it better by making commits on GitHub. The project is maintained in my free time. Donations of any size are appreciated.
+
+<hr style="height: 1px">
+
+### How do I report bugs?
+
+Please report bugs via [Github] by opening an issue labeled with "bug".
+
+<hr style="height: 1px">
+
+### How do I report a security vulnerability?
+
+If you identify a valid security issue, please write an email to hatsh-security@pm.me
+
+There is no bounty available at the moment, but your github account will be credited in the acknowledgements section in the app documentation.
+
+<hr style="height: 1px">
+
+### Why should I use hat.sh?
+
+1. The app uses fast modern secure cryptographic algorithms.
+2. It's super fast and easy to use.
+3. It runs in the browser, no need to setup or install anything.
+4. It's free opensource software and can be self hosted.
+
+<hr style="height: 1px">
+
+### When should I not use hat.sh?
+
+1. If you want to encrypt a disk (e.g [VeraCrypt]).
+2. If you want to Frequently access encrypted files (e.g [Cryptomator]).
+3. If you want to encrypt multiple files and directories at once (e.g [Kryptor]).
+4. If you want to encrypt files for another person that only they can decrypt (e.g [Kryptor]).
+5. If you want something that adheres to industry standards, use [GPG].
 
 <br>
 
@@ -308,84 +449,12 @@ The XChaCha20-Poly1305 implementation in libsodium is portable across all suppor
 - each chunk is encrypted/decrypted on it's own and added to the stream.
 - after each chunk is written on disk it is going to be immediately garbage collected by the browser, this leads to never having more than a few chunks in the memory at the same time.
 
-# [FAQ](#faq)
-
----
-
-### Does the app log or store any of my data?
-
-No, hat.sh never stores any of your data. It only runs locally in your browser.
-
-<hr style="height: 1px">
-
-### Is hat.sh free?
-
-Yes, Hat.sh is free and always will be. However, please consider donating to support the project.
-
-<hr style="height: 1px">
-
-### Which file types are supported? Is there a file size limit?
-
-Hat.sh accepts all file types. There's no file size limit, meaning files of any size can be encrypted.
-
-Safari browser and mobile/smartphones browsers are limited to 1GB.
-
-<hr style="height: 1px">
-
-### I forgot my password, can I still decrypt my files?
-
-No, we don't know your password. Always make sure to store your passwords in a password manager.
-
-<hr style="height: 1px">
-
-### Does the app connect to the internet?
-
-Once you visit the site and the page loads, it runs only offline.
-
-<hr style="height: 1px">
-
-### How can I contribute?
-
-Hat.sh is an open-source application. You can help make it better by making commits on GitHub. The project is maintained in my free time. Donations of any size are appreciated.
-
-<hr style="height: 1px">
-
-### How do I report bugs?
-
-Please report bugs via [Github] by opening an issue labeled with "bug".
-
-<hr style="height: 1px">
-
-### How do I report a security vulnerability?
-
-If you identify a valid security issue, please write an email to hatsh-security@pm.me
-
-There is no bounty available at the moment, but your github account will be credited in the acknowledgements section in the app documentation.
-
-<hr style="height: 1px">
-
-### Why should I use hat.sh?
-
-1. The app uses fast modern secure cryptographic algorithms.
-2. It's super fast and easy to use.
-3. It runs in the browser, no need to setup or install anything.
-4. It's free opensource software and can be self hosted.
-
-<hr style="height: 1px">
-
-### When should I not use hat.sh?
-
-1. If you want to encrypt a disk (e.g [VeraCrypt]).
-2. If you want to Frequently access encrypted files (e.g [Cryptomator]).
-3. If you want to encrypt multiple files and directories at once (e.g [Kryptor]).
-4. If you want to encrypt files for another person that only they can decrypt (e.g [Kryptor]).
-5. If you want something that adheres to industry standards, use [GPG].
-
 <br>
 
 [//]: # "links"
 [xchacha20-poly1305]: https://libsodium.gitbook.io/doc/secret-key_cryptography/aead/chacha20-poly1305/xchacha20-poly1305_construction
 [argon2id]: https://github.com/p-h-c/phc-winner-argon2
+[X25519]: https://cr.yp.to/ecdh.html
 [opensource]: https://github.com/sh-dv/hat.sh
 [bitwarden]: https://bitwarden.com/
 [extending the salsa20 nonce paper]: https://cr.yp.to/snuffle/xsalsa-20081128.pdf

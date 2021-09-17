@@ -10,21 +10,16 @@ const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 const sigCodes = {
   v1: "Encrypted Using Hat.sh",
-  v2: "zDKO6XYXioc",
+  v2_symmetric: "zDKO6XYXioc",
+  v2_asymmetric: "hTWKbfoikeg",
 };
-const SIGNATURE = new Uint8Array(encoder.encode(sigCodes["v2"]));
 
-let streamController, theKey, state, header, salt;
-
-// decode base64 url
-function b64_to_utf8(str) {
-  return decodeURIComponent(escape(atob(str)));
-}
+let streamController, theKey, state, header, salt, encRx, encTx, decRx, decTx;
 
 self.addEventListener("fetch", (e) => {
   // console.log(e); // log fetch event
   if (e.request.url.startsWith(APP_URL)) {
-    const filename = b64_to_utf8(e.request.url.split("?name=")[1]);
+    const filename = e.request.url.split("?name=")[1];
     const stream = new ReadableStream({
       start(controller) {
         streamController = controller;
@@ -43,30 +38,56 @@ const _sodium = require("libsodium-wrappers");
 (async () => {
   await _sodium.ready;
   const sodium = _sodium;
-  //check if libsodium is ready
-  // console.log("sodium is ready to be used");
 
   addEventListener("message", (e) => {
-    // console.log(e.data);
-
     switch (e.data.cmd) {
       case "requestEncryption":
-        // console.log("received encryption request!");
         encKeyGenerator(e.data.password, e.source);
         break;
 
+      case "requestEncKeyPair":
+        encKeyPair(e.data.privateKey, e.data.publicKey, e.data.mode, e.source);
+        break;
+
+      case "asymmetricEncryptFirstChunk":
+        asymmetricEncryptFirstChunk(e.data.chunk, e.data.last, e.source);
+        break;
+
       case "encryptFirstChunk":
-        // console.log("received encryption request for first chunk!");
         encryptFirstChunk(e.data.chunk, e.data.last, e.source);
         break;
 
       case "encryptRestOfChunks":
-        // console.log("received encryption request for rest of chunks!");
         encryptRestOfChunks(e.data.chunk, e.data.last, e.source);
         break;
 
+      case "checkFile":
+        checkFile(e.data.signature, e.data.legacy, e.source);
+        break;
+
+      case "requestTestDecryption":
+        testDecryption(
+          e.data.password,
+          e.data.signature,
+          e.data.salt,
+          e.data.header,
+          e.data.decFileBuff,
+          e.source
+        );
+        break;
+
+      case "requestDecKeyPair":
+        requestDecKeyPair(
+          e.data.privateKey,
+          e.data.publicKey,
+          e.data.header,
+          e.data.decFileBuff,
+          e.data.mode,
+          e.source
+        );
+        break;
+
       case "requestDecryption":
-        // console.log("received decryption request!");
         decKeyGenerator(
           e.data.password,
           e.data.signature,
@@ -77,32 +98,109 @@ const _sodium = require("libsodium-wrappers");
         break;
 
       case "decryptFirstChunk":
-        // console.log("received decryption request for first chunk!");
         decryptChunks(e.data.chunk, e.data.last, e.source);
         break;
 
       case "decryptRestOfChunks":
-        // console.log("received decryption request for rest of chunks!");
         decryptChunks(e.data.chunk, e.data.last, e.source);
         break;
 
-      case "requestTestDecryption":
-        // console.log("received decryption test request!");
-        testDecryption(
-          e.data.password,
-          e.data.signature,
-          e.data.salt,
-          e.data.header,
-          e.data.decFileBuff,
-          e.source
-        );
+      case "pingSW":
+        // console.log("SW running");
         break;
     }
   });
 
+  const encKeyPair = (csk, spk, mode, client) => {
+    try {
+      if (csk === spk) {
+        client.postMessage({ reply: "wrongKeyPair" });
+        return;
+      }
+
+      let computed = sodium.crypto_scalarmult_base(sodium.from_base64(csk));
+      computed = sodium.to_base64(computed);
+      if (spk === computed) {
+        client.postMessage({ reply: "wrongKeyPair" });
+        return;
+      }
+
+      if (sodium.from_base64(csk).length !== sodium.crypto_kx_SECRETKEYBYTES) {
+        client.postMessage({ reply: "wrongPrivateKey" });
+        return;
+      }
+
+      if (sodium.from_base64(spk).length !== sodium.crypto_kx_PUBLICKEYBYTES) {
+        client.postMessage({ reply: "wrongPublicKey" });
+        return;
+      }
+
+      let key = sodium.crypto_kx_client_session_keys(
+        sodium.crypto_scalarmult_base(sodium.from_base64(csk)),
+        sodium.from_base64(csk),
+        sodium.from_base64(spk)
+      );
+
+      if (key) {
+        [encRx, encTx] = [key.sharedRx, key.sharedTx];
+
+        if (mode === "test" && encRx && encTx) {
+          client.postMessage({ reply: "goodKeyPair" });
+        }
+
+        if (mode === "derive" && encRx && encTx) {
+          let res =
+            sodium.crypto_secretstream_xchacha20poly1305_init_push(encTx);
+          state = res.state;
+          header = res.header;
+          client.postMessage({ reply: "keyPairReady" });
+        }
+      } else {
+        client.postMessage({ reply: "wrongKeyPair" });
+      }
+    } catch (error) {
+      client.postMessage({ reply: "wrongKeyInput" });
+    }
+  };
+
+  const asymmetricEncryptFirstChunk = (chunk, last, client) => {
+    setTimeout(function () {
+      if (!streamController) {
+        console.log("stream does not exist");
+      }
+      const SIGNATURE = new Uint8Array(
+        encoder.encode(sigCodes["v2_asymmetric"])
+      );
+
+      streamController.enqueue(SIGNATURE);
+      streamController.enqueue(header);
+
+      let tag = last
+        ? sodium.crypto_secretstream_xchacha20poly1305_TAG_FINAL
+        : sodium.crypto_secretstream_xchacha20poly1305_TAG_MESSAGE;
+
+      let encryptedChunk = sodium.crypto_secretstream_xchacha20poly1305_push(
+        state,
+        new Uint8Array(chunk),
+        null,
+        tag
+      );
+
+      streamController.enqueue(new Uint8Array(encryptedChunk));
+
+      if (last) {
+        streamController.close();
+        client.postMessage({ reply: "encryptionFinished" });
+      }
+
+      if (!last) {
+        client.postMessage({ reply: "continueEncryption" });
+      }
+    }, 500);
+  };
+
   let encKeyGenerator = (password, client) => {
     salt = sodium.randombytes_buf(sodium.crypto_pwhash_SALTBYTES);
-    // console.log("salt", salt);
 
     theKey = sodium.crypto_pwhash(
       sodium.crypto_secretstream_xchacha20poly1305_KEYBYTES,
@@ -124,6 +222,7 @@ const _sodium = require("libsodium-wrappers");
     if (!streamController) {
       console.log("stream does not exist");
     }
+    const SIGNATURE = new Uint8Array(encoder.encode(sigCodes["v2_symmetric"]));
 
     streamController.enqueue(SIGNATURE);
     streamController.enqueue(salt);
@@ -139,13 +238,11 @@ const _sodium = require("libsodium-wrappers");
       null,
       tag
     );
-    // console.log("encrytped chunk", encryptedChunk);
 
     streamController.enqueue(new Uint8Array(encryptedChunk));
 
     if (last) {
       streamController.close();
-      // console.log("done encrypting");
       client.postMessage({ reply: "encryptionFinished" });
     }
 
@@ -165,18 +262,98 @@ const _sodium = require("libsodium-wrappers");
       null,
       tag
     );
-    // console.log("encryptedChunk", encryptedChunk);
 
     streamController.enqueue(encryptedChunk);
 
     if (last) {
       streamController.close();
-      // console.log("done encrypting");
       client.postMessage({ reply: "encryptionFinished" });
     }
 
     if (!last) {
       client.postMessage({ reply: "continueEncryption" });
+    }
+  };
+
+  const checkFile = (signature, legacy, client) => {
+    if (decoder.decode(signature) === sigCodes["v2_symmetric"]) {
+      client.postMessage({ reply: "secretKeyEncryption" });
+    } else if (decoder.decode(signature) === sigCodes["v2_asymmetric"]) {
+      client.postMessage({ reply: "publicKeyEncryption" });
+    } else if (decoder.decode(legacy) === sigCodes["v1"]) {
+      client.postMessage({ reply: "oldVersion" });
+    } else {
+      client.postMessage({ reply: "badFile" });
+    }
+  };
+
+  const requestDecKeyPair = (ssk, cpk, header, decFileBuff, mode, client) => {
+    try {
+      if (ssk === cpk) {
+        client.postMessage({ reply: "wrongDecKeyPair" });
+        return;
+      }
+
+      let computed = sodium.crypto_scalarmult_base(sodium.from_base64(ssk));
+      computed = sodium.to_base64(computed);
+      if (cpk === computed) {
+        client.postMessage({ reply: "wrongDecKeyPair" });
+        return;
+      }
+
+      if (sodium.from_base64(ssk).length !== sodium.crypto_kx_SECRETKEYBYTES) {
+        client.postMessage({ reply: "wrongDecPrivateKey" });
+        return;
+      }
+
+      if (sodium.from_base64(cpk).length !== sodium.crypto_kx_PUBLICKEYBYTES) {
+        client.postMessage({ reply: "wrongDecPublicKey" });
+        return;
+      }
+
+      let key = sodium.crypto_kx_server_session_keys(
+        sodium.crypto_scalarmult_base(sodium.from_base64(ssk)),
+        sodium.from_base64(ssk),
+        sodium.from_base64(cpk)
+      );
+
+      if (key) {
+        [decRx, decTx] = [key.sharedRx, key.sharedTx];
+
+        if (mode === "test" && decRx && decTx) {
+          let state_in = sodium.crypto_secretstream_xchacha20poly1305_init_pull(
+            new Uint8Array(header),
+            decRx
+          );
+
+          if (state_in) {
+            let decTestresults =
+              sodium.crypto_secretstream_xchacha20poly1305_pull(
+                state_in,
+                new Uint8Array(decFileBuff)
+              );
+
+            if (decTestresults) {
+              client.postMessage({ reply: "readyToDecrypt" });
+            } else {
+              client.postMessage({ reply: "wrongDecKeys" });
+            }
+          }
+        }
+
+        if (mode === "derive" && decRx && decTx) {
+          state = sodium.crypto_secretstream_xchacha20poly1305_init_pull(
+            new Uint8Array(header),
+            decRx
+          );
+
+          if (state) {
+            client.postMessage({ reply: "decKeyPairGenerated" });
+          }
+        }
+      }
+    } catch (error) {
+      client.postMessage({ reply: "wrongDecKeyInput" });
     }
   };
 
@@ -188,7 +365,7 @@ const _sodium = require("libsodium-wrappers");
     decFileBuff,
     client
   ) => {
-    if (decoder.decode(signature) === sigCodes["v2"]) {
+    if (decoder.decode(signature) === sigCodes["v2_symmetric"]) {
       let decTestsalt = new Uint8Array(salt);
       let decTestheader = new Uint8Array(header);
 
@@ -207,32 +384,21 @@ const _sodium = require("libsodium-wrappers");
       );
 
       if (state_in) {
-        // console.log("dec file buff", decFileBuff);
-        // console.log("state in", state_in);
-
         let decTestresults = sodium.crypto_secretstream_xchacha20poly1305_pull(
           state_in,
           new Uint8Array(decFileBuff)
         );
         if (decTestresults) {
-          // console.log("good key");
-          // console.log("ready to decrypt!");
           client.postMessage({ reply: "readyToDecrypt" });
         } else {
           client.postMessage({ reply: "wrongPassword" });
         }
       }
-    } else if (decoder.decode(signature) === sigCodes["v1"].slice(0, 11)) {
-      // console.log("old verion!")
-      client.postMessage({ reply: "oldVersion" });
-    } else {
-      // console.log("Bad file, or not encrypted using hat.sh V2");
-      client.postMessage({ reply: "badFile" });
     }
   };
 
   const decKeyGenerator = (password, signature, salt, header, client) => {
-    if (decoder.decode(signature) === sigCodes["v2"]) {
+    if (decoder.decode(signature) === sigCodes["v2_symmetric"]) {
       salt = new Uint8Array(salt);
       header = new Uint8Array(header);
 
@@ -251,45 +417,33 @@ const _sodium = require("libsodium-wrappers");
       );
 
       if (state) {
-        // console.log("dec keys generated!");
         client.postMessage({ reply: "decKeysGenerated" });
       }
-    } else {
-      // console.log("Bad file, or not encrypted using hat.sh V2");
-      client.postMessage({ reply: "badFile" });
     }
   };
 
   const decryptChunks = (chunk, last, client) => {
-    // console.log("chunk", chunk);
-    // console.log("last:", last);
-    // console.log("state", state);
+    setTimeout(function () {
+      let result = sodium.crypto_secretstream_xchacha20poly1305_pull(
+        state,
+        new Uint8Array(chunk)
+      );
 
-    let result = sodium.crypto_secretstream_xchacha20poly1305_pull(
-      state,
-      new Uint8Array(chunk)
-    );
+      if (result) {
+        let decryptedChunk = result.message;
 
-    if (result) {
-      // console.log("good key");
+        streamController.enqueue(new Uint8Array(decryptedChunk));
 
-      let decryptedChunk = result.message;
-
-      // console.log("decrypted chunk", decryptedChunk);
-
-      streamController.enqueue(new Uint8Array(decryptedChunk));
-
-      if (last) {
-        streamController.close();
-        // console.log("done decrypting");
-        client.postMessage({ reply: "decryptionFinished" });
+        if (last) {
+          streamController.close();
+          client.postMessage({ reply: "decryptionFinished" });
+        }
+        if (!last) {
+          client.postMessage({ reply: "continueDecryption" });
+        }
+      } else {
+        client.postMessage({ reply: "wrongPassword" });
       }
-      if (!last) {
-        // console.log("need to decrypt more");
-        client.postMessage({ reply: "continueDecryption" });
-      }
-    } else {
-      client.postMessage({ reply: "wrongPassword" });
-    }
+    }, 500);
   };
 })();

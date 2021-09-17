@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -78,7 +79,11 @@ TabPanel.propTypes = {
 
 export default function LimitedPanels() {
   const classes = useStyles();
+  const router = useRouter();
+  const query = router.query;
   const [value, setValue] = useState(0);
+  const encryption = { tab: 0, label: "Encryption" };
+  const decryption = { tab: 1, label: "Decryption" };
   const [alertOpen, setAlertOpen] = useState(true);
   const [browser, setBrowser] = useState();
 
@@ -101,12 +106,19 @@ export default function LimitedPanels() {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    router.replace(router.pathname);
   };
+
+  useEffect(() => {
+    if (query.tab && query.tab === decryption.label.toLowerCase()) {
+      setValue(decryption.tab);
+    }
+  }, [decryption.label, decryption.tab, query.publicKey, query.tab]);
 
   return (
     <>
       <Container className={classes.root}>
-        <Collapse in={alertOpen} style={{ marginTop: 35 }}>
+        <Collapse in={alertOpen} style={{ marginTop: 5 }}>
           <Alert
             severity="info"
             action={
@@ -136,15 +148,23 @@ export default function LimitedPanels() {
             variant="fullWidth"
             centered
           >
-            <StyledTab label="Encryption" className={classes.tab} />
-            <StyledTab label="Decryption" className={classes.tab} />
+            <StyledTab label={encryption.label} className={classes.tab} />
+            <StyledTab label={decryption.label} className={classes.tab} />
           </StyledTabs>
         </AppBar>
 
-        <TabPanel value={value} index={0} className={classes.TabPanel}>
+        <TabPanel
+          value={value}
+          index={encryption.tab}
+          className={classes.TabPanel}
+        >
           <LimitedEncryptionPanel />
         </TabPanel>
-        <TabPanel value={value} index={1} className={classes.TabPanel}>
+        <TabPanel
+          value={value}
+          index={decryption.tab}
+          className={classes.TabPanel}
+        >
           <LimitedDecryptionPanel />
         </TabPanel>
       </Container>

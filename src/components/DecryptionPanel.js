@@ -1,7 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { useRouter } from "next/router";
 import { useDropzone } from "react-dropzone";
+import { formatBytes } from "../helpers/formatBytes";
+import { formatName } from "../helpers/formatName";
+import { formatUrl } from "../helpers/formatUrl";
+import {
+  crypto_secretstream_xchacha20poly1305_ABYTES,
+  CHUNK_SIZE,
+} from "../config/Constants";
+import { Alert, AlertTitle } from "@material-ui/lab";
+import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
@@ -10,25 +19,20 @@ import StepContent from "@material-ui/core/StepContent";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-import DescriptionIcon from "@material-ui/icons/Description";
-import GetAppIcon from "@material-ui/icons/GetApp";
-import TextField from "@material-ui/core/TextField";
-import { formatBytes } from "../helpers/formatBytes";
-import { formatName } from "../helpers/formatName";
-import { formatUrl } from "../helpers/formatUrl";
-import {
-  crypto_secretstream_xchacha20poly1305_ABYTES,
-  CHUNK_SIZE,
-} from "../config/Constants";
-import Backdrop from "@material-ui/core/Backdrop";
-import { Alert, AlertTitle } from "@material-ui/lab";
-import LockOpenIcon from "@material-ui/icons/LockOpen";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import RefreshIcon from "@material-ui/icons/Refresh";
+import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
+import Backdrop from "@material-ui/core/Backdrop";
+import Collapse from "@material-ui/core/Collapse";
+import LockOpenIcon from "@material-ui/icons/LockOpen";
+import RefreshIcon from "@material-ui/icons/Refresh";
+import DescriptionIcon from "@material-ui/icons/Description";
+import GetAppIcon from "@material-ui/icons/GetApp";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import AttachFileIcon from "@material-ui/icons/AttachFile";
+import CloseIcon from "@material-ui/icons/Close";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -135,13 +139,34 @@ const useStyles = makeStyles((theme) => ({
 
 let file, index, decFileBuff;
 
-export default function DecryptionPanel(props) {
+export default function DecryptionPanel() {
   const classes = useStyles();
+
+  const router = useRouter();
+
+  const query = router.query;
+
   const [activeStep, setActiveStep] = useState(0);
 
   const [File, setFile] = useState();
 
   const [Password, setPassword] = useState();
+
+  const [decryptionMethod, setDecryptionMethod] = useState();
+
+  const [PublicKey, setPublicKey] = useState();
+
+  const [PrivateKey, setPrivateKey] = useState();
+
+  const [showPrivateKey, setShowPrivateKey] = useState(false);
+
+  const [wrongPublicKey, setWrongPublicKey] = useState(false);
+
+  const [wrongPrivateKey, setWrongPrivateKey] = useState(false);
+
+  const [keysError, setKeysError] = useState(false);
+
+  const [keysErrorMessage, setKeysErrorMessage] = useState();
 
   const [badFile, setbadFile] = useState(false);
 
@@ -149,15 +174,17 @@ export default function DecryptionPanel(props) {
 
   const [wrongPassword, setWrongPassword] = useState(false);
 
+  const [isCheckingFile, setIsCheckingFile] = useState(false);
+
   const [isTestingPassword, setIsTestingPassword] = useState(false);
+
+  const [isTestingKeys, setIsTestingKeys] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
 
   const [isDownloading, setIsDownloading] = useState(false);
 
-  const {isDecrypting, changeIsDecrypting} = props;
-  
-  (isDownloading) ? changeIsDecrypting(true) : changeIsDecrypting(false)
+  const [pkAlert, setPkAlert] = useState(false);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: (acceptedFile) => {
@@ -175,8 +202,11 @@ export default function DecryptionPanel(props) {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
     setWrongPassword(false);
-    setbadFile(false);
-    setOldVersion(false);
+    setWrongPublicKey(false);
+    setWrongPrivateKey(false);
+    setKeysError(false);
+    setIsTestingKeys(false);
+    setIsTestingPassword(false);
   };
 
   const handleReset = () => {
@@ -186,13 +216,19 @@ export default function DecryptionPanel(props) {
     setWrongPassword(false);
     setbadFile(false);
     setOldVersion(false);
+    setPublicKey();
+    setPrivateKey();
+    setWrongPublicKey(false);
+    setWrongPrivateKey(false);
+    setKeysError(false);
+    setPkAlert(false);
     file = null;
     index = null;
+    router.replace(router.pathname);
   };
 
   const handleFileInput = (selectedFile) => {
     file = selectedFile;
-    // console.log("file inserted", file);
     setFile(selectedFile);
   };
 
@@ -200,32 +236,120 @@ export default function DecryptionPanel(props) {
     setPassword(selectedPassword);
   };
 
-  const testDecryption = () => {
+  const checkFile = () => {
     navigator.serviceWorker.ready.then((reg) => {
-      setIsTestingPassword(true);
-      let password = Password;
+      setIsCheckingFile(true);
+      setbadFile(false);
+      setOldVersion(false);
+
       Promise.all([
-        file.slice(0, 11).arrayBuffer(), //signature
-        file.slice(11, 27).arrayBuffer(), //salt
-        file.slice(27, 51).arrayBuffer(), //header
-        file
-          .slice(
-            51,
-            51 + CHUNK_SIZE + crypto_secretstream_xchacha20poly1305_ABYTES
-          )
-          .arrayBuffer(), //17
-      ]).then(([signature, salt, header, chunk]) => {
-        decFileBuff = chunk; //for testing the dec password
+        file.slice(0, 11).arrayBuffer(), //signatures
+        file.slice(0, 22).arrayBuffer(), //v1 signature
+      ]).then(([signature, legacy]) => {
         reg.active.postMessage({
-          cmd: "requestTestDecryption",
-          password,
+          cmd: "checkFile",
           signature,
-          salt,
-          header,
-          decFileBuff,
+          legacy,
         });
       });
     });
+  };
+
+  const testDecryption = () => {
+    if (decryptionMethod === "secretKey") {
+      navigator.serviceWorker.ready.then((reg) => {
+        setIsTestingPassword(true);
+        let password = Password;
+        Promise.all([
+          file.slice(0, 11).arrayBuffer(), //signature
+          file.slice(11, 27).arrayBuffer(), //salt
+          file.slice(27, 51).arrayBuffer(), //header
+          file
+            .slice(
+              51,
+              51 + CHUNK_SIZE + crypto_secretstream_xchacha20poly1305_ABYTES
+            )
+            .arrayBuffer(), //17
+        ]).then(([signature, salt, header, chunk]) => {
+          decFileBuff = chunk; //for testing the dec password
+          reg.active.postMessage({
+            cmd: "requestTestDecryption",
+            password,
+            signature,
+            salt,
+            header,
+            decFileBuff,
+          });
+        });
+      });
+    }
+
+    if (decryptionMethod === "publicKey") {
+      navigator.serviceWorker.ready.then((reg) => {
+        setIsTestingKeys(true);
+        setKeysError(false);
+
+        let mode = "test";
+        let privateKey = PrivateKey;
+        let publicKey = PublicKey;
+
+        Promise.all([
+          file.slice(11, 35).arrayBuffer(), //header
+          file
+            .slice(
+              35,
+              35 + CHUNK_SIZE + crypto_secretstream_xchacha20poly1305_ABYTES
+            )
+            .arrayBuffer(), //17
+        ]).then(([header, chunk]) => {
+          decFileBuff = chunk;
+          reg.active.postMessage({
+            cmd: "requestDecKeyPair",
+            privateKey,
+            publicKey,
+            header,
+            decFileBuff,
+            mode,
+          });
+        });
+      });
+    }
+  };
+
+  const handlePublicKeyInput = (selectedKey) => {
+    setPublicKey(selectedKey);
+    setWrongPublicKey(false);
+  };
+
+  const loadPublicKey = (file) => {
+    if (file) {
+      // files must be of text and size below 1 mb
+      if (file.size <= 1000000) {
+        const reader = new FileReader();
+        reader.readAsText(file);
+        reader.onload = () => {
+          setPublicKey(reader.result);
+        };
+      }
+    }
+  };
+
+  const handlePrivateKeyInput = (selectedKey) => {
+    setPrivateKey(selectedKey);
+    setWrongPrivateKey(false);
+  };
+
+  const loadPrivateKey = (file) => {
+    if (file) {
+      // files must be of text and size below 1 mb
+      if (file.size <= 1000000) {
+        const reader = new FileReader();
+        reader.readAsText(file);
+        reader.onload = () => {
+          setPrivateKey(reader.result);
+        };
+      }
+    }
   };
 
   const handleDecryptedFileDownload = async (e) => {
@@ -233,46 +357,78 @@ export default function DecryptionPanel(props) {
     let safeUrl = await formatUrl(fileName);
     e.target.setAttribute("href", "/file?name=" + safeUrl);
     setIsDownloading(true);
-    navigator.serviceWorker.ready.then((reg) => {
-      let password = Password;
-      // console.log(password);
-      Promise.all([
-        file.slice(0, 11).arrayBuffer(), //signature
-        file.slice(11, 27).arrayBuffer(), //salt
-        file.slice(27, 51).arrayBuffer(), //header
-        file
-          .slice(
-            51,
-            51 + CHUNK_SIZE + crypto_secretstream_xchacha20poly1305_ABYTES
-          )
-          .arrayBuffer(), //17
-      ]).then(([signature, salt, header, chunk]) => {
-        reg.active.postMessage({
-          cmd: "requestDecryption",
-          password,
-          signature,
-          salt,
-          header,
+
+    if (decryptionMethod === "secretKey") {
+      navigator.serviceWorker.ready.then((reg) => {
+        let password = Password;
+        Promise.all([
+          file.slice(0, 11).arrayBuffer(), //signature
+          file.slice(11, 27).arrayBuffer(), //salt
+          file.slice(27, 51).arrayBuffer(), //header
+          file
+            .slice(
+              51,
+              51 + CHUNK_SIZE + crypto_secretstream_xchacha20poly1305_ABYTES
+            )
+            .arrayBuffer(), //17
+        ]).then(([signature, salt, header, chunk]) => {
+          reg.active.postMessage({
+            cmd: "requestDecryption",
+            password,
+            signature,
+            salt,
+            header,
+          });
         });
       });
+    }
 
-      // console.log("dec requested");
-    });
+    if (decryptionMethod === "publicKey") {
+      navigator.serviceWorker.ready.then((reg) => {
+        let mode = "derive";
+        let privateKey = PrivateKey;
+        let publicKey = PublicKey;
+
+        Promise.all([
+          file.slice(11, 35).arrayBuffer(), //header
+          file
+            .slice(
+              35,
+              35 + CHUNK_SIZE + crypto_secretstream_xchacha20poly1305_ABYTES
+            )
+            .arrayBuffer(), //17
+        ]).then(([header, chunk]) => {
+          decFileBuff = chunk;
+          reg.active.postMessage({
+            cmd: "requestDecKeyPair",
+            privateKey,
+            publicKey,
+            header,
+            decFileBuff,
+            mode,
+          });
+        });
+      });
+    }
   };
 
-  const startDecryption = () => {
-    // console.log("start Decryption");
-    // console.log("START WITH", file);
+  const startDecryption = (method) => {
+    let startIndex;
+    if (method === "secretKey") startIndex = 51;
+    if (method === "publicKey") startIndex = 35;
+
     navigator.serviceWorker.ready.then((reg) => {
       file
         .slice(
-          51,
-          51 + CHUNK_SIZE + crypto_secretstream_xchacha20poly1305_ABYTES
+          startIndex,
+          startIndex + CHUNK_SIZE + crypto_secretstream_xchacha20poly1305_ABYTES
         )
         .arrayBuffer()
         .then((chunk) => {
           index =
-            51 + CHUNK_SIZE + crypto_secretstream_xchacha20poly1305_ABYTES;
+            startIndex +
+            CHUNK_SIZE +
+            crypto_secretstream_xchacha20poly1305_ABYTES;
           reg.active.postMessage(
             { cmd: "decryptFirstChunk", chunk, last: index >= file.size },
             [chunk]
@@ -282,7 +438,6 @@ export default function DecryptionPanel(props) {
   };
 
   const continueDecryption = (e) => {
-    // console.log("continue decryption at index", index, " with file", file);
     navigator.serviceWorker.ready.then((reg) => {
       file
         .slice(
@@ -301,42 +456,92 @@ export default function DecryptionPanel(props) {
   };
 
   useEffect(() => {
-    navigator.serviceWorker.addEventListener("message", (e) => {
-      // console.log(e);
-      switch (e.data.reply) {
-        case "wrongPassword":
-          // console.log('wrong password');
-          setWrongPassword(true);
-          setIsTestingPassword(false);
-          break;
+    if (query.publicKey) {
+      setPublicKey(query.publicKey)
+      setPkAlert(true)
+    }
+    
+  }, [query.publicKey])
 
+  useEffect(() => {
+    navigator.serviceWorker.addEventListener("message", (e) => {
+      switch (e.data.reply) {
         case "badFile":
           setbadFile(true);
-          setIsTestingPassword(false);
+          setIsCheckingFile(false);
           break;
 
         case "oldVersion":
           setOldVersion(true);
+          setIsCheckingFile(false);
+          break;
+
+        case "secretKeyEncryption":
+          setDecryptionMethod("secretKey");
+          setActiveStep(1);
+          setIsCheckingFile(false);
+          break;
+
+        case "publicKeyEncryption":
+          setDecryptionMethod("publicKey");
+          setActiveStep(1);
+          setIsCheckingFile(false);
+          break;
+
+        case "wrongDecPrivateKey":
+          setWrongPrivateKey(true);
+          setIsTestingKeys(false);
+          break;
+
+        case "wrongDecPublicKey":
+          setWrongPublicKey(true);
+          setIsTestingKeys(false);
+          break;
+
+        case "wrongDecKeys":
+          setWrongPublicKey(true);
+          setWrongPrivateKey(true);
+          setIsTestingKeys(false);
+          break;
+
+        case "wrongDecKeyPair":
+          setKeysError(true);
+          setKeysErrorMessage(
+            "This key pair is invalid! Please select keys for different parties."
+          );
+          setIsTestingKeys(false);
+          break;
+
+        case "wrongDecKeyInput":
+          setKeysError(true);
+          setKeysErrorMessage("Invalid keys input.");
+          setIsTestingKeys(false);
+          break;
+
+        case "wrongPassword":
+          setWrongPassword(true);
           setIsTestingPassword(false);
           break;
 
         case "readyToDecrypt":
+          setIsTestingKeys(false);
           setIsTestingPassword(false);
           handleNext();
           break;
 
+        case "decKeyPairGenerated":
+          startDecryption("publicKey");
+          break;
+
         case "decKeysGenerated":
-          // console.log("dec keys generated!");
-          startDecryption();
+          startDecryption("secretKey");
           break;
 
         case "continueDecryption":
-          // console.log("need to decrypt more chunks!");
           continueDecryption(e);
           break;
 
         case "decryptionFinished":
-          // console.log("decrypted!");
           setIsDownloading(false);
           handleNext();
           break;
@@ -362,6 +567,26 @@ export default function DecryptionPanel(props) {
           Drop file to decrypt
         </Typography>
       </Backdrop>
+
+      <Collapse in={pkAlert} style={{ marginTop: 35 }}>
+          <Alert
+            severity="success"
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setPkAlert(false);
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+          >
+            {"Sender's public key is loaded, please select the decrypted file."}
+          </Alert>
+        </Collapse>
 
       <Stepper
         activeStep={activeStep}
@@ -411,15 +636,39 @@ export default function DecryptionPanel(props) {
             <div className={classes.actionsContainer}>
               <div>
                 <Button
-                  disabled={!File}
+                  disabled={isCheckingFile || !File}
                   variant="contained"
-                  onClick={handleNext}
+                  onClick={checkFile}
                   className={classes.nextButton}
+                  startIcon={
+                    isCheckingFile && (
+                      <CircularProgress
+                        size={24}
+                        className={classes.buttonProgress}
+                      />
+                    )
+                  }
                   fullWidth
                 >
-                  {"Next"}
+                  {isCheckingFile ? "Checking file..." : "Next"}
                 </Button>
               </div>
+
+              <br />
+
+              {badFile && (
+                <Alert severity="error">
+                  This file was not encrypted using hat.sh or the file may be
+                  corrupted!
+                </Alert>
+              )}
+
+              {oldVersion && (
+                <Alert severity="error">
+                  This file was encrypted using an old version of hat.sh, you
+                  can decrypt this file by visiting the v1 page.
+                </Alert>
+              )}
             </div>
           </StepContent>
         </Step>
@@ -434,46 +683,165 @@ export default function DecryptionPanel(props) {
               },
             }}
           >
-            {"Enter the decryption password"}
+            {decryptionMethod === "secretKey"
+              ? "Enter the decryption password"
+              : "Enter sender's Public key and your Private Key"}
           </StepLabel>
           <StepContent>
-            <TextField
-              required
-              type={showPassword ? "text" : "password"}
-              error={wrongPassword ? true : false}
-              id={
-                wrongPassword
-                  ? "outlined-error-helper-text"
-                  : "outlined-required"
-              }
-              label={wrongPassword ? "Error" : "Required"}
-              helperText={wrongPassword ? "Wrong Password" : ""}
-              placeholder="Password"
-              variant="outlined"
-              value={Password ? Password : ""}
-              onChange={(e) => handlePasswordInput(e.target.value)}
-              fullWidth
-              InputLabelProps={{
-                classes: {
-                  root: classes.textFieldLabel,
-                  focused: classes.textFieldLabelFocused,
-                },
-              }}
-              InputProps={{
-                classes: {
-                  root: classes.textFieldRoot,
-                  focused: classes.textFieldFocused,
-                  notchedOutline: classes.textFieldNotchedOutline,
-                },
-                endAdornment: (
-                  <Tooltip title="Show Password" placement="top">
-                    <IconButton onClick={() => setShowPassword(!showPassword)}>
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </Tooltip>
-                ),
-              }}
-            />
+            {decryptionMethod === "secretKey" && (
+              <TextField
+                required
+                type={showPassword ? "text" : "password"}
+                error={wrongPassword ? true : false}
+                id={
+                  wrongPassword
+                    ? "outlined-error-helper-text"
+                    : "outlined-required"
+                }
+                label={wrongPassword ? "Error" : "Required"}
+                helperText={wrongPassword ? "Wrong Password" : ""}
+                placeholder="Password"
+                variant="outlined"
+                value={Password ? Password : ""}
+                onChange={(e) => handlePasswordInput(e.target.value)}
+                fullWidth
+                InputLabelProps={{
+                  classes: {
+                    root: classes.textFieldLabel,
+                    focused: classes.textFieldLabelFocused,
+                  },
+                }}
+                InputProps={{
+                  classes: {
+                    root: classes.textFieldRoot,
+                    focused: classes.textFieldFocused,
+                    notchedOutline: classes.textFieldNotchedOutline,
+                  },
+                  endAdornment: (
+                    <Tooltip title="Show Password" placement="left">
+                      <IconButton
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </Tooltip>
+                  ),
+                }}
+              />
+            )}
+
+            {decryptionMethod === "publicKey" && (
+              <>
+                <TextField
+                  required
+                  error={wrongPublicKey ? true : false}
+                  label={"Sender's Public Key"}
+                  placeholder="Enter sender's public key"
+                  variant="outlined"
+                  value={PublicKey ? PublicKey : ""}
+                  onChange={(e) => handlePublicKeyInput(e.target.value)}
+                  fullWidth
+                  style={{ marginBottom: "15px" }}
+                  InputLabelProps={{
+                    classes: {
+                      root: classes.textFieldLabel,
+                      focused: classes.textFieldLabelFocused,
+                    },
+                  }}
+                  InputProps={{
+                    classes: {
+                      root: classes.textFieldRoot,
+                      focused: classes.textFieldFocused,
+                      notchedOutline: classes.textFieldNotchedOutline,
+                    },
+
+                    endAdornment: (
+                      <>
+                        <input
+                          accept=".public"
+                          className={classes.input}
+                          id="dec-public-key-file"
+                          type="file"
+                          onChange={(e) => loadPublicKey(e.target.files[0])}
+                        />
+                        <label htmlFor="dec-public-key-file">
+                          <Tooltip title="Load Public Key" placement="left">
+                            <IconButton
+                              aria-label="Load Public Key"
+                              component="span"
+                            >
+                              <AttachFileIcon />
+                            </IconButton>
+                          </Tooltip>
+                        </label>
+                      </>
+                    ),
+                  }}
+                />
+
+                <TextField
+                  type={showPrivateKey ? "text" : "password"}
+                  required
+                  error={wrongPrivateKey ? true : false}
+                  label={"Your Private Key"}
+                  placeholder="Enter your private key"
+                  variant="outlined"
+                  value={PrivateKey ? PrivateKey : ""}
+                  onChange={(e) => handlePrivateKeyInput(e.target.value)}
+                  fullWidth
+                  style={{ marginBottom: "15px" }}
+                  InputLabelProps={{
+                    classes: {
+                      root: classes.textFieldLabel,
+                      focused: classes.textFieldLabelFocused,
+                    },
+                  }}
+                  InputProps={{
+                    classes: {
+                      root: classes.textFieldRoot,
+                      focused: classes.textFieldFocused,
+                      notchedOutline: classes.textFieldNotchedOutline,
+                    },
+
+                    endAdornment: (
+                      <>
+                        {PrivateKey && (
+                          <Tooltip title="Show Private Key" placement="left">
+                            <IconButton
+                              onClick={() => setShowPrivateKey(!showPrivateKey)}
+                            >
+                              {showPrivateKey ? (
+                                <Visibility />
+                              ) : (
+                                <VisibilityOff />
+                              )}
+                            </IconButton>
+                          </Tooltip>
+                        )}
+
+                        <input
+                          accept=".private"
+                          className={classes.input}
+                          id="dec-private-key-file"
+                          type="file"
+                          onChange={(e) => loadPrivateKey(e.target.files[0])}
+                        />
+                        <label htmlFor="dec-private-key-file">
+                          <Tooltip title="Load Private Key" placement="left">
+                            <IconButton
+                              aria-label="Load Private Key"
+                              component="span"
+                            >
+                              <AttachFileIcon />
+                            </IconButton>
+                          </Tooltip>
+                        </label>
+                      </>
+                    ),
+                  }}
+                />
+              </>
+            )}
 
             <div className={classes.actionsContainer}>
               <div>
@@ -490,12 +858,18 @@ export default function DecryptionPanel(props) {
                   </Grid>
                   <Grid item xs>
                     <Button
-                      disabled={isTestingPassword || !Password}
+                      disabled={
+                        (decryptionMethod === "secretKey" && !Password) ||
+                        (decryptionMethod === "publicKey" &&
+                          (!PublicKey || !PrivateKey)) ||
+                        isTestingPassword ||
+                        isTestingKeys
+                      }
                       variant="contained"
                       onClick={testDecryption}
                       className={classes.nextButton}
                       startIcon={
-                        isTestingPassword && (
+                        (isTestingPassword || isTestingKeys) && (
                           <CircularProgress
                             size={24}
                             className={classes.buttonProgress}
@@ -504,24 +878,17 @@ export default function DecryptionPanel(props) {
                       }
                       fullWidth
                     >
-                      {isTestingPassword ? "Testing Password..." : "Next"}
+                      {isTestingPassword
+                        ? "Testing Password..."
+                        : isTestingKeys
+                        ? "Testing Keys..."
+                        : "Next"}
                     </Button>
                   </Grid>
                 </Grid>
                 <br />
-
-                {badFile && (
-                  <Alert severity="error">
-                    This file was not encrypted using hat.sh or the file may be
-                    corrupted!
-                  </Alert>
-                )}
-
-                {oldVersion && (
-                  <Alert severity="error">
-                    This file was encrypted using an old version of hat.sh, you
-                    can decrypt this file by visiting the v1 page.
-                  </Alert>
+                {decryptionMethod === "publicKey" && keysError && (
+                  <Alert severity="error">{keysErrorMessage}</Alert>
                 )}
               </div>
             </div>
@@ -559,7 +926,11 @@ export default function DecryptionPanel(props) {
                 </Grid>
                 <Grid item xs>
                   <Button
-                    disabled={isDownloading || !Password || !File}
+                    disabled={
+                      isDownloading ||
+                      (!Password && !PublicKey && !PrivateKey) ||
+                      !File
+                    }
                     variant="contained"
                     color="primary"
                     className={classes.nextButton}
@@ -622,7 +993,6 @@ export default function DecryptionPanel(props) {
           </Button>
         </Paper>
       )}
-
     </div>
   );
 }

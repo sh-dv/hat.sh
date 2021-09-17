@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import PropTypes from "prop-types";
+import EncryptionPanel from "./EncryptionPanel";
+import DecryptionPanel from "./DecryptionPanel";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Container from "@material-ui/core/Container";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import EncryptionPanel from "./EncryptionPanel";
-import DecryptionPanel from "./DecryptionPanel";
-import { IdleTimerContainer } from "./IdleTimer";
 
 const StyledTabs = withStyles({
   indicator: {
@@ -76,22 +76,22 @@ TabPanel.propTypes = {
 
 export default function CustomizedTabs() {
   const classes = useStyles();
+  const router = useRouter();
+  const query = router.query;
   const [value, setValue] = useState(0);
-
-  const [encryptingState, setIsEncryptingState] = useState(false);
-  const [decryptingState, setIsDecryptingState] = useState(false);
-
-  const changeIsEncrypting = (state) => {
-    setIsEncryptingState(state);
-  }
-
-  const changeIsDecrypting = (state) => {
-    setIsDecryptingState(state);
-  }
+  const encryption = { tab: 0, label: "Encryption" };
+  const decryption = { tab: 1, label: "Decryption" };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    router.replace(router.pathname);
   };
+
+  useEffect(() => {
+    if (query.tab && query.tab === decryption.label.toLowerCase()) {
+      setValue(decryption.tab);
+    }
+  }, [decryption.label, decryption.tab, query.publicKey, query.tab]);
 
   return (
     <>
@@ -103,19 +103,26 @@ export default function CustomizedTabs() {
             variant="fullWidth"
             centered
           >
-            <StyledTab label="Encryption" className={classes.tab} />
-            <StyledTab label="Decryption" className={classes.tab} />
+            <StyledTab label={encryption.label} className={classes.tab} />
+            <StyledTab label={decryption.label} className={classes.tab} />
           </StyledTabs>
         </AppBar>
 
-        <TabPanel value={value} index={0} className={classes.TabPanel}>
-          <EncryptionPanel isEncrypting={encryptingState} changeIsEncrypting={changeIsEncrypting}/>
+        <TabPanel
+          value={value}
+          index={encryption.tab}
+          className={classes.TabPanel}
+        >
+          <EncryptionPanel />
         </TabPanel>
-        <TabPanel value={value} index={1} className={classes.TabPanel}>
-          <DecryptionPanel isDecrypting={decryptingState} changeIsDecrypting={changeIsDecrypting}/>
+        <TabPanel
+          value={value}
+          index={decryption.tab}
+          className={classes.TabPanel}
+        >
+          <DecryptionPanel />
         </TabPanel>
       </Container>
-      {(!encryptingState && !decryptingState) && <IdleTimerContainer />}
     </>
   );
 }

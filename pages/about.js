@@ -12,7 +12,7 @@ import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -23,28 +23,27 @@ import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import Footer from "../src/components/Footer";
-import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
-import StarsIcon from '@material-ui/icons/Stars';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
-import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
-import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
-import MenuBookIcon from '@material-ui/icons/MenuBook';
-import LiveHelpIcon from '@material-ui/icons/LiveHelp';
-import HistoryIcon from '@material-ui/icons/History';
+import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
+import StarsIcon from "@material-ui/icons/Stars";
+import GetAppIcon from "@material-ui/icons/GetApp";
+import EmojiObjectsIcon from "@material-ui/icons/EmojiObjects";
+import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
+import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
+import MenuBookIcon from "@material-ui/icons/MenuBook";
+import LiveHelpIcon from "@material-ui/icons/LiveHelp";
+import HistoryIcon from "@material-ui/icons/History";
 import prism from "prismjs";
 
 const drawerWidth = 240;
 
-
 marked.setOptions({
-  highlight: function(code, lang) {
+  highlight: function (code, lang) {
     if (prism.languages[lang]) {
       return prism.highlight(code, prism.languages[lang], lang);
     } else {
       return code;
     }
-  }
+  },
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -128,6 +127,11 @@ const useStyles = makeStyles((theme) => ({
       "& code": {
         backgroundColor: "#f1f1f1",
         wordWrap: "break-word",
+        fontFamily: "inherit",
+        paddingRight: 7,
+        paddingLeft: 7,
+        borderRadius: "3px",
+
       },
     },
 
@@ -157,6 +161,10 @@ const useStyles = makeStyles((theme) => ({
       "& code": {
         backgroundColor: "#f1f1f1",
         wordWrap: "break-word",
+        fontFamily: "inherit",
+        paddingRight: 7,
+        paddingLeft: 7,
+        borderRadius: "3px",
       },
     },
 
@@ -165,8 +173,12 @@ const useStyles = makeStyles((theme) => ({
       paddingBottom: 15,
       fontSize: "16px",
       "& code": {
-        backgroundColor: "#f1f1f1",       
+        backgroundColor: "#f1f1f1",
         wordWrap: "break-word",
+        fontFamily: "inherit",
+        paddingRight: 7,
+        paddingLeft: 7,
+        borderRadius: "3px",
       },
     },
 
@@ -221,20 +233,20 @@ export default function About(props) {
       <Divider />
       <List>
         {[
-          {name: "Introduction", icon: <BookmarkBorderIcon />},
-          {name: "Features", icon: <StarsIcon />},
-          {name: "Installation", icon: <GetAppIcon />},
-          {name: "Usage", icon: <EmojiObjectsIcon />},
-          {name: "Limitations", icon: <ErrorOutlineIcon />},
-          {name: "Best-Practices", icon: <VerifiedUserIcon />},
-          {name: "Technical-Details", icon: <MenuBookIcon />},
-          {name: "FAQ", icon: <LiveHelpIcon />},
-          {name: "Changelog", icon: <HistoryIcon />},
+          { name: "Introduction", icon: <BookmarkBorderIcon /> },
+          { name: "Features", icon: <StarsIcon /> },
+          { name: "Installation", icon: <GetAppIcon /> },
+          { name: "Usage", icon: <EmojiObjectsIcon /> },
+          { name: "Limitations", icon: <ErrorOutlineIcon /> },
+          { name: "Best-Practices", icon: <VerifiedUserIcon /> },
+          { name: "Technical-Details", icon: <MenuBookIcon /> },
+          { name: "FAQ", icon: <LiveHelpIcon /> },
+          { name: "Changelog", icon: <HistoryIcon /> },
         ].map((text, index) => (
           <div onClick={handleClose} key={index}>
             <Link href={"#" + text.name.toLowerCase()} passHref>
               <ListItem button>
-              <ListItemIcon>{text.icon}</ListItemIcon>
+                <ListItemIcon>{text.icon}</ListItemIcon>
                 <ListItemText primary={text.name} />
               </ListItem>
             </Link>
@@ -270,18 +282,19 @@ export default function About(props) {
             </IconButton>
 
             <Typography variant="h6" className={classes.logo}>
-              <Link href="#">
+              <Link href="/">
                 <a>
                   <img src="/assets/images/logo.png" alt="logo" width="40" />
                 </a>
               </Link>
             </Typography>
 
-            
-            <Button color="inherit" href="/" className={classes.button}>
-              home
-            </Button>
-            
+            <Link href="/" passHref>
+              <Button color="inherit" className={classes.button}>
+                home
+              </Button>
+            </Link>
+
             <Button
               color="inherit"
               href="https://v1.hat.sh"
@@ -339,7 +352,9 @@ export default function About(props) {
           <div className={classes.toolbar} />
 
           <div dangerouslySetInnerHTML={{ __html: marked(props.docs) }}></div>
-          <div dangerouslySetInnerHTML={{ __html: marked(props.changelog) }}></div>
+          <div
+            dangerouslySetInnerHTML={{ __html: marked(props.changelog) }}
+          ></div>
         </Container>
       </main>
 

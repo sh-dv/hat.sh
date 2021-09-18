@@ -91,7 +91,9 @@ Safari and Mobile browsers are limited to 1GB files, due to lack of support with
 The project is maintained in my free time. Donations of any size are appreciated :
 
 Bitcoin: `bc1qh0lmuj34h2z4kr7j2sx8fegqvvaj35ycdtglw2`
+
 Monero: `84zQq4Xt7sq8cmGryuvWsXFMDvBvHjWjnMQXZWQQRXjB1TgoZWS9zBdNcYL7CRbQBqcDdxr4RtcvCgApmQcU6SemVXd7RuG`
+
 Kofi: [buy me a coffee](https://ko-fi.com/shdvapps)
 
 <br>

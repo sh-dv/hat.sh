@@ -683,7 +683,7 @@ const LimitedDecryptionPanel = () => {
               </IconButton>
             }
           >
-            {"Sender's public key is loaded, please select the decrypted file."}
+            {"Sender's public key is loaded, please select the encrypted file."}
           </Alert>
         </Collapse>
       <Stepper

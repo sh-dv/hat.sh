@@ -187,7 +187,7 @@ No, hat.sh never stores any of your data. It only runs locally in your browser.
 
 ### Is hat.sh free?
 
-Yes, Hat.sh is free and always will be. However, please consider donating to support the project.
+Yes, Hat.sh is free and always will be. However, please consider [donating](https://github.com/sh-dv/hat.sh#donations) to support the project.
 
 <hr style="height: 1px">
 
@@ -247,7 +247,7 @@ Once you visit the site and the page loads, it runs only offline.
 
 ### How can I contribute?
 
-Hat.sh is an open-source application. You can help make it better by making commits on GitHub. The project is maintained in my free time. Donations of any size are appreciated.
+Hat.sh is an open-source application. You can help make it better by making commits on GitHub. The project is maintained in my free time. [Donations](https://github.com/sh-dv/hat.sh#donations) of any size are appreciated.
 
 <hr style="height: 1px">
 

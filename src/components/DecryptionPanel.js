@@ -568,7 +568,7 @@ export default function DecryptionPanel() {
         </Typography>
       </Backdrop>
 
-      <Collapse in={pkAlert} style={{ marginTop: 35 }}>
+      <Collapse in={pkAlert} style={{ marginTop: 5 }}>
           <Alert
             severity="success"
             action={

@@ -21,7 +21,7 @@
     "prismjs": "^1.25.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-dropzone": "^11.4.0",
+    "react-dropzone": "^11.4.1",
     "react-idle-timer": "^4.6.4",
     "serve": "^12.0.1",
     "zxcvbn": "^4.4.2"

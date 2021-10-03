@@ -639,7 +639,7 @@ export default function DecryptionPanel() {
                   disabled={isCheckingFile || !File}
                   variant="contained"
                   onClick={checkFile}
-                  className={classes.nextButton}
+                  className={`${classes.nextButton} submitFileDec`}
                   startIcon={
                     isCheckingFile && (
                       <CircularProgress
@@ -698,6 +698,7 @@ export default function DecryptionPanel() {
                     ? "outlined-error-helper-text"
                     : "outlined-required"
                 }
+                className="decPasswordInput"
                 label={wrongPassword ? "Error" : "Required"}
                 helperText={wrongPassword ? "Wrong Password" : ""}
                 placeholder="Password"
@@ -733,6 +734,7 @@ export default function DecryptionPanel() {
             {decryptionMethod === "publicKey" && (
               <>
                 <TextField
+                  id="public-key-input-dec"
                   required
                   error={wrongPublicKey ? true : false}
                   label={"Sender's Public Key"}
@@ -780,6 +782,7 @@ export default function DecryptionPanel() {
                 />
 
                 <TextField
+                  id="private-key-input-dec"
                   type={showPrivateKey ? "text" : "password"}
                   required
                   error={wrongPrivateKey ? true : false}
@@ -867,7 +870,7 @@ export default function DecryptionPanel() {
                       }
                       variant="contained"
                       onClick={testDecryption}
-                      className={classes.nextButton}
+                      className={`${classes.nextButton} submitKeysDec`}
                       startIcon={
                         (isTestingPassword || isTestingKeys) && (
                           <CircularProgress
@@ -948,7 +951,7 @@ export default function DecryptionPanel() {
                   >
                     <a
                       onClick={(e) => handleDecryptedFileDownload(e)}
-                      href=""
+                      className="downloadFileDec"
                       style={{
                         color: "#fff",
                         textDecoration: "none",

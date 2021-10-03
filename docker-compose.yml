@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  web:
+    image: sh-dv/hat.sh
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - 3991:3991
+    volumes:
+      - .:/app

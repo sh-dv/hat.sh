@@ -40,35 +40,54 @@ The libsodium library is used for all cryptographic algorithms. [Technical detai
 # [Installation](#installation)
 
 ---
-If you wish to self host hat.sh please follow these instructions: 
+It's easy to self host and deploy hat.sh, you can do that either with npm or docker
+
+If you wish to self host the app please follow these instructions:
 
 <br>
 
-Download or clone the repository
+## With npm
+
+Before installation make sure you are running [nodejs](https://nodejs.org/en/) and have [npm](https://www.npmjs.com/) installed
+
+<br >
+
+1. clone the github repository
 
 ```bash
-git clone --branch v2-beta https://github.com/sh-dv/hat.sh.git hat.sh-v2-beta
+git clone https://github.com/sh-dv/hat.sh.git hat.sh
 ```
 
-<br>
-
-Go to the app directory
+2. move to the folder
 
 ```bash
-cd hat.sh-v2-beta or [app directory]
+cd hat.sh
 ```
 
-<br>
-
-Open terminal and install the packages
+3. install dependencies
 
 ```bash
 npm install
 ```
 
+4. build app
+
+```bash
+npm run build
+```
+
+5. start hat.sh
+
+```bash
+npm run start
+```
+
+the app should be running on port 3391.
 <br>
 
-Run the app in dev mode
+if you wish to run the app in development enviroment run :
+
+<br>
 
 ```bash
 npm run dev
@@ -76,40 +95,135 @@ npm run dev
 
 <br>
 
-The app should be running in dev enviroment on `localhost:3000`
+## With docker
+
+You can install the app with docker in multiple ways. You are free to choose wich method you like.
 
 <br>
 
-If you plan on running the app in production mode :
+- #### install from docker hub
+
+1. pull image from docker hub
 
 ```bash
-npm run build && npm run serve
+docker pull shdv/hat.sh:latest
+```
+
+2. run container
+
+```bash
+docker run -p 3991:3991 shdv/hat.sh
 ```
 
 <br>
+
+- #### Build an image from source
+
+1. clone the github repository
+
+```bash
+git clone https://github.com/sh-dv/hat.sh.git hat.sh
+```
+
+2. move to the folder
+
+```bash
+cd hat.sh
+```
+
+3. build image using docker
+
+```bash
+docker build . -t shdv/hat.sh
+```
+
+4. run container
+
+```bash
+docker run -p 3991:3991 shdv/hat.sh
+```
+
+<br>
+
+- #### Using docker compose
+
+1. clone the github repository
+
+```bash
+git clone https://github.com/sh-dv/hat.sh.git hat.sh
+```
+
+2. move to the folder
+
+```bash
+cd hat.sh
+```
+
+3. build image using docker compose
+
+```bash
+docker compose build
+```
+
+4. run container
+
+```bash
+docker compose up
+```
+
+<br>
+
+The app should be running on port 3991.
+
+hat.sh is also available as a Docker image. You can find it on [Docker Hub].
 
 # [Usage](#usage)
 
 ---
 
-### File Encryption
+## File Encryption
+
+- ### using a password
 
 1. Open hat.sh.
 2. Navigate to the Encryption panel.
 3. Drag & Drop or Select the file that you wish to encrypt.
-4. Choose encryption method and enter the password/keys.
+4. Enter a password or generate one.
 5. Download the encrypted file.
 
 > You should always use a strong password!
 
+- ### using public and private keys
+
+1. Open hat.sh.
+2. Navigate to the Encryption panel.
+3. Drag & Drop or Select the file that you wish to encrypt.
+4. Choose public key method.
+5. Enter or load recepient's public key and your private key.
+   if you don't have public and private keys you can generate a key pair.
+6. Download the encrypted file.
+7. Share your public key with the recepient so he will be able to decrypt the file.
+
 > Never share your private key to anyone! Only public keys should be exchanged.
 
-### File Decryption
+<br>
+
+## File Decryption
+
+- ### using a password
 
 1. Open hat.sh.
 2. Navigate to the Decryption panel.
 3. Drag & Drop or Select the file that you wish to decrypt.
-4. Enter the decryption password/keys.
+4. Enter the encryption password.
+5. Download the decrypted file.
+
+- ### using public and private keys
+
+1. Open hat.sh.
+2. Navigate to the Decryption panel.
+3. Drag & Drop or Select the file that you wish to decrypt.
+4. Enter or load sender's public key and your private key.
 5. Download the decrypted file.
 
 <br>
@@ -124,7 +238,7 @@ This feature is not available for security reasons. If you wish to encrypt a who
 
 ### File Metadata
 
-Files encrypted with the app are identifiable by looking at the file signature that is used by the app to verify the content of a file, Such signatures are also known as magic numbers or Magic Bytes. These Bytes are authenticated and cannot be changed.
+Files encrypted with hat.sh are identifiable by looking at the file signature that is used by the app to verify the content of a file, Such signatures are also known as magic numbers or Magic Bytes. These Bytes are authenticated and cannot be changed.
 
 ### Safari and Mobile Browsers
 
@@ -140,19 +254,24 @@ Safari and Mobile browsers are limited to a file size of 1GB due to some issues 
 
 The majority of individuals struggle to create and remember passwords, resulting in weak passwords and password reuse. Password-based encryption is substantially less safe as a result of these improper practices. That's why it is recommended to use the built in password generator and use a password manager like [Bitwarden], where you are able to store the safe password.
 
-<br>
 
 If you want to choose a password that you are able to memorize then you should type a passphrase made of 8 words or more.
+
+<br>
 
 ### Using public key encryption instead of a password
 
 If you are encrypting a file that you are going to share it with someone else then you probably should encrypt it with the recepient public key and your private key.
 
+<br>
+
 ### Sharing Encrypted Files
 
-If you plan on sending someone an encrypted file, use your private key and their public key to encrypt the file.
+If you plan on sending someone an encrypted file, it is recommended to use your private key and their public key to encrypt the file.
 
 The file can be shared in any safe file sharing app.
+
+<br>
 
 ### Sharing the public key
 
@@ -160,11 +279,15 @@ Public keys are allowed to be shared, they can be sent as `.public` file or as t
 
 > Never share your private key to anyone! Only public keys should be exchanged.
 
+<br>
+
 ### Storing the Public & Private keys
 
 Make sure to store your encrytion keys in a safe place and make a backup to an external storage.
 
 Storing your private key in cloud storage is not recommended!
+
+<br>
 
 ### Sharing Decryption Passwords
 
@@ -173,7 +296,6 @@ Sharing decryption password can be done using a safe end-to-end encrypted messag
 > Never choose the same password for different files.
 
 <br>
-
 
 # [FAQ](#faq)
 
@@ -292,6 +414,7 @@ There is no bounty available at the moment, but your github account will be cred
 
 Password hashing functions derive a secret key of any size from a password and a salt.
 
+<br>
 
 ```javascript
 let salt = sodium.randombytes_buf(sodium.crypto_pwhash_SALTBYTES);
@@ -327,6 +450,8 @@ The `crypto_pwhash()` function derives an 256 bits long key from a password and 
 
 In order to use the app to encrypt a file, the user has to provide a valid file and a password. this password gets hashed and a secure key is derived from it with Argon2id to encrypt the file.
 
+<br>
+
 ```javascript
 let res = sodium.crypto_secretstream_xchacha20poly1305_init_push(key);
 header = res.header;
@@ -348,28 +473,21 @@ stream.enqueue(signature, salt, header, encryptedChunk);
 
 The `crypto_secretstream_xchacha20poly1305_init_push` function creates an encrypted stream where it initializes a `state` using the key and an internal, automatically generated initialization vector. It then stores the stream header into `header` that has a size of 192 bits.
 
-
-
 This is the first function to call in order to create an encrypted stream. The key will not be required any more for subsequent operations.
 
 <br>
 
 An encrypted stream starts with a short header, whose size is 192 bits. That header must be sent/stored before the sequence of encrypted messages, as it is required to decrypt the stream. The header content doesn't have to be secret because decryption with a different header would fail.
 
-
-
 A tag is attached to each message accoring to the value of `last`, which indicates if that is the last chunk of the file or not. That tag can be any of:
-
 
 1. `crypto_secretstream_xchacha20poly1305_TAG_MESSAGE`: This doesn't add any information about the nature of the message.
 2. `crypto_secretstream_xchacha20poly1305_TAG_FINAL`: This indicates that the message marks the end of the stream, and erases the secret key used to encrypt the previous sequence.
-
 
 The `crypto_secretstream_xchacha20poly1305_push()` function encrypts the file `chunk` using the `state` and the `tag`, without any additional information (`null`).
 <br>
 
 the XChaCha20 stream cipher Poly1305 MAC authentication are used for encryption.
-
 
 `stream.enqueue()` function adds the hat.sh signature(magic bytes), salt and header followed by the encrypted chunks.
 
@@ -405,6 +523,55 @@ If the decryption key is incorrect the function returns an error.
 
 If the ciphertext or the authentication tag appear to be invalid it returns an error.
 
+<br>
+
+### Random password generation
+
+```javascript
+let password = sodium.to_base64(
+  sodium.randombytes_buf(16),
+  sodium.base64_variants.URLSAFE_NO_PADDING
+);
+return password;
+```
+
+The `randombytes_buf()` function fills 128 bits starting at buf with an unpredictable sequence of bytes.
+
+The `to_base64()` function encodes buf as a Base64 string without padding.
+
+<br>
+
+### Keys generation and exchange
+
+```javascript
+const keyPair = sodium.crypto_kx_keypair();
+let keys = {
+  publicKey: sodium.to_base64(keyPair.publicKey),
+  privateKey: sodium.to_base64(keyPair.privateKey),
+};
+return keys;
+```
+
+The `crypto_kx_keypair()` function randomly generates a secret key and a corresponding public key. The public key is put into publicKey and the secret key into privateKey. both of 256 bits.
+
+<br>
+
+```javascript
+let key = sodium.crypto_kx_client_session_keys(
+  sodium.crypto_scalarmult_base(privateKey),
+  privateKey,
+  publicKey
+);
+```
+
+Using the key exchange API, two parties can securely compute a set of shared keys using their peer's public key and their own secret key.
+
+The `crypto_kx_client_session_keys()` function computes a pair of 256 bits long shared keys using the recepient's public key, the sender's private key.
+
+The `crypto_scalarmult_base()` function used to compute the sender's public key from their private key.
+
+<br>
+
 ### XChaCha20-Poly1305
 
 XChaCha20 is a variant of ChaCha20 with an extended nonce, allowing random nonces to be safe.
@@ -414,29 +581,6 @@ XChaCha20 doesn't require any lookup tables and avoids the possibility of timing
 Internally, XChaCha20 works like a block cipher used in counter mode. It uses the HChaCha20 hash function to derive a subkey and a subnonce from the original key and extended nonce, and a dedicated 64-bit block counter to avoid incrementing the nonce after each block.
 
 <br>
-
-XChaCha20 is generally recommended over plain ChaCha20 due to its extended nonce size, and its comparable performance.
-
-Authentication used is Poly1305, a Wegman-Carter authenticator designed by D. J. Bernstein.
-
-Poly1305 takes a 256 bit, one-time key and a message and produces a 128 bit tag that authenticates the message such that an attacker has a negligible chance of producing a valid tag for a inauthentic message.
-
-Poly1305 keys have to be secret, unpredictable and unique.
-
-<br>
-
-The XChaCha20-Poly1305 construction can safely encrypt a practically unlimited number of messages with the same key, without any practical limit to the size of a message. As an alternative to counters, its large nonce size (192-bit) allows random nonces to be safely used.
-
-XChaCha20-Poly1305 applies the construction described in Daniel Bernstein's [Extending the Salsa20 nonce paper] to the ChaCha20 cipher in order to extend the nonce size to 192-bit.
-
-This extended nonce size allows random nonces to be safely used, and also facilitates the construction of misuse-resistant schemes.
-
-<br>
-
-The XChaCha20-Poly1305 implementation in libsodium is portable across all supported architectures and It will [soon] become an IETF standard.
-
-- Encryption: XChaCha20 stream cipher
-- Authentication: Poly1305 MAC
 
 ### V2 vs V1
 
@@ -454,7 +598,7 @@ The XChaCha20-Poly1305 implementation in libsodium is portable across all suppor
 [//]: # "links"
 [xchacha20-poly1305]: https://libsodium.gitbook.io/doc/secret-key_cryptography/aead/chacha20-poly1305/xchacha20-poly1305_construction
 [argon2id]: https://github.com/p-h-c/phc-winner-argon2
-[X25519]: https://cr.yp.to/ecdh.html
+[x25519]: https://cr.yp.to/ecdh.html
 [opensource]: https://github.com/sh-dv/hat.sh
 [bitwarden]: https://bitwarden.com/
 [extending the salsa20 nonce paper]: https://cr.yp.to/snuffle/xsalsa-20081128.pdf
@@ -464,3 +608,4 @@ The XChaCha20-Poly1305 implementation in libsodium is portable across all suppor
 [cryptomator]: https://cryptomator.org
 [kryptor]: https://github.com/samuel-lucas6/Kryptor
 [gpg]: https://gnupg.org
+[docker hub]: https://hub.docker.com/r/shdv/hat.sh

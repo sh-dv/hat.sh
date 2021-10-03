@@ -131,7 +131,6 @@ const useStyles = makeStyles((theme) => ({
         paddingRight: 7,
         paddingLeft: 7,
         borderRadius: "3px",
-
       },
     },
 
@@ -185,7 +184,8 @@ const useStyles = makeStyles((theme) => ({
     "& pre": {
       background: "#2E3440",
       padding: "13px",
-      margin: "20px 0",
+      marginTop: "-5px",
+      marginBottom: "20px",
       lineHeight: "1.3",
       fontSize: "14px",
       color: "#1f1f1f",
@@ -239,8 +239,8 @@ export default function About(props) {
           { name: "Usage", icon: <EmojiObjectsIcon /> },
           { name: "Limitations", icon: <ErrorOutlineIcon /> },
           { name: "Best-Practices", icon: <VerifiedUserIcon /> },
-          { name: "Technical-Details", icon: <MenuBookIcon /> },
           { name: "FAQ", icon: <LiveHelpIcon /> },
+          { name: "Technical-Details", icon: <MenuBookIcon /> },
           { name: "Changelog", icon: <HistoryIcon /> },
         ].map((text, index) => (
           <div onClick={handleClose} key={index}>

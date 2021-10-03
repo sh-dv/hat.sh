@@ -109,4 +109,3 @@ Open Collective : [https://opencollective.com/hatsh](https://opencollective.com/
 
 ## License
 [Copyright (c) 2021 sh-dv](https://github.com/sh-dv/hat.sh/blob/master/LICENSE)
-

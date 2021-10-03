@@ -1,6 +1,15 @@
 # [CHANGELOG](#changelog)
 
 ---
+## v2.0.9
+
+- End to End testing with Cypress.
+- OS-level virtualization with Docker.
+- Show notification when copy to clipbaord.
+- Documentation enhancement.
+- Bug fixes and code review.
+
+
 ## v2.0.8
 
 - Adding asymmetric key cryptography.

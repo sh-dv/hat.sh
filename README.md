@@ -23,7 +23,7 @@ V2 of hat.sh introduced memory efficient in-browser large file chunked encryptio
 
 ## Usage
 
-![how-to-use-gif](https://i.imgur.com/KI7Q0QE.gif)
+![how-to-use-gif](https://i.imgur.com/8lofEeB.gif)
 
 <br>
 

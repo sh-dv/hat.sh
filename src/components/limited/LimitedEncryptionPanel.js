@@ -7,7 +7,6 @@ import {
   MAX_FILE_SIZE,
   SIGNATURES,
   CHUNK_SIZE,
-  APP_URL,
   encoder,
 } from "../../config/Constants";
 import { formatBytes } from "../../helpers/formatBytes";
@@ -31,6 +30,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Tooltip from "@material-ui/core/Tooltip";
 import Backdrop from "@material-ui/core/Backdrop";
 import IconButton from "@material-ui/core/IconButton";
+import Snackbar from "@material-ui/core/Snackbar";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -193,6 +193,10 @@ const LimitedEncryptionPanel = () => {
 
   const [shareableLink, setShareableLink] = useState();
 
+  const [snackBarOpen, setSnackBarOpen] = useState(false);
+
+  const [snackBarMessage, setSnackBarMessage] = useState();
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: (acceptedFile) => {
       handleLimitedFileInput(acceptedFile[0]);
@@ -228,10 +232,15 @@ const LimitedEncryptionPanel = () => {
     setWrongPrivateKey(false);
     setKeysError(false);
     setShareableLink();
+    setSnackBarMessage();
     file = null;
     limitedEncFileBuff = null;
     limitedIndex = null;
     (encRx = null), (encTx = null);
+  };
+
+  const showSnackBar = () => {
+    setSnackBarOpen(!snackBarOpen);
   };
 
   const handleMethodStep = () => {
@@ -507,12 +516,25 @@ const LimitedEncryptionPanel = () => {
 
   const createShareableLink = async () => {
     let pk = await computePublicKey(PrivateKey);
-    let link = APP_URL + "/?tab=decryption&publicKey=" + pk;
+    let link = window.location.origin + "/?tab=decryption&publicKey=" + pk;
     setShareableLink(link);
   };
 
   return (
     <div className={classes.root} {...getRootProps()}>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        open={snackBarOpen}
+        autoHideDuration={2000}
+        onClose={showSnackBar}
+      >
+        <Alert onClose={showSnackBar} severity="success">
+          {snackBarMessage}
+        </Alert>
+      </Snackbar>
       <Backdrop open={isDragActive} style={{ zIndex: 1 }}>
         <Typography
           variant="h2"
@@ -676,7 +698,10 @@ const LimitedEncryptionPanel = () => {
                         </Tooltip>
                       )}
                       <Tooltip title="Generate Password" placement="left">
-                        <IconButton onClick={generatedPassword}>
+                        <IconButton
+                          onClick={generatedPassword}
+                          className="generatePasswordBtn"
+                        >
                           <CachedIcon />
                         </IconButton>
                       </Tooltip>
@@ -954,6 +979,8 @@ const LimitedEncryptionPanel = () => {
                 <Button
                   onClick={() => {
                     navigator.clipboard.writeText(Password);
+                    setSnackBarMessage("Password copied!");
+                    showSnackBar();
                   }}
                   className={classes.button}
                   startIcon={<FileCopyIcon />}
@@ -1016,6 +1043,8 @@ const LimitedEncryptionPanel = () => {
                         <IconButton
                           onClick={() => {
                             navigator.clipboard.writeText(shareableLink);
+                            setSnackBarMessage("Shareable link copied!");
+                            showSnackBar();
                           }}
                         >
                           <FileCopyIcon />

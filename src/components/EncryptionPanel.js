@@ -7,7 +7,7 @@ import KeyPairGeneration from "./KeyPairGeneration";
 import { generatePassword } from "../utils/generatePassword";
 import { computePublicKey } from "../utils/computePublicKey";
 import passwordStrengthCheck from "../utils/passwordStrengthCheck";
-import { CHUNK_SIZE, APP_URL } from "../config/Constants";
+import { CHUNK_SIZE } from "../config/Constants";
 import { makeStyles } from "@material-ui/core/styles";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import Grid from "@material-ui/core/Grid";
@@ -29,6 +29,7 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
+import Snackbar from "@material-ui/core/Snackbar";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import RefreshIcon from "@material-ui/icons/Refresh";
@@ -177,6 +178,10 @@ export default function EncryptionPanel() {
 
   const [shareableLink, setShareableLink] = useState();
 
+  const [snackBarOpen, setSnackBarOpen] = useState(false);
+
+  const [snackBarMessage, setSnackBarMessage] = useState();
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: (acceptedFile) => {
       handleFileInput(acceptedFile[0]);
@@ -212,8 +217,13 @@ export default function EncryptionPanel() {
     setKeysError(false);
     setIsDownloading(false);
     setShareableLink();
+    setSnackBarMessage();
     file = null;
     index = null;
+  };
+
+  const showSnackBar = () => {
+    setSnackBarOpen(!snackBarOpen);
   };
 
   const handleMethodStep = () => {
@@ -359,7 +369,7 @@ export default function EncryptionPanel() {
 
   const createShareableLink = async () => {
     let pk = await computePublicKey(PrivateKey);
-    let link = APP_URL + "/?tab=decryption&publicKey=" + pk;
+    let link = window.location.origin + "/?tab=decryption&publicKey=" + pk;
     setShareableLink(link);
   };
 
@@ -423,6 +433,19 @@ export default function EncryptionPanel() {
 
   return (
     <div className={classes.root} {...getRootProps()}>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+        open={snackBarOpen}
+        autoHideDuration={2000}
+        onClose={showSnackBar}
+      >
+        <Alert onClose={showSnackBar} severity="success">
+          {snackBarMessage}
+        </Alert>
+      </Snackbar>
       <Backdrop open={isDragActive} style={{ zIndex: 1 }}>
         <Typography
           variant="h2"
@@ -492,7 +515,7 @@ export default function EncryptionPanel() {
                   disabled={!File}
                   variant="contained"
                   onClick={handleNext}
-                  className={classes.nextButton}
+                  className={`${classes.nextButton} submitFile`}
                 >
                   {"Next"}
                 </Button>
@@ -535,6 +558,7 @@ export default function EncryptionPanel() {
                 />
                 <FormControlLabel
                   value="publicKey"
+                  className="publicKeyInput"
                   control={<Radio color="default" />}
                   label="Public key"
                   labelPlacement="right"
@@ -547,7 +571,7 @@ export default function EncryptionPanel() {
               <TextField
                 required
                 type={showPassword ? "text" : "password"}
-                id="outlined-required"
+                id="encPasswordInput"
                 label="Required"
                 placeholder="Password"
                 helperText={
@@ -584,7 +608,10 @@ export default function EncryptionPanel() {
                         </Tooltip>
                       )}
                       <Tooltip title="Generate Password" placement="left">
-                        <IconButton onClick={generatedPassword}>
+                        <IconButton
+                          onClick={generatedPassword}
+                          className="generatePasswordBtn"
+                        >
                           <CachedIcon />
                         </IconButton>
                       </Tooltip>
@@ -597,6 +624,7 @@ export default function EncryptionPanel() {
             {encryptionMethod === "publicKey" && (
               <>
                 <TextField
+                  id="public-key-input"
                   required
                   error={wrongPublicKey ? true : false}
                   label={wrongPublicKey ? "Error" : "Recepient's Public Key"}
@@ -645,6 +673,7 @@ export default function EncryptionPanel() {
                 />
 
                 <TextField
+                  id="private-key-input"
                   type={showPrivateKey ? "text" : "password"}
                   required
                   error={wrongPrivateKey ? true : false}
@@ -733,7 +762,7 @@ export default function EncryptionPanel() {
                       }
                       variant="contained"
                       onClick={handleMethodStep}
-                      className={classes.nextButton}
+                      className={`${classes.nextButton} submitKeys`}
                       fullWidth
                     >
                       {"Next"}
@@ -802,7 +831,7 @@ export default function EncryptionPanel() {
                   >
                     <a
                       onClick={(e) => handleEncryptedFileDownload(e)}
-                      href=""
+                      className="downloadFile"
                       style={{
                         color: "#fff",
                         textDecoration: "none",
@@ -859,8 +888,10 @@ export default function EncryptionPanel() {
                 <Button
                   onClick={() => {
                     navigator.clipboard.writeText(Password);
+                    setSnackBarMessage("Password copied!");
+                    showSnackBar();
                   }}
-                  className={classes.button}
+                  className={`${classes.button} copyPassword`}
                   variant="outlined"
                   startIcon={<FileCopyIcon />}
                   fullWidth
@@ -923,6 +954,8 @@ export default function EncryptionPanel() {
                         <IconButton
                           onClick={() => {
                             navigator.clipboard.writeText(shareableLink);
+                            setSnackBarMessage("Shareable link copied!");
+                            showSnackBar();
                           }}
                         >
                           <FileCopyIcon />

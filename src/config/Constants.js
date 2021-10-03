@@ -1,5 +1,4 @@
-export const APP_URL = "http://localhost:3000";
-export const currentVersion = "2.0.8";
+export const currentVersion = "2.0.9";
 export const MAX_FILE_SIZE = 1024 * 1024 * 1024;
 export const CHUNK_SIZE = 64 * 1024 * 1024;
 export const crypto_secretstream_xchacha20poly1305_ABYTES = 17;

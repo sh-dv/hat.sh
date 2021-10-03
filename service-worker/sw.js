@@ -5,20 +5,13 @@ self.addEventListener("activate", (event) =>
   event.waitUntil(self.clients.claim())
 );
 
-const APP_URL = "http://localhost:3000" + "/file";
-const encoder = new TextEncoder();
-const decoder = new TextDecoder();
-const sigCodes = {
-  v1: "Encrypted Using Hat.sh",
-  v2_symmetric: "zDKO6XYXioc",
-  v2_asymmetric: "hTWKbfoikeg",
-};
+const config = require("./config");
 
 let streamController, theKey, state, header, salt, encRx, encTx, decRx, decTx;
 
 self.addEventListener("fetch", (e) => {
   // console.log(e); // log fetch event
-  if (e.request.url.startsWith(APP_URL)) {
+  if (e.request.url.startsWith(config.APP_URL)) {
     const filename = e.request.url.split("?name=")[1];
     const stream = new ReadableStream({
       start(controller) {
@@ -169,7 +162,7 @@ const _sodium = require("libsodium-wrappers");
         console.log("stream does not exist");
       }
       const SIGNATURE = new Uint8Array(
-        encoder.encode(sigCodes["v2_asymmetric"])
+        config.encoder.encode(config.sigCodes["v2_asymmetric"])
       );
 
       streamController.enqueue(SIGNATURE);
@@ -222,7 +215,9 @@ const _sodium = require("libsodium-wrappers");
     if (!streamController) {
       console.log("stream does not exist");
     }
-    const SIGNATURE = new Uint8Array(encoder.encode(sigCodes["v2_symmetric"]));
+    const SIGNATURE = new Uint8Array(
+      config.encoder.encode(config.sigCodes["v2_symmetric"])
+    );
 
     streamController.enqueue(SIGNATURE);
     streamController.enqueue(salt);
@@ -276,11 +271,13 @@ const _sodium = require("libsodium-wrappers");
   };
 
   const checkFile = (signature, legacy, client) => {
-    if (decoder.decode(signature) === sigCodes["v2_symmetric"]) {
+    if (config.decoder.decode(signature) === config.sigCodes["v2_symmetric"]) {
       client.postMessage({ reply: "secretKeyEncryption" });
-    } else if (decoder.decode(signature) === sigCodes["v2_asymmetric"]) {
+    } else if (
+      config.decoder.decode(signature) === config.sigCodes["v2_asymmetric"]
+    ) {
       client.postMessage({ reply: "publicKeyEncryption" });
-    } else if (decoder.decode(legacy) === sigCodes["v1"]) {
+    } else if (config.decoder.decode(legacy) === config.sigCodes["v1"]) {
       client.postMessage({ reply: "oldVersion" });
     } else {
       client.postMessage({ reply: "badFile" });
@@ -365,7 +362,7 @@ const _sodium = require("libsodium-wrappers");
     decFileBuff,
     client
   ) => {
-    if (decoder.decode(signature) === sigCodes["v2_symmetric"]) {
+    if (config.decoder.decode(signature) === config.sigCodes["v2_symmetric"]) {
       let decTestsalt = new Uint8Array(salt);
       let decTestheader = new Uint8Array(header);
 
@@ -398,7 +395,7 @@ const _sodium = require("libsodium-wrappers");
   };
 
   const decKeyGenerator = (password, signature, salt, header, client) => {
-    if (decoder.decode(signature) === sigCodes["v2_symmetric"]) {
+    if (config.decoder.decode(signature) === config.sigCodes["v2_symmetric"]) {
       salt = new Uint8Array(salt);
       header = new Uint8Array(header);
 

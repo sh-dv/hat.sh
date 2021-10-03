@@ -110,6 +110,7 @@ const KeysGenerationLabel = () => {
               style={{ border: "none", marginBottom: "15px" }}
               action={
                 <IconButton
+                  id="closeGenBtn"
                   aria-label="close"
                   color="inherit"
                   size="small"
@@ -127,6 +128,7 @@ const KeysGenerationLabel = () => {
             <Grid container spacing={1} justifyContent="center">
               <Grid item xs={12}>
                 <TextField
+                  id="generatedPublicKey"
                   label="Public Key"
                   value={PublicKey ? PublicKey : ""}
                   InputProps={{
@@ -134,9 +136,7 @@ const KeysGenerationLabel = () => {
                     endAdornment: PublicKey && (
                       <Tooltip title="Download Public Key" placement="left">
                         <IconButton
-                          onClick={() =>
-                            downloadKey(PublicKey, "key.public")
-                          }
+                          onClick={() => downloadKey(PublicKey, "key.public")}
                         >
                           <GetAppIcon />
                         </IconButton>
@@ -151,6 +151,7 @@ const KeysGenerationLabel = () => {
 
               <Grid item xs={12}>
                 <TextField
+                  id="generatedPrivateKey"
                   type={showPrivateKey ? "text" : "password"}
                   label="Private Key"
                   value={PrivateKey ? PrivateKey : ""}
@@ -163,7 +164,11 @@ const KeysGenerationLabel = () => {
                           <IconButton
                             onClick={() => setShowPrivateKey(!showPrivateKey)}
                           >
-                            {showPrivateKey ? <Visibility /> : <VisibilityOff />}
+                            {showPrivateKey ? (
+                              <Visibility />
+                            ) : (
+                              <VisibilityOff />
+                            )}
                           </IconButton>
                         </Tooltip>
 
@@ -188,7 +193,7 @@ const KeysGenerationLabel = () => {
               <Grid item xs={12} sm={6}>
                 <Button
                   onClick={generateKeys}
-                  className={classes.button}
+                  className={`${classes.button} keyPairGenerateBtn`}
                   variant="outlined"
                   startIcon={<CachedIcon />}
                   fullWidth

@@ -95,6 +95,8 @@ Monero: `84zQq4Xt7sq8cmGryuvWsXFMDvBvHjWjnMQXZWQQRXjB1TgoZWS9zBdNcYL7CRbQBqcDdxr
 
 Kofi: [buy me a coffee](https://ko-fi.com/shdvapps)
 
+Open Collective : [https://opencollective.com/hatsh](https://opencollective.com/hatsh)
+
 <br>
 
 ## Credits

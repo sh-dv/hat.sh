@@ -200,7 +200,7 @@ hat.sh is also available as a Docker image. You can find it on [Docker Hub].
 3. Drag & Drop or Select the file that you wish to encrypt.
 4. Choose public key method.
 5. Enter or load recepient's public key and your private key.
-   if you don't have public and private keys you can generate a key pair.
+   If you don't have public and private keys you can generate a key pair.
 6. Download the encrypted file.
 7. Share your public key with the recepient so he will be able to decrypt the file.
 
@@ -238,7 +238,7 @@ This feature is not available for security reasons. If you wish to encrypt a who
 
 ### File Metadata
 
-Files encrypted with hat.sh are identifiable by looking at the file signature that is used by the app to verify the content of a file, Such signatures are also known as magic numbers or Magic Bytes. These Bytes are authenticated and cannot be changed.
+Files encrypted with hat.sh are identifiable by looking at the file signature that is used by the app to verify the content of a file. Such signatures are also known as magic numbers or Magic Bytes. These Bytes are authenticated and cannot be changed.
 
 ### Safari and Mobile Browsers
 
@@ -261,7 +261,7 @@ If you want to choose a password that you are able to memorize then you should t
 
 ### Using public key encryption instead of a password
 
-If you are encrypting a file that you are going to share it with someone else then you probably should encrypt it with the recepient public key and your private key.
+If you are encrypting a file that you are going to share it with someone else then you probably should encrypt it with the recipient public key and your private key.
 
 <br>
 
@@ -283,7 +283,7 @@ Public keys are allowed to be shared, they can be sent as `.public` file or as t
 
 ### Storing the Public & Private keys
 
-Make sure to store your encrytion keys in a safe place and make a backup to an external storage.
+Make sure to store your encryption keys in a safe place and make a backup to an external storage.
 
 Storing your private key in cloud storage is not recommended!
 
@@ -327,9 +327,9 @@ No, we don't know your password. Always make sure to store your passwords in a p
 
 <hr style="height: 1px">
 
-### Why am i seeing a notice that says "You have limited experience (max file size of 1GB)"?
+### Why am I seeing a notice that says "You have limited experience (max file size of 1GB)"?
 
-It means that your browser doesn't support the server-worker fetch api. Hence, you are limited to small size files. see [Limitations](#limitations) for more info.
+It means that your browser doesn't support the server-worker fetch api. Hence, you are limited to small size files. See [Limitations](#limitations) for more info.
 
 <hr style="height: 1px">
 
@@ -341,7 +341,7 @@ But make sure to never share your private key with anyone!
 
 <hr style="height: 1px">
 
-### Why the app asks for my private key in the public key encryption mode"?
+### Why the app asks for my private key in the public key encryption mode?
 
 Because Hat.sh uses authenticated encryption. For verification and decryption, the recepient must provide the public key that belongs to the sender, this way can verify that the encrypted file was not tampered with, and was sent from the sender.
 
@@ -349,13 +349,13 @@ Because Hat.sh uses authenticated encryption. For verification and decryption, t
 
 ### I have lost my private key, is it possible to recover it?
 
-Nope. lost private keys cannot be recovered.
+Nope, lost private keys cannot be recovered.
 
 Also, if you feel that your private key has been compromised (e.g accidentally shared / computer hacked) then you must decrypt all files that were encrypted with that key, generate a new keypair and re-encrypt the files.
 
 <hr style="height: 1px">
 
-### How do i generate a keypair (Public & Private)?
+### How do I generate a keypair (Public & Private)?
 
 In the encryption panel, choose Public key mode, then you can see a button that says "Generate now", make sure to [store the keys safely](#best-practices).
 

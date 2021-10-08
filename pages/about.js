@@ -182,15 +182,26 @@ const useStyles = makeStyles((theme) => ({
     },
 
     "& pre": {
-      background: "#2E3440",
+      background: "rgb(235, 235, 235)",
       padding: "13px",
       marginTop: "-5px",
       marginBottom: "20px",
       lineHeight: "1.3",
       fontSize: "14px",
-      color: "#1f1f1f",
       borderRadius: "3px",
       overflow: "auto",
+      "& code": {
+        color: "#3f3f3f"
+      }
+    },
+
+    "& .codeBox" : {
+      "& pre": {
+        background: "#2E3440",
+        "& code": {
+          color: "#f8f8f2",
+        }
+      },
     },
 
     "& blockquote": {

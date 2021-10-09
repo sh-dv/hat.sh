@@ -1,5 +1,5 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
-import Link from "next/link";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Container from "@material-ui/core/Container";
@@ -33,19 +33,15 @@ export default function NavAppBar() {
         <Container maxWidth="lg">
           <Toolbar>
             <Typography variant="h6" className={classes.logo}>
-              <Link href="/">
-                <a>
-                  <img src="/assets/images/logo.png" alt="logo" width="40" />
-                </a>
-              </Link>
+              <a href="/">
+                <img src="/assets/images/logo.png" alt="logo" width="40" />
+              </a>
               <VersionBadge />
             </Typography>
-            
-            <Link href="/about" passHref>
-              <Button color="inherit" className={classes.button}>
-                about
-              </Button>
-            </Link>
+
+            <Button color="inherit" href="/about" className={classes.button}>
+              about
+            </Button>
 
             <Button
               color="inherit"

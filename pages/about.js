@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
 import fs from "fs";
 import path from "path";
@@ -191,16 +192,16 @@ const useStyles = makeStyles((theme) => ({
       borderRadius: "3px",
       overflow: "auto",
       "& code": {
-        color: "#3f3f3f"
-      }
+        color: "#3f3f3f",
+      },
     },
 
-    "& .codeBox" : {
+    "& .codeBox": {
       "& pre": {
         background: "#2E3440",
         "& code": {
           color: "#f8f8f2",
-        }
+        },
       },
     },
 
@@ -293,18 +294,14 @@ export default function About(props) {
             </IconButton>
 
             <Typography variant="h6" className={classes.logo}>
-              <Link href="/">
-                <a>
-                  <img src="/assets/images/logo.png" alt="logo" width="40" />
-                </a>
-              </Link>
+              <a href="/">
+                <img src="/assets/images/logo.png" alt="logo" width="40" />
+              </a>
             </Typography>
 
-            <Link href="/" passHref>
-              <Button color="inherit" className={classes.button}>
-                home
-              </Button>
-            </Link>
+            <Button color="inherit" href="/" className={classes.button}>
+              home
+            </Button>
 
             <Button
               color="inherit"

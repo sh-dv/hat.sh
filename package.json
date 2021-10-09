@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "browserify service-worker/sw.js -o public/service-worker.js && next dev",
-    "build": "next build && next export",
+    "build": "browserify service-worker/sw.js -o public/service-worker.js && next build && next export",
     "postbuild": "node ./post-build.js",
     "start": "next start -p 3991",
     "lint": "next lint",

@@ -1,6 +1,12 @@
 # [CHANGELOG](#changelog)
 
 ---
+## v2.1.0
+
+- Fixed navigation bug that lead sometimes to duplicate functions which caused increased encrypted file size. (CRITICAL)
+- Documentation enhancement.
+- Bug fixes and code review.
+
 ## v2.0.9
 
 - End to End testing with Cypress.
@@ -8,7 +14,6 @@
 - Show notification when copy to clipbaord.
 - Documentation enhancement.
 - Bug fixes and code review.
-
 
 ## v2.0.8
 

@@ -536,7 +536,7 @@ export default function EncryptionPanel() {
           >
             {encryptionMethod === "secretKey"
               ? "Enter a password"
-              : "Enter recepient's Public key and your Private Key"}
+              : "Enter recipient's Public key and your Private Key"}
           </StepLabel>
 
           <StepContent>
@@ -627,9 +627,9 @@ export default function EncryptionPanel() {
                   id="public-key-input"
                   required
                   error={wrongPublicKey ? true : false}
-                  label={wrongPublicKey ? "Error" : "Recepient's Public Key"}
+                  label={wrongPublicKey ? "Error" : "recipient's Public Key"}
                   helperText={wrongPublicKey ? "Wrong Public Key" : ""}
-                  placeholder="Enter recepient's public key"
+                  placeholder="Enter recipient's public key"
                   variant="outlined"
                   value={PublicKey ? PublicKey : ""}
                   onChange={(e) => handlePublicKeyInput(e.target.value)}
@@ -870,11 +870,11 @@ export default function EncryptionPanel() {
                 <ul>
                   <li>
                     You must share this file along with your public key in order
-                    for the recepient to decrypt it.
+                    for the recipient to decrypt it.
                   </li>
                   <li>
                     You can create a link that has your public key so you do not
-                    have to send your public key and worry about the recepient
+                    have to send your public key and worry about the recipient
                     entering it.
                   </li>
                 </ul>

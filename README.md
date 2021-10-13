@@ -46,7 +46,7 @@ The libsodium library is used for all cryptographic algorithms.
 
 - Secure encryption/decryption of files with passwords or keys.
 - Secure random password generation.
-- Assymetric key pair generation.
+- Asymmetric key pair generation.
 - Authenticated key exchange.
 - Password strength estimation.
 

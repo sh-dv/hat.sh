@@ -14,6 +14,8 @@ COPY . /app
 
 RUN npm run build
 
+COPY . /app
+
 EXPOSE 3991
 
 CMD ["npm", "start"]

@@ -15,7 +15,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.60",
     "libsodium-wrappers": "^0.7.9",
-    "marked": "3.0.4",
+    "marked": "3.0.7",
     "next": "11.1.2",
     "prismjs": "^1.25.0",
     "react": "17.0.2",

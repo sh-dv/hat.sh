@@ -8,6 +8,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Container from "@material-ui/core/Container";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import { getTranslations as t } from "../../locales";
 
 const StyledTabs = withStyles({
   indicator: {
@@ -22,7 +23,7 @@ const StyledTab = withStyles((theme) => ({
     transition: "background-color 0.2s ease-out",
 
     "&$selected": {
-      backgroundColor: "#fff",
+      backgroundColor: theme.palette.white.main,
       boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
       borderRadius: "8px",
     },
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
   bar: {
     marginTop: 35,
-    backgroundColor: "#ebebeb",
+    backgroundColor: theme.palette.gallery.main,
     borderRadius: "8px",
     padding: 8,
   },
@@ -47,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   tab: {
-    color: "#3f3f3f",
+    color: theme.palette.mineShaft.main,
   },
 }));
 
@@ -79,8 +80,8 @@ export default function CustomizedTabs() {
   const router = useRouter();
   const query = router.query;
   const [value, setValue] = useState(0);
-  const encryption = { tab: 0, label: "Encryption" };
-  const decryption = { tab: 1, label: "Decryption" };
+  const encryption = { tab: 0, label: t('encryption') };
+  const decryption = { tab: 1, label: t('decryption') };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -88,10 +89,16 @@ export default function CustomizedTabs() {
   };
 
   useEffect(() => {
-    if (query.tab && query.tab === decryption.label.toLowerCase()) {
+
+    if (query.tab && query.tab === "encryption") {
+      setValue(encryption.tab);
+    }
+
+    if (query.tab && query.tab === "decryption") {
       setValue(decryption.tab);
     }
-  }, [decryption.label, decryption.tab, query.publicKey, query.tab]);
+
+  }, [decryption.tab, encryption.tab, query.tab]);
 
   return (
     <>

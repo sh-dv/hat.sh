@@ -261,6 +261,7 @@ const LimitedEncryptionPanel = () => {
     limitedEncFileBuff = null;
     limitedIndex = null;
     (encRx = null), (encTx = null);
+    router.replace(router.pathname);
   };
 
   const showSnackBar = () => {

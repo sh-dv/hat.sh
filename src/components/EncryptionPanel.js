@@ -243,6 +243,7 @@ export default function EncryptionPanel() {
     setSnackBarMessage();
     file = null;
     index = null;
+    router.replace(router.pathname);
   };
 
   const showSnackBar = () => {

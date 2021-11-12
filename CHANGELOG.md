@@ -1,6 +1,15 @@
 # [CHANGELOG](#changelog)
 
 ---
+## v2.1.1
+
+- Adding Dark Mode and tweaking styles.
+- Implementing custom localization.
+- Adding the ability to generate a QR code for the public key when generating a keypair.
+- Visiting different tabs through custom links (e.g ?tab=decryption).
+- Code review and bug fixes.
+
+
 ## v2.1.0
 
 - Fixed navigation bug that lead sometimes to duplicate functions which caused increased encrypted file size. (CRITICAL)

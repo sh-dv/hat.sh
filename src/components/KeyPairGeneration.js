@@ -14,6 +14,8 @@ import GetAppIcon from "@material-ui/icons/GetApp";
 import { generateAsymmetricKeys } from "../utils/generateAsymmetricKeys";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import { getTranslations as t } from "../../locales";
+import QuickResponseCode from "./QuickResponseCode";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,15 +25,26 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(2),
     },
   },
+  generateNowText: {
+    float: "right",
+    color: theme.palette.mountainMist.main,
+    cursor: "pointer",
+    textDecoration: "underline",
+    marginLeft: 4,
+  },
+  caption: {
+    float: "right",
+    color: theme.palette.mountainMist.main,
+  },
   button: {
     marginTop: theme.spacing(1),
     marginRight: theme.spacing(1),
     borderRadius: "8px",
     border: "none",
-    color: "#1976d2",
-    backgroundColor: "#e3f2fd",
+    color: theme.palette.denim.main,
+    backgroundColor: theme.palette.hawkesBlue.light,
     "&:hover": {
-      backgroundColor: "#d0e5f5",
+      backgroundColor: theme.palette.hawkesBlue.main,
     },
     transition: "background-color 0.2s ease-out",
     transition: "color .01s",
@@ -49,6 +62,7 @@ const KeysGenerationLabel = () => {
 
   const [PublicKey, setPublicKey] = useState();
   const [PrivateKey, setPrivateKey] = useState();
+  const [generateBtnText, setGenerateBtnText] = useState(t("generate_key_pair_button"));
 
   const [showPrivateKey, setShowPrivateKey] = useState(false);
 
@@ -56,6 +70,7 @@ const KeysGenerationLabel = () => {
     let generated = await generateAsymmetricKeys();
     setPublicKey(generated.publicKey);
     setPrivateKey(generated.privateKey);
+    setGenerateBtnText(t('generate_another_key_pair_button'))
   };
 
   const downloadKey = (data, filename) => {
@@ -79,25 +94,16 @@ const KeysGenerationLabel = () => {
       <div>
         <Typography
           variant="caption"
-          style={{
-            float: "right",
-            color: "#9791a1",
-            cursor: "pointer",
-            textDecoration: "underline",
-            marginLeft: 4,
-          }}
+          className={classes.generateNowText}
           onClick={() => {
             setOpen(true);
           }}
         >
-          {"Generate now"}
+          {t("generate_now_button")}
         </Typography>
 
-        <Typography
-          variant="caption"
-          style={{ float: "right", color: "#9791a1" }}
-        >
-          {"Don't have public/private keys?"}
+        <Typography variant="caption" className={classes.caption}>
+          {t("key_pair_question")}
         </Typography>
       </div>
 
@@ -122,25 +128,32 @@ const KeysGenerationLabel = () => {
                 </IconButton>
               }
             >
-              <AlertTitle>Public/Private key pair generation:</AlertTitle>
+              <AlertTitle>{t("key_pair_generation_title")}</AlertTitle>
             </Alert>
 
             <Grid container spacing={1} justifyContent="center">
               <Grid item xs={12}>
                 <TextField
                   id="generatedPublicKey"
-                  label="Public Key"
+                  label={t("public_key")}
                   value={PublicKey ? PublicKey : ""}
+                  placeholder={t("generate_public_key")}
                   InputProps={{
                     readOnly: true,
                     endAdornment: PublicKey && (
-                      <Tooltip title="Download Public Key" placement="left">
-                        <IconButton
-                          onClick={() => downloadKey(PublicKey, "key.public")}
+                      <>
+                        <QuickResponseCode publicKey={PublicKey} />
+                        <Tooltip
+                          title={t("download_public_key")}
+                          placement="bottom"
                         >
-                          <GetAppIcon />
-                        </IconButton>
-                      </Tooltip>
+                          <IconButton
+                            onClick={() => downloadKey(PublicKey, "key.public")}
+                          >
+                            <GetAppIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </>
                     ),
                   }}
                   variant="outlined"
@@ -153,14 +166,15 @@ const KeysGenerationLabel = () => {
                 <TextField
                   id="generatedPrivateKey"
                   type={showPrivateKey ? "text" : "password"}
-                  label="Private Key"
+                  label={t("private_key")}
                   value={PrivateKey ? PrivateKey : ""}
-                  helperText="Never share your private key to anyone! Only public keys should be exchanged."
+                  placeholder={t("generate_private_key")}
+                  helperText={t("private_key_notice")}
                   InputProps={{
                     readOnly: true,
                     endAdornment: PrivateKey && (
                       <>
-                        <Tooltip title="Show Private Key" placement="left">
+                        <Tooltip title={t("show_private_key")} placement="bottom">
                           <IconButton
                             onClick={() => setShowPrivateKey(!showPrivateKey)}
                           >
@@ -172,7 +186,10 @@ const KeysGenerationLabel = () => {
                           </IconButton>
                         </Tooltip>
 
-                        <Tooltip title="Download Private Key" placement="left">
+                        <Tooltip
+                          title={t("download_private_key")}
+                          placement="bottom"
+                        >
                           <IconButton
                             onClick={() =>
                               downloadKey(PrivateKey, "key.private")
@@ -195,11 +212,11 @@ const KeysGenerationLabel = () => {
                   onClick={generateKeys}
                   className={`${classes.button} keyPairGenerateBtn`}
                   variant="outlined"
-                  startIcon={<CachedIcon />}
+                  startIcon={PrivateKey && <CachedIcon />}
                   fullWidth
                   style={{ textTransform: "none" }}
                 >
-                  Generate Key Pair
+                  {generateBtnText}
                 </Button>
               </Grid>
             </Grid>

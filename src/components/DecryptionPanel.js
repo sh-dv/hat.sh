@@ -33,6 +33,7 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 import CloseIcon from "@material-ui/icons/Close";
+import { getTranslations as t } from "../../locales";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,10 +45,10 @@ const useStyles = makeStyles((theme) => ({
 
   stepIcon: {
     "&$activeStepIcon": {
-      color: "#525252",
+      color: theme.palette.emperor.main,
     },
     "&$completedStepIcon": {
-      color: "#525252",
+      color: theme.palette.emperor.main,
     },
   },
   activeStepIcon: {},
@@ -58,10 +59,10 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
     borderRadius: "8px",
     border: "none",
-    color: "#3f3f3f",
-    backgroundColor: "#f3f3f3",
+    color: theme.palette.mineShaft.main,
+    backgroundColor: theme.palette.mercury.light,
     "&:hover": {
-      backgroundColor: "#e9e9e9",
+      backgroundColor: theme.palette.mercury.main,
     },
     transition: "background-color 0.2s ease-out",
   },
@@ -73,10 +74,10 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "none",
     borderRadius: "8px",
     border: "none",
-    color: "#3f3f3f",
-    backgroundColor: "#e1e1e1",
+    color: theme.palette.mineShaft.main,
+    backgroundColor: theme.palette.alto.light,
     "&:hover": {
-      backgroundColor: "#d2d2d2",
+      backgroundColor: theme.palette.alto.main,
     },
     transition: "background-color 0.2s ease-out",
     transition: "color .01s",
@@ -86,18 +87,20 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     marginRight: theme.spacing(1),
     borderRadius: "8px",
-    backgroundColor: "#e9e9e9",
+    backgroundColor: theme.palette.mercury.main,
   },
   nextButton: {
     marginTop: theme.spacing(1),
     marginRight: theme.spacing(1),
     borderRadius: "8px",
-    backgroundColor: "#464653",
-    color: "#fff",
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.white.main,
     "&:hover": {
-      backgroundColor: "#3f3f3f",
+      backgroundColor: theme.palette.mineShaft.main,
     },
+    transition: "color .01s",
   },
+
   actionsContainer: {
     marginBottom: theme.spacing(2),
   },
@@ -114,7 +117,7 @@ const useStyles = makeStyles((theme) => ({
   textFieldLabel: {
     // this will be applied when input focused (label color change)
     "&$textFieldLabelFocused": {
-      color: "#525252",
+      color: theme.palette.emperor.main,
     },
   },
   textFieldLabelFocused: {},
@@ -122,19 +125,32 @@ const useStyles = makeStyles((theme) => ({
   textFieldRoot: {
     // this will be applied when hovered (input text color change)
     "&:hover": {
-      color: "#525252",
+      color: theme.palette.emperor.main,
     },
     // this will applied when hovered (input border color change)
     "&:hover $textFieldNotchedOutline": {
-      borderColor: "#525252",
+      borderColor: theme.palette.emperor.main,
     },
     // this will be applied when focused (input border color change)
     "&$textFieldFocused $textFieldNotchedOutline": {
-      borderColor: "#525252",
+      borderColor: theme.palette.emperor.main,
     },
   },
   textFieldFocused: {},
   textFieldNotchedOutline: {},
+
+  fileArea: {
+    padding: "20px",
+    border: "5px dashed",
+    borderColor: theme.palette.gallery.main,
+    borderRadius: "14px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "column",
+    marginBottom: "10px",
+  },
+  
 }));
 
 let file, index, decFileBuff;
@@ -152,7 +168,7 @@ export default function DecryptionPanel() {
 
   const [Password, setPassword] = useState();
 
-  const [decryptionMethod, setDecryptionMethod] = useState();
+  const [decryptionMethod, setDecryptionMethod] = useState("secretKey");
 
   const [PublicKey, setPublicKey] = useState();
 
@@ -456,12 +472,12 @@ export default function DecryptionPanel() {
   };
 
   useEffect(() => {
-    if (query.publicKey) {
-      setPublicKey(query.publicKey)
-      setPkAlert(true)
+    if (query.tab === "decryption" && query.publicKey) {
+      setPublicKey(query.publicKey);
+      setPkAlert(true);
+      setDecryptionMethod("publicKey");
     }
-    
-  }, [query.publicKey])
+  }, [query.publicKey, query.tab]);
 
   useEffect(() => {
     navigator.serviceWorker.addEventListener("message", (e) => {
@@ -507,14 +523,14 @@ export default function DecryptionPanel() {
         case "wrongDecKeyPair":
           setKeysError(true);
           setKeysErrorMessage(
-            "This key pair is invalid! Please select keys for different parties."
+            t('invalid_key_pair')
           );
           setIsTestingKeys(false);
           break;
 
         case "wrongDecKeyInput":
           setKeysError(true);
-          setKeysErrorMessage("Invalid keys input.");
+          setKeysErrorMessage(t('invalid_keys_input'));
           setIsTestingKeys(false);
           break;
 
@@ -564,29 +580,29 @@ export default function DecryptionPanel() {
             alt="hat.sh logo"
           />
           <br />
-          Drop file to decrypt
+          {t('drop_file_dec')}
         </Typography>
       </Backdrop>
 
       <Collapse in={pkAlert} style={{ marginTop: 5 }}>
-          <Alert
-            severity="success"
-            action={
-              <IconButton
-                aria-label="close"
-                color="inherit"
-                size="small"
-                onClick={() => {
-                  setPkAlert(false);
-                }}
-              >
-                <CloseIcon fontSize="inherit" />
-              </IconButton>
-            }
-          >
-            {"Sender's public key is loaded, please select the encrypted file."}
-          </Alert>
-        </Collapse>
+        <Alert
+          severity="success"
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setPkAlert(false);
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+        >
+          {t('sender_key_loaded')}
+        </Alert>
+      </Collapse>
 
       <Stepper
         activeStep={activeStep}
@@ -603,13 +619,13 @@ export default function DecryptionPanel() {
               },
             }}
           >
-            {"Choose a file to decrypt"}
+            {t('choose_file_dec')}
           </StepLabel>
           <StepContent>
             <div className="wrapper p-3" id="decFileWrapper">
-              <div className="file-area" id="decFileArea">
+              <div className={classes.fileArea} id="decFileArea">
                 <Typography>
-                  {File ? File.name : "Drag & Drop or Browse file"}
+                  {File ? File.name : t('drag_drop')}
                 </Typography>
                 <Typography>{File ? formatBytes(File.size) : ""}</Typography>
 
@@ -627,7 +643,7 @@ export default function DecryptionPanel() {
                     component="span"
                     startIcon={<DescriptionIcon />}
                   >
-                    {File ? "Change File" : "Browse File"}
+                    {File ? t('change_file') : t('browse_file')}
                   </Button>
                 </label>
               </div>
@@ -650,23 +666,21 @@ export default function DecryptionPanel() {
                   }
                   fullWidth
                 >
-                  {isCheckingFile ? "Checking file..." : "Next"}
+                  {isCheckingFile ? t('checking_file') : t('next')}
                 </Button>
               </div>
 
-              <br />
-
               {badFile && (
-                <Alert severity="error">
-                  This file was not encrypted using hat.sh or the file may be
-                  corrupted!
+                <Alert severity="error" style={{ marginTop: 15 }}>
+                  {t('file_not_encrypted_corrupted')}
                 </Alert>
               )}
 
               {oldVersion && (
-                <Alert severity="error">
-                  This file was encrypted using an old version of hat.sh, you
-                  can decrypt this file by visiting the v1 page.
+                <Alert severity="error" style={{ marginTop: 15 }}>
+                  {t('old_version')} {" "} <a href="https://v1.hat.sh/" target="_blank" rel="noreferrer">
+                    {"https://v1.hat.sh"}
+                  </a>
                 </Alert>
               )}
             </div>
@@ -684,8 +698,8 @@ export default function DecryptionPanel() {
             }}
           >
             {decryptionMethod === "secretKey"
-              ? "Enter the decryption password"
-              : "Enter sender's Public key and your Private Key"}
+              ? t('enter_password_dec')
+              : t('enter_keys_dec')}
           </StepLabel>
           <StepContent>
             {decryptionMethod === "secretKey" && (
@@ -699,9 +713,9 @@ export default function DecryptionPanel() {
                     : "outlined-required"
                 }
                 className="decPasswordInput"
-                label={wrongPassword ? "Error" : "Required"}
-                helperText={wrongPassword ? "Wrong Password" : ""}
-                placeholder="Password"
+                label={wrongPassword ? t('error') : t('required')}
+                helperText={wrongPassword ? t('wrong_password') : ""}
+                placeholder={t('password')}
                 variant="outlined"
                 value={Password ? Password : ""}
                 onChange={(e) => handlePasswordInput(e.target.value)}
@@ -719,7 +733,7 @@ export default function DecryptionPanel() {
                     notchedOutline: classes.textFieldNotchedOutline,
                   },
                   endAdornment: (
-                    <Tooltip title="Show Password" placement="left">
+                    <Tooltip title={t('show_password')} placement="left">
                       <IconButton
                         onClick={() => setShowPassword(!showPassword)}
                       >
@@ -737,8 +751,9 @@ export default function DecryptionPanel() {
                   id="public-key-input-dec"
                   required
                   error={wrongPublicKey ? true : false}
-                  label={"Sender's Public Key"}
-                  placeholder="Enter sender's public key"
+                  helperText={wrongPublicKey ? t('wrong_public_key') : ""}
+                  label={t('sender_public_key')}
+                  placeholder={t('enter_sender_public_key')}
                   variant="outlined"
                   value={PublicKey ? PublicKey : ""}
                   onChange={(e) => handlePublicKeyInput(e.target.value)}
@@ -767,9 +782,9 @@ export default function DecryptionPanel() {
                           onChange={(e) => loadPublicKey(e.target.files[0])}
                         />
                         <label htmlFor="dec-public-key-file">
-                          <Tooltip title="Load Public Key" placement="left">
+                          <Tooltip title={t('load_public_key')} placement="left">
                             <IconButton
-                              aria-label="Load Public Key"
+                              aria-label={t('load_public_key')}
                               component="span"
                             >
                               <AttachFileIcon />
@@ -786,8 +801,9 @@ export default function DecryptionPanel() {
                   type={showPrivateKey ? "text" : "password"}
                   required
                   error={wrongPrivateKey ? true : false}
-                  label={"Your Private Key"}
-                  placeholder="Enter your private key"
+                  helperText={wrongPrivateKey ? t('wrong_private_key') : ""}
+                  label={t('your_private_key_dec')}
+                  placeholder={t('enter_private_key_dec')}
                   variant="outlined"
                   value={PrivateKey ? PrivateKey : ""}
                   onChange={(e) => handlePrivateKeyInput(e.target.value)}
@@ -809,7 +825,7 @@ export default function DecryptionPanel() {
                     endAdornment: (
                       <>
                         {PrivateKey && (
-                          <Tooltip title="Show Private Key" placement="left">
+                          <Tooltip title={t('show_private_key')} placement="left">
                             <IconButton
                               onClick={() => setShowPrivateKey(!showPrivateKey)}
                             >
@@ -830,9 +846,9 @@ export default function DecryptionPanel() {
                           onChange={(e) => loadPrivateKey(e.target.files[0])}
                         />
                         <label htmlFor="dec-private-key-file">
-                          <Tooltip title="Load Private Key" placement="left">
+                          <Tooltip title={t('load_private_key')} placement="left">
                             <IconButton
-                              aria-label="Load Private Key"
+                              aria-label={t('load_private_key')}
                               component="span"
                             >
                               <AttachFileIcon />
@@ -856,7 +872,7 @@ export default function DecryptionPanel() {
                       className={classes.backButton}
                       fullWidth
                     >
-                      Back
+                      {t('back')}
                     </Button>
                   </Grid>
                   <Grid item xs>
@@ -882,10 +898,10 @@ export default function DecryptionPanel() {
                       fullWidth
                     >
                       {isTestingPassword
-                        ? "Testing Password..."
+                        ? t('testing_password')
                         : isTestingKeys
-                        ? "Testing Keys..."
-                        : "Next"}
+                        ? t('testing_keys')
+                        : t('next')}
                     </Button>
                   </Grid>
                 </Grid>
@@ -908,12 +924,11 @@ export default function DecryptionPanel() {
               },
             }}
           >
-            {"Download decrypted file"}
+            {t('download_decrypted_file')}
           </StepLabel>
           <StepContent>
             <Alert severity="success" icon={<LockOpenIcon />}>
-              <strong>{File ? File.name : ""}</strong> was loaded successfully
-              and ready to download!
+              <strong>{File ? File.name : ""}</strong> {t('ready_to_download')}
             </Alert>
 
             <div className={classes.actionsContainer}>
@@ -924,7 +939,7 @@ export default function DecryptionPanel() {
                     onClick={handleBack}
                     className={classes.backButton}
                   >
-                    Back
+                    {t('back')}
                   </Button>
                 </Grid>
                 <Grid item xs>
@@ -953,12 +968,11 @@ export default function DecryptionPanel() {
                       onClick={(e) => handleDecryptedFileDownload(e)}
                       className="downloadFileDec"
                       style={{
-                        color: "#fff",
+                        color: "#ffffff",
                         textDecoration: "none",
-                        width: "100%",
                       }}
                     >
-                      {isDownloading ? "Downloading..." : "Decrypted File"}
+                      {isDownloading ? t('downloading_file') : t('decrypted_file')}
                     </a>
                   </Button>
                 </Grid>
@@ -967,7 +981,7 @@ export default function DecryptionPanel() {
 
               {isDownloading && (
                 <Alert variant="outlined" severity="info">
-                  {"Don't close the page while the file is downloading!"}
+                  {t('page_close_alert')}
                 </Alert>
               )}
             </div>
@@ -981,8 +995,8 @@ export default function DecryptionPanel() {
             severity="success"
             style={{ border: "none" }}
           >
-            <AlertTitle>Success</AlertTitle>
-            You have successfully downloaded the Decrypted file!
+            <AlertTitle>{t('success')}</AlertTitle>
+            {t('success_downloaded_file_dec')}
           </Alert>
 
           <Button
@@ -992,7 +1006,7 @@ export default function DecryptionPanel() {
             startIcon={<RefreshIcon />}
             fullWidth
           >
-            Decrypt Another File
+            {t('decrypt_another_file')}
           </Button>
         </Paper>
       )}

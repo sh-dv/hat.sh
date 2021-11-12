@@ -14,6 +14,16 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     padding: theme.spacing(3, 2),
   },
+
+  heartIcon: {
+    fontSize: "15px",
+    color: "#e74c3c",
+  },
+
+  btcAddr: {
+    backgroundColor: "#ebebeb",
+    color: "#9791a1",
+  },
 }));
 
 export default function Footer() {
@@ -25,7 +35,7 @@ export default function Footer() {
         <Container maxWidth="sm">
           <Typography variant="body1">
             built and developed with{" "}
-            <FavoriteIcon style={{ fontSize: "15px", color: "#e74c3c" }} /> by{" "}
+            <FavoriteIcon className={classes.heartIcon} /> by{" "}
             <Link
               href="https://github.com/sh-dv"
               target="_blank"
@@ -39,7 +49,7 @@ export default function Footer() {
           <Typography variant="body1">
             <Link
               href="bitcoin:bc1qh0lmuj34h2z4kr7j2sx8fegqvvaj35ycdtglw2"
-              style={{ backgroundColor: "#ebebeb", color: "#9791a1" }}
+              className={classes.btcAddr}
             >
               {"bc1qh0lmuj34h2z4kr7j2sx8fegqvvaj35ycdtglw2"}
             </Link>

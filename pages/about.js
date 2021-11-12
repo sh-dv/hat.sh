@@ -3,7 +3,7 @@
 import fs from "fs";
 import path from "path";
 import marked from "marked";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -34,6 +34,10 @@ import MenuBookIcon from "@material-ui/icons/MenuBook";
 import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 import HistoryIcon from "@material-ui/icons/History";
 import prism from "prismjs";
+import Settings from "../src/components/Settings";
+import { ThemeProvider } from "@material-ui/styles";
+import { Theme, checkTheme } from "../src/config/Theme";
+import locales from "../locales/locales";
 
 const drawerWidth = 240;
 
@@ -48,14 +52,17 @@ marked.setOptions({
 });
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  root: {
+    backgroundColor: Theme.palette.alabaster.main,
+    minHeight: "100vh",
+  },
   drawer: {
     [theme.breakpoints.down("lg")]: {
       display: "none",
     },
   },
   appBar: {
-    backgroundColor: "#fafafa",
+    backgroundColor: Theme.palette.alabaster.main,
     [theme.breakpoints.up("sm")]: {
       width: "100%",
       marginLeft: drawerWidth,
@@ -69,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     textTransform: "none",
-    color: "#9791a1",
+    color: Theme.palette.mountainMist.main,
   },
 
   menuButton: {
@@ -89,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
 
     "& h1": {
       marginTop: 20,
-      color: "#3f3f3f",
+      color: Theme.palette.mineShaft.main,
       borderRadius: "8px",
       paddingBottom: 15,
       "& a": {
@@ -102,7 +109,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     "& h2": {
-      color: "#3f3f3f",
+      color: Theme.palette.mineShaft.main,
       fontSize: "26px",
       paddingTop: 20,
       paddingBottom: 20,
@@ -110,7 +117,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     "& h3": {
-      color: "#3f3f3f",
+      color: Theme.palette.mineShaft.main,
       fontSize: "24px",
       paddingTop: 20,
       paddingBottom: 20,
@@ -118,12 +125,12 @@ const useStyles = makeStyles((theme) => ({
     },
 
     "& a": {
-      color: "#3f3f3f",
+      color: Theme.palette.mineShaft.main,
     },
 
     "& p": {
       fontSize: "17px",
-      color: "#3f3f3f",
+      color: Theme.palette.mineShaft.main,
       lineHeight: 2,
       "& code": {
         backgroundColor: "#f1f1f1",
@@ -138,7 +145,7 @@ const useStyles = makeStyles((theme) => ({
     "& li": {
       padding: 2.5,
       fontSize: "18px",
-      color: "#3f3f3f",
+      color: Theme.palette.mineShaft.main,
       "& a": {
         textDecoration: "none",
         letterSpacing: "0.5px",
@@ -147,7 +154,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     "& hr": {
-      backgroundColor: "#e9e9e9",
+      backgroundColor: Theme.palette.mercury.main,
       border: "none",
       height: "1.5px",
       marginTop: 20,
@@ -192,7 +199,7 @@ const useStyles = makeStyles((theme) => ({
       borderRadius: "3px",
       overflow: "auto",
       "& code": {
-        color: "#3f3f3f",
+        color: Theme.palette.mineShaft.main,
       },
     },
 
@@ -219,10 +226,49 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function About(props) {
-  const window = undefined;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [docContent, setDocContent] = useState("fummy");
+
+  useEffect(() => {
+    checkTheme();
+  }, []);
+
+  useEffect(() => {
+    const getLocale = () => {
+      if (typeof window !== "undefined") {
+        let language = window.localStorage.getItem("language");
+        return language ? language : "en";
+      }
+    };
+
+    let languages = props.docs;
+    let langFilter = { lang: getLocale() };
+    let langResult;
+
+    languages.forEach(function (obj) {
+      let matches = true;
+      for (let key in langFilter) {
+        if (langFilter[key] !== obj[key]) {
+          matches = false;
+        }
+      }
+      if (matches) {
+        langResult = obj;
+      }
+    });
+
+    const getContent = async () => {
+      for (const key in langResult) {
+        if (key == "content") {
+          setDocContent(langResult[key]);
+        }
+      }
+    };
+
+    getContent();
+  }, [props.docs]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -268,106 +314,96 @@ export default function About(props) {
     </div>
   );
 
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
-
   return (
-    <div className={classes.root}>
-      <CssBaseline />
+    <ThemeProvider theme={Theme}>
+      <div className={classes.root}>
+        <CssBaseline />
 
-      <AppBar
-        color="transparent"
-        position="fixed"
-        className={classes.appBar}
-        elevation={0}
-      >
-        <Container maxWidth="lg">
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              className={classes.menuButton}
+        <AppBar
+          color="transparent"
+          position="fixed"
+          className={classes.appBar}
+          elevation={0}
+        >
+          <Container maxWidth="lg">
+            <Toolbar>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={handleDrawerToggle}
+                className={classes.menuButton}
+              >
+                <MenuIcon />
+              </IconButton>
+
+              <Typography variant="h6" className={classes.logo}>
+                <a href="/">
+                  <img src="/assets/images/logo.png" alt="logo" width="40" />
+                </a>
+              </Typography>
+
+              <Button color="inherit" href="/" className={classes.button}>
+                home
+              </Button>
+
+              <IconButton
+                href="https://github.com/sh-dv/hat.sh"
+                target="_blank"
+                rel="noopener"
+              >
+                <GitHubIcon />
+              </IconButton>
+
+              <Settings />
+            </Toolbar>
+          </Container>
+        </AppBar>
+
+        <nav className={classes.drawer} aria-label="mailbox folders">
+          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+          <Hidden smUp implementation="css">
+            <Drawer
+              variant="temporary"
+              anchor="left"
+              open={mobileOpen}
+              onClose={handleDrawerToggle}
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              ModalProps={{
+                keepMounted: true, // Better open performance on mobile.
+              }}
             >
-              <MenuIcon />
-            </IconButton>
-
-            <Typography variant="h6" className={classes.logo}>
-              <a href="/">
-                <img src="/assets/images/logo.png" alt="logo" width="40" />
-              </a>
-            </Typography>
-
-            <Button color="inherit" href="/" className={classes.button}>
-              home
-            </Button>
-
-            <Button
-              color="inherit"
-              href="https://v1.hat.sh"
-              target="_blank"
-              rel="noopener"
-              className={classes.button}
+              {drawer}
+            </Drawer>
+          </Hidden>
+          <Hidden xsDown implementation="css">
+            <Drawer
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              variant="permanent"
+              open
             >
-              v1
-            </Button>
-            <IconButton
-              color="inherit"
-              href="https://github.com/sh-dv/hat.sh"
-              target="_blank"
-              rel="noopener"
-            >
-              <GitHubIcon />
-            </IconButton>
-          </Toolbar>
-        </Container>
-      </AppBar>
+              {drawer}
+            </Drawer>
+          </Hidden>
+        </nav>
+        <main className={classes.content}>
+          <Container maxWidth="lg">
+            <div className={classes.toolbar} />
 
-      <nav className={classes.drawer} aria-label="mailbox folders">
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Hidden smUp implementation="css">
-          <Drawer
-            container={container}
-            variant="temporary"
-            anchor={theme.direction === "rtl" ? "right" : "left"}
-            open={mobileOpen}
-            onClose={handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-        <Hidden xsDown implementation="css">
-          <Drawer
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            variant="permanent"
-            open
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-      </nav>
-      <main className={classes.content}>
-        <Container maxWidth="lg">
-          <div className={classes.toolbar} />
+            <div dangerouslySetInnerHTML={{ __html: marked(docContent) }}></div>
+            <div
+              dangerouslySetInnerHTML={{ __html: marked(props.changelog) }}
+            ></div>
+          </Container>
+        </main>
 
-          <div dangerouslySetInnerHTML={{ __html: marked(props.docs) }}></div>
-          <div
-            dangerouslySetInnerHTML={{ __html: marked(props.changelog) }}
-          ></div>
-        </Container>
-      </main>
-
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </ThemeProvider>
   );
 }
 
@@ -382,7 +418,19 @@ About.propTypes = {
 export async function getStaticProps() {
   // Get files from the posts dir
 
-  const docs = fs.readFileSync(path.join("docs", "docs.md"), "utf-8");
+  let docs = [];
+
+  {
+    Object.entries(locales).map(([code, name]) => {
+      let docFile = fs.readFileSync(
+        path.join("locales/", `${code}/docs.md`),
+        "utf-8"
+      );
+      let docStructure = { lang: code, content: docFile };
+      docs.push(docStructure);
+    });
+  }
+
   const changelog = fs.readFileSync("CHANGELOG.md", "utf-8");
 
   return {

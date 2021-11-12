@@ -2,16 +2,17 @@
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
+import { getTranslations as t } from "../../locales";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   heroTitle: {
-    color: "#9791a1",
+    color: theme.palette.mountainMist.main,
     marginTop: 20,
   },
   heroSubTitle: {
-    color: "#9791a1",
+    color: theme.palette.mountainMist.main,
   },
-});
+}));
 
 export default function Hero() {
   const classes = useStyles();
@@ -23,8 +24,7 @@ export default function Hero() {
         gutterBottom
         className={classes.heroTitle}
       >
-        Hat.sh v2 is here{" "}
-        <img alt="👋" src="/assets/images/wavinghand.png" width="24" />
+        {"Hat.sh"}
       </Typography>
       <Typography
         variant="subtitle1"
@@ -32,7 +32,7 @@ export default function Hero() {
         component="p"
         className={classes.heroSubTitle}
       >
-        simple, fast, secure client-side file encryption
+        {t('sub_title')}
         <br />
       </Typography>
     </Container>

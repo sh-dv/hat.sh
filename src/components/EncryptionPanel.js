@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import { useDropzone } from "react-dropzone";
 import { formatBytes } from "../helpers/formatBytes";
 import { formatUrl } from "../helpers/formatUrl";
@@ -38,21 +39,25 @@ import GetAppIcon from "@material-ui/icons/GetApp";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import LinkIcon from "@material-ui/icons/Link";
+import Collapse from "@material-ui/core/Collapse";
+import CloseIcon from "@material-ui/icons/Close";
+import { getTranslations as t } from "../../locales";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
   },
   stepper: {
+    color: theme.palette.mineShaft.main,
     backgroundColor: "transparent",
   },
 
   stepIcon: {
     "&$activeStepIcon": {
-      color: "#525252",
+      color: theme.palette.emperor.main,
     },
     "&$completedStepIcon": {
-      color: "#525252",
+      color: theme.palette.emperor.main,
     },
   },
   activeStepIcon: {},
@@ -63,10 +68,10 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
     borderRadius: "8px",
     border: "none",
-    color: "#3f3f3f",
-    backgroundColor: "#f3f3f3",
+    color: theme.palette.mineShaft.main,
+    backgroundColor: theme.palette.mercury.light,
     "&:hover": {
-      backgroundColor: "#e9e9e9",
+      backgroundColor: theme.palette.mercury.main,
     },
     transition: "background-color 0.2s ease-out",
     transition: "color .01s",
@@ -79,10 +84,10 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "none",
     borderRadius: "8px",
     border: "none",
-    color: "#3f3f3f",
-    backgroundColor: "#e1e1e1",
+    color: theme.palette.mineShaft.main,
+    backgroundColor: theme.palette.alto.light,
     "&:hover": {
-      backgroundColor: "#d2d2d2",
+      backgroundColor: theme.palette.alto.main,
     },
     transition: "background-color 0.2s ease-out",
     transition: "color .01s",
@@ -92,17 +97,17 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     marginRight: theme.spacing(1),
     borderRadius: "8px",
-    backgroundColor: "#e9e9e9",
+    backgroundColor: theme.palette.mercury.main,
     transition: "color .01s",
   },
   nextButton: {
     marginTop: theme.spacing(1),
     marginRight: theme.spacing(1),
     borderRadius: "8px",
-    backgroundColor: "#464653",
-    color: "#fff",
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.white.main,
     "&:hover": {
-      backgroundColor: "#3f3f3f",
+      backgroundColor: theme.palette.mineShaft.main,
     },
     transition: "color .01s",
   },
@@ -122,7 +127,7 @@ const useStyles = makeStyles((theme) => ({
   textFieldLabel: {
     // this will be applied when input focused (label color change)
     "&$textFieldLabelFocused": {
-      color: "#525252",
+      color: theme.palette.emperor.main,
     },
   },
   textFieldLabelFocused: {},
@@ -130,25 +135,41 @@ const useStyles = makeStyles((theme) => ({
   textFieldRoot: {
     // this will be applied when hovered (input text color change)
     "&:hover": {
-      color: "#525252",
+      color: theme.palette.emperor.main,
     },
     // this will applied when hovered (input border color change)
     "&:hover $textFieldNotchedOutline": {
-      borderColor: "#525252",
+      borderColor: theme.palette.emperor.main,
     },
     // this will be applied when focused (input border color change)
     "&$textFieldFocused $textFieldNotchedOutline": {
-      borderColor: "#525252",
+      borderColor: theme.palette.emperor.main,
     },
   },
   textFieldFocused: {},
   textFieldNotchedOutline: {},
+
+  fileArea: {
+    padding: "20px",
+    border: "5px dashed",
+    borderColor: theme.palette.gallery.main,
+    borderRadius: "14px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "column",
+    marginBottom: "10px",
+  },
 }));
 
 let file, index;
 
 export default function EncryptionPanel() {
   const classes = useStyles();
+
+  const router = useRouter();
+
+  const query = router.query;
 
   const [activeStep, setActiveStep] = useState(0);
 
@@ -181,6 +202,8 @@ export default function EncryptionPanel() {
   const [snackBarOpen, setSnackBarOpen] = useState(false);
 
   const [snackBarMessage, setSnackBarMessage] = useState();
+
+  const [pkAlert, setPkAlert] = useState(false);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: (acceptedFile) => {
@@ -385,6 +408,14 @@ export default function EncryptionPanel() {
   }, []);
 
   useEffect(() => {
+    if (query.tab === "encryption" && query.publicKey) {
+      setPublicKey(query.publicKey);
+      setPkAlert(true);
+      setEncryptionMethod("publicKey");
+    }
+  }, [query.publicKey, query.tab]);
+
+  useEffect(() => {
     navigator.serviceWorker.addEventListener("message", (e) => {
       switch (e.data.reply) {
         case "goodKeyPair":
@@ -402,13 +433,13 @@ export default function EncryptionPanel() {
         case "wrongKeyPair":
           setKeysError(true);
           setKeysErrorMessage(
-            "This key pair is invalid! Please select keys for different parties."
+            t('invalid_key_pair')
           );
           break;
 
         case "wrongKeyInput":
           setKeysError(true);
-          setKeysErrorMessage("Invalid keys input.");
+          setKeysErrorMessage(t('invalid_keys_input'));
           break;
 
         case "keysGenerated":
@@ -459,9 +490,29 @@ export default function EncryptionPanel() {
             alt="hat.sh logo"
           />
           <br />
-          Drop file to encrypt
+          {t('drop_file_enc')}
         </Typography>
       </Backdrop>
+
+      <Collapse in={pkAlert} style={{ marginTop: 5 }}>
+        <Alert
+          severity="success"
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setPkAlert(false);
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+        >
+          {t('recipient_key_loaded')}
+        </Alert>
+      </Collapse>
 
       <Stepper
         activeStep={activeStep}
@@ -478,13 +529,13 @@ export default function EncryptionPanel() {
               },
             }}
           >
-            {"Choose a file to encrypt"}
+            {t('choose_file_enc')}
           </StepLabel>
           <StepContent>
             <div className="wrapper p-3" id="encFileWrapper">
-              <div className="file-area" id="encFileArea">
+              <div className={classes.fileArea} id="encFileArea">
                 <Typography>
-                  {File ? File.name : "Drag & Drop or Browse file"}
+                  {File ? File.name : t('drag_drop')}
                 </Typography>
                 <Typography>{File ? formatBytes(File.size) : ""}</Typography>
 
@@ -502,7 +553,7 @@ export default function EncryptionPanel() {
                     component="span"
                     startIcon={<DescriptionIcon />}
                   >
-                    {File ? "Change File" : "Browse File"}
+                    {File ? t('change_file') : t('browse_file')}
                   </Button>
                 </label>
               </div>
@@ -517,7 +568,7 @@ export default function EncryptionPanel() {
                   onClick={handleNext}
                   className={`${classes.nextButton} submitFile`}
                 >
-                  {"Next"}
+                  {t('next')}
                 </Button>
               </div>
             </div>
@@ -535,8 +586,8 @@ export default function EncryptionPanel() {
             }}
           >
             {encryptionMethod === "secretKey"
-              ? "Enter a password"
-              : "Enter recipient's Public key and your Private Key"}
+              ? t('enter_password_enc')
+              : t('enter_keys_enc')}
           </StepLabel>
 
           <StepContent>
@@ -552,16 +603,16 @@ export default function EncryptionPanel() {
                 <FormControlLabel
                   value="secretKey"
                   control={<Radio color="default" />}
-                  label="Password"
-                  labelPlacement="right"
+                  label={t('password')}
+                  labelPlacement="end"
                   onChange={handleRadioChange}
                 />
                 <FormControlLabel
                   value="publicKey"
                   className="publicKeyInput"
                   control={<Radio color="default" />}
-                  label="Public key"
-                  labelPlacement="right"
+                  label={t('public_key')}
+                  labelPlacement="end"
                   onChange={handleRadioChange}
                 />
               </RadioGroup>
@@ -572,12 +623,12 @@ export default function EncryptionPanel() {
                 required
                 type={showPassword ? "text" : "password"}
                 id="encPasswordInput"
-                label="Required"
-                placeholder="Password"
+                label={t('required')}
+                placeholder={t('password')}
                 helperText={
                   Password
-                    ? "Password strength: " + passwordStrengthCheck(Password)
-                    : "Choose a strong Password"
+                    ? t('password_strength') + " : " + passwordStrengthCheck(Password)
+                    : t('choose_strong_password')
                 }
                 variant="outlined"
                 value={Password ? Password : ""}
@@ -599,7 +650,7 @@ export default function EncryptionPanel() {
                   endAdornment: (
                     <>
                       {Password && (
-                        <Tooltip title="Show Password" placement="left">
+                        <Tooltip title={t('show_password')} placement="left">
                           <IconButton
                             onClick={() => setShowPassword(!showPassword)}
                           >
@@ -607,7 +658,7 @@ export default function EncryptionPanel() {
                           </IconButton>
                         </Tooltip>
                       )}
-                      <Tooltip title="Generate Password" placement="left">
+                      <Tooltip title={t('generate_password')} placement="left">
                         <IconButton
                           onClick={generatedPassword}
                           className="generatePasswordBtn"
@@ -627,9 +678,9 @@ export default function EncryptionPanel() {
                   id="public-key-input"
                   required
                   error={wrongPublicKey ? true : false}
-                  label={wrongPublicKey ? "Error" : "recipient's Public Key"}
-                  helperText={wrongPublicKey ? "Wrong Public Key" : ""}
-                  placeholder="Enter recipient's public key"
+                  label={wrongPublicKey ? t('error') : t('recipient_public_key')}
+                  helperText={wrongPublicKey ? t('wrong_public_key') : ""}
+                  placeholder={t('enter_recipient_public_key')}
                   variant="outlined"
                   value={PublicKey ? PublicKey : ""}
                   onChange={(e) => handlePublicKeyInput(e.target.value)}
@@ -658,9 +709,9 @@ export default function EncryptionPanel() {
                           onChange={(e) => loadPublicKey(e.target.files[0])}
                         />
                         <label htmlFor="public-key-file">
-                          <Tooltip title="Load Public Key" placement="left">
+                          <Tooltip title={t('load_public_key')} placement="left">
                             <IconButton
-                              aria-label="Load Public Key"
+                              aria-label={t('load_public_key')}
                               component="span"
                             >
                               <AttachFileIcon />
@@ -677,9 +728,9 @@ export default function EncryptionPanel() {
                   type={showPrivateKey ? "text" : "password"}
                   required
                   error={wrongPrivateKey ? true : false}
-                  label={wrongPrivateKey ? "Error" : "Your Private Key"}
-                  helperText={wrongPrivateKey ? "Wrong Private Key" : ""}
-                  placeholder="Enter your private key"
+                  label={wrongPrivateKey ? t('error') : t('your_private_key_enc')}
+                  helperText={wrongPrivateKey ? t('wrong_private_key') : ""}
+                  placeholder={t('enter_private_key_enc')}
                   variant="outlined"
                   value={PrivateKey ? PrivateKey : ""}
                   onChange={(e) => handlePrivateKeyInput(e.target.value)}
@@ -701,7 +752,7 @@ export default function EncryptionPanel() {
                     endAdornment: (
                       <>
                         {PrivateKey && (
-                          <Tooltip title="Show Private Key" placement="left">
+                          <Tooltip title={t('show_private_key')} placement="left">
                             <IconButton
                               onClick={() => setShowPrivateKey(!showPrivateKey)}
                             >
@@ -722,9 +773,9 @@ export default function EncryptionPanel() {
                           onChange={(e) => loadPrivateKey(e.target.files[0])}
                         />
                         <label htmlFor="private-key-file">
-                          <Tooltip title="Load Private Key" placement="left">
+                          <Tooltip title={t('load_private_key')} placement="left">
                             <IconButton
-                              aria-label="Load Private Key"
+                              aria-label={t('load_private_key')}
                               component="span"
                             >
                               <AttachFileIcon />
@@ -750,7 +801,7 @@ export default function EncryptionPanel() {
                       className={classes.backButton}
                       fullWidth
                     >
-                      Back
+                      {t('back')}
                     </Button>
                   </Grid>
                   <Grid item xs>
@@ -765,7 +816,7 @@ export default function EncryptionPanel() {
                       className={`${classes.nextButton} submitKeys`}
                       fullWidth
                     >
-                      {"Next"}
+                      {t('next')}
                     </Button>
                   </Grid>
                 </Grid>
@@ -789,12 +840,11 @@ export default function EncryptionPanel() {
               },
             }}
           >
-            {"Download encrypted file"}
+            {t('download_encrypted_file')}
           </StepLabel>
           <StepContent>
             <Alert severity="success" icon={<LockOutlinedIcon />}>
-              <strong>{File ? File.name : ""}</strong> was loaded successfully
-              and ready to download!
+              <strong>{File ? File.name : ""}</strong> {t('ready_to_download')}
             </Alert>
 
             <div className={classes.actionsContainer}>
@@ -805,7 +855,7 @@ export default function EncryptionPanel() {
                     onClick={handleBack}
                     className={classes.backButton}
                   >
-                    Back
+                    {t('back')}
                   </Button>
                 </Grid>
                 <Grid item xs>
@@ -833,12 +883,11 @@ export default function EncryptionPanel() {
                       onClick={(e) => handleEncryptedFileDownload(e)}
                       className="downloadFile"
                       style={{
-                        color: "#fff",
+                        color: "#ffffff",
                         textDecoration: "none",
-                        width: "100%",
                       }}
                     >
-                      {isDownloading ? "Downloading..." : "Encrypted File"}
+                      {isDownloading ? t('downloading_file') : t('encrypted_file')}
                     </a>
                   </Button>
                 </Grid>
@@ -847,7 +896,7 @@ export default function EncryptionPanel() {
 
               {isDownloading && (
                 <Alert variant="outlined" severity="info">
-                  {"Don't close the page while the file is downloading!"}
+                  {t('page_close_alert')}
                 </Alert>
               )}
             </div>
@@ -861,21 +910,18 @@ export default function EncryptionPanel() {
             severity="success"
             style={{ border: "none" }}
           >
-            <AlertTitle>Success</AlertTitle>
-            You have successfully downloaded the encrypted file!
+            <AlertTitle>{t('success')}</AlertTitle>
+            {t('success_downloaded_file_enc')}
             {encryptionMethod === "publicKey" && (
               <>
                 <br />
                 <br />
                 <ul>
                   <li>
-                    You must share this file along with your public key in order
-                    for the recipient to decrypt it.
+                    {t('after_enc_note_one')}
                   </li>
                   <li>
-                    You can create a link that has your public key so you do not
-                    have to send your public key and worry about the recipient
-                    entering it.
+                    {t('after_enc_note_two')}
                   </li>
                 </ul>
               </>
@@ -888,7 +934,7 @@ export default function EncryptionPanel() {
                 <Button
                   onClick={() => {
                     navigator.clipboard.writeText(Password);
-                    setSnackBarMessage("Password copied!");
+                    setSnackBarMessage(t('password_copied'));
                     showSnackBar();
                   }}
                   className={`${classes.button} copyPassword`}
@@ -897,7 +943,7 @@ export default function EncryptionPanel() {
                   fullWidth
                   style={{ textTransform: "none" }}
                 >
-                  {"Copy Password"}
+                  {t('copy_password')}
                 </Button>
               </Grid>
             )}
@@ -905,7 +951,7 @@ export default function EncryptionPanel() {
             {encryptionMethod === "publicKey" && (
               <Grid item xs={12} sm={6}>
                 <Tooltip
-                  title="Create a link that has your public key"
+                  title={t('create_shareable_link_tooltip')}
                   placement="bottom"
                 >
                   <Button
@@ -916,7 +962,7 @@ export default function EncryptionPanel() {
                     fullWidth
                     style={{ textTransform: "none" }}
                   >
-                    {"Create shareable link"}
+                    {t('create_shareable_link')}
                   </Button>
                 </Tooltip>
               </Grid>
@@ -931,7 +977,7 @@ export default function EncryptionPanel() {
                 fullWidth
                 style={{ textTransform: "none" }}
               >
-                Encrypt Another File
+                {t('encrypt_another_file')}
               </Button>
             </Grid>
 
@@ -950,11 +996,11 @@ export default function EncryptionPanel() {
                   },
                   endAdornment: (
                     <>
-                      <Tooltip title="Copy link" placement="left">
+                      <Tooltip title={t('copy_link')} placement="left">
                         <IconButton
                           onClick={() => {
                             navigator.clipboard.writeText(shareableLink);
-                            setSnackBarMessage("Shareable link copied!");
+                            setSnackBarMessage(t('create_shareable_link_copied'));
                             showSnackBar();
                           }}
                         >
@@ -964,7 +1010,7 @@ export default function EncryptionPanel() {
                     </>
                   ),
                 }}
-                helperText="This link was generated offline."
+                helperText={t('create_shareable_link_note')}
                 variant="outlined"
                 fullWidth
               />

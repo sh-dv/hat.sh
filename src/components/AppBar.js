@@ -9,6 +9,8 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import VersionBadge from "./VersionBadge";
+import Settings from "./Settings";
+import { getTranslations as t } from "../../locales";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     textTransform: "none",
-    color: "#9791a1",
+    color: theme.palette.mountainMist.main,
   },
 }));
 
@@ -40,26 +42,18 @@ export default function NavAppBar() {
             </Typography>
 
             <Button color="inherit" href="/about" className={classes.button}>
-              about
+              {t("about")}
             </Button>
 
-            <Button
-              color="inherit"
-              href="https://v1.hat.sh"
-              target="_blank"
-              rel="noopener"
-              className={classes.button}
-            >
-              v1
-            </Button>
             <IconButton
-              color="inherit"
               href="https://github.com/sh-dv/hat.sh"
               target="_blank"
               rel="noopener"
             >
               <GitHubIcon />
             </IconButton>
+
+            <Settings />
           </Toolbar>
         </Container>
       </AppBar>

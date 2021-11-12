@@ -6,22 +6,22 @@
   padding: 0;
 }
 
+/* body > * {filter: invert(0.9) hue-rotate(180deg);} */
+
 body {
   background-color: #fafafa;
   font-family: "Roboto", sans-serif;
+  /* filter: invert(1) contrast(0.95) saturate(0.5) hue-rotate(180deg); */
 }
 
 .wrapper {
   border-radius: 8px;
 }
 
-.file-area {
-  padding: 20px;
-  border: 5px dashed #ebebeb;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin-bottom: 10px;
+.darkStyle, .darkStyle canvas {
+  filter: invert(0.9) hue-rotate(180deg);
+}
+
+.darkStyle .MuiPaper-root {
+  box-shadow: none;
 }

@@ -333,7 +333,7 @@ No, we don't know your password. Always make sure to store your passwords in a p
 
 It means that your browser doesn't support the server-worker fetch api. Hence, you are limited to small size files. see [Limitations](#limitations) for more info.
 
-<hr style="height: 1px">
+<hr style="height: 1px" id="why-need-private-key">
 
 ### Is it safe to share my public key?
 
@@ -345,7 +345,7 @@ But make sure to never share your private key with anyone!
 
 ### Why the app asks for my private key in the public key encryption mode?
 
-Because Hat.sh uses authenticated encryption. For verification and decryption, the recipient must provide the public key that belongs to the sender, this way can verify that the encrypted file was not tampered with, and was sent from the sender.
+Hat.sh uses authenticated encryption. For verification and decryption, the sender must provide the private key also, a new shared key will be computed from provide their private key when decrypting. this way can verify that the encrypted file was not tampered with, and was sent from the real sender.
 
 <hr style="height: 1px">
 

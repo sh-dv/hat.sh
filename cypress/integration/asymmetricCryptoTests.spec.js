@@ -13,7 +13,7 @@ const downloadsFolder = Cypress.config("downloadsFolder");
 let aliceKeys = { publicKey: null, privateKey: null };
 let bobKeys = { publicKey: null, privateKey: null };
 
-describe("Symmetric encryption test", () => {
+describe("Asymmetric encryption test", () => {
   beforeEach(() => {
     //locate app in dev mode
     cy.visit('/');

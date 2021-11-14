@@ -257,6 +257,7 @@ const LimitedEncryptionPanel = () => {
     setKeysError(false);
     setShareableLink();
     setSnackBarMessage();
+    setPkAlert(false);
     file = null;
     limitedEncFileBuff = null;
     limitedIndex = null;

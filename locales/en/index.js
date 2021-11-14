@@ -122,6 +122,7 @@ const en = {
   generate_public_key: "Generate public key",
   generate_private_key: "Generate private key",
   show_private_key: "Show Private Key",
+  why_need_private_key: "Why need my private key?",
   private_key_notice: "Never share your private key to anyone! Only public keys should be exchanged.",
   generate_qr_code: "Generate QR code",
   qr_code_note_one: "This QR code contains your public key. After scanning, the device will redirect to the app and autofills the public key.",

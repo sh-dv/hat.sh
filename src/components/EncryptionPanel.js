@@ -241,6 +241,7 @@ export default function EncryptionPanel() {
     setIsDownloading(false);
     setShareableLink();
     setSnackBarMessage();
+    setPkAlert(false);
     file = null;
     index = null;
     router.replace(router.pathname);

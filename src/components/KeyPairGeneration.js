@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 import { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Alert from "@material-ui/lab/Alert";
@@ -14,12 +15,13 @@ import GetAppIcon from "@material-ui/icons/GetApp";
 import { generateAsymmetricKeys } from "../utils/generateAsymmetricKeys";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import Hidden from '@material-ui/core/Hidden';
 import { getTranslations as t } from "../../locales";
 import QuickResponseCode from "./QuickResponseCode";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: 35,
+    marginTop: 50,
     width: "100%",
     "& > * + *": {
       marginTop: theme.spacing(2),
@@ -35,6 +37,15 @@ const useStyles = makeStyles((theme) => ({
   caption: {
     float: "right",
     color: theme.palette.mountainMist.main,
+  },
+  keyCaption: {
+    float: "left",
+    color: theme.palette.mountainMist.main,
+    marginLeft: 4,
+    "&:hover": {
+      cursor: "pointer",
+      textDecoration: "underline",
+    },
   },
   button: {
     marginTop: theme.spacing(1),
@@ -62,7 +73,9 @@ const KeysGenerationLabel = () => {
 
   const [PublicKey, setPublicKey] = useState();
   const [PrivateKey, setPrivateKey] = useState();
-  const [generateBtnText, setGenerateBtnText] = useState(t("generate_key_pair_button"));
+  const [generateBtnText, setGenerateBtnText] = useState(
+    t("generate_key_pair_button")
+  );
 
   const [showPrivateKey, setShowPrivateKey] = useState(false);
 
@@ -70,7 +83,7 @@ const KeysGenerationLabel = () => {
     let generated = await generateAsymmetricKeys();
     setPublicKey(generated.publicKey);
     setPrivateKey(generated.privateKey);
-    setGenerateBtnText(t('generate_another_key_pair_button'))
+    setGenerateBtnText(t("generate_another_key_pair_button"));
   };
 
   const downloadKey = (data, filename) => {
@@ -105,6 +118,14 @@ const KeysGenerationLabel = () => {
         <Typography variant="caption" className={classes.caption}>
           {t("key_pair_question")}
         </Typography>
+
+        <Hidden xsDown>
+          <a href="/about/#why-need-private-key">
+            <Typography variant="caption" className={classes.keyCaption}>
+              {t('why_need_private_key')}
+            </Typography>
+          </a>
+        </Hidden>
       </div>
 
       <div className={classes.root}>
@@ -174,7 +195,10 @@ const KeysGenerationLabel = () => {
                     readOnly: true,
                     endAdornment: PrivateKey && (
                       <>
-                        <Tooltip title={t("show_private_key")} placement="bottom">
+                        <Tooltip
+                          title={t("show_private_key")}
+                          placement="bottom"
+                        >
                           <IconButton
                             onClick={() => setShowPrivateKey(!showPrivateKey)}
                           >

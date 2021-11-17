@@ -77,7 +77,7 @@ const QuickResponseCode = (props) => {
           <div className={classes.form}>
             <QRCode
               value={url}
-              size={128}
+              size={200}
               bgColor={"#ffffff"}
               fgColor={"#000000"}
               level={"M"}

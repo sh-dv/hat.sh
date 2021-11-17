@@ -3,6 +3,7 @@
 ---
 ## v2.1.1
 
+- Multiple files encryption/decryption.
 - Adding Dark Mode and tweaking styles.
 - Implementing custom localization.
 - Adding the ability to generate a QR code for the public key when generating a keypair.

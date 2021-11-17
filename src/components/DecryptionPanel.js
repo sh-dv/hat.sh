@@ -34,6 +34,8 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 import CloseIcon from "@material-ui/icons/Close";
 import { getTranslations as t } from "../../locales";
+import { List, ListItem, ListItemSecondaryAction,ListItemText } from "@material-ui/core";
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -153,7 +155,7 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
-let file, index, decFileBuff;
+let file, index, decFileBuff, files=[], password, currFile = 0, numberOfFiles, decryptionMethodState, privateKey, publicKey;
 
 export default function DecryptionPanel() {
   const classes = useStyles();
@@ -164,7 +166,9 @@ export default function DecryptionPanel() {
 
   const [activeStep, setActiveStep] = useState(0);
 
-  const [File, setFile] = useState();
+  const [Files, setFiles] = useState([]);
+
+  const [currFileState, setCurrFileState] = useState(0);
 
   const [Password, setPassword] = useState();
 
@@ -184,9 +188,11 @@ export default function DecryptionPanel() {
 
   const [keysErrorMessage, setKeysErrorMessage] = useState();
 
-  const [badFile, setbadFile] = useState(false);
+  const [badFile, setbadFile] = useState();
 
-  const [oldVersion, setOldVersion] = useState(false);
+  const [oldVersion, setOldVersion] = useState();
+
+  const [fileMixUp, setFileMixUp] = useState(false);
 
   const [wrongPassword, setWrongPassword] = useState(false);
 
@@ -203,8 +209,8 @@ export default function DecryptionPanel() {
   const [pkAlert, setPkAlert] = useState(false);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop: (acceptedFile) => {
-      handleFileInput(acceptedFile[0]);
+    onDrop: (acceptedFiles) => {
+      handleFilesInput(acceptedFiles);
     },
     noClick: true,
     noKeyboard: true,
@@ -227,36 +233,87 @@ export default function DecryptionPanel() {
 
   const handleReset = () => {
     setActiveStep(0);
-    setFile();
+    setFiles([]);
     setPassword();
     setWrongPassword(false);
     setbadFile(false);
     setOldVersion(false);
+    setFileMixUp(false);
     setPublicKey();
     setPrivateKey();
+    privateKey = null;
+    publicKey = null;
     setWrongPublicKey(false);
     setWrongPrivateKey(false);
     setKeysError(false);
     setPkAlert(false);
     file = null;
     index = null;
+    files = [];
+    numberOfFiles = 0;
+    resetCurrFile()
     router.replace(router.pathname);
   };
 
-  const handleFileInput = (selectedFile) => {
-    file = selectedFile;
-    setFile(selectedFile);
+  const resetCurrFile = () => {
+    currFile = 0
+    setCurrFileState(currFile)
+  }
+
+  const updateCurrFile = () => {
+    currFile += 1;
+    setCurrFileState(currFile)
+    
+  }
+
+  const handleFilesInput = (selectedFiles) => {
+    selectedFiles = Array.from(selectedFiles)
+    if(files.length>0) {
+      files = files.concat(selectedFiles)
+      files = files.filter((thing, index, self) =>
+        index === self.findIndex((t) => (
+          t.name === thing.name && t.size === thing.size
+        ))
+      )
+    } else {
+      files = selectedFiles;
+    }
+    setFiles(files)
+    console.log(files)
+    setbadFile(false);
+    setOldVersion(false);
+    setFileMixUp(false);
+    resetCurrFile()
+    decryptionMethodState = null;
   };
+
+  const updateFilesInput = (index) => {
+    files = [
+      ...files.slice(0, index),
+      ...files.slice(index + 1)
+    ];
+    setFiles(files)
+    console.log(files)
+    setbadFile(false);
+    setOldVersion(false);
+    setFileMixUp(false);
+    resetCurrFile()
+    decryptionMethodState = null;
+  }
 
   const handlePasswordInput = (selectedPassword) => {
     setPassword(selectedPassword);
+    password = selectedPassword;
   };
 
-  const checkFile = () => {
+  const checkFile = (file) => {
     navigator.serviceWorker.ready.then((reg) => {
       setIsCheckingFile(true);
       setbadFile(false);
       setOldVersion(false);
+      setFileMixUp(false);
+
+      console.log(file)
 
       Promise.all([
         file.slice(0, 11).arrayBuffer(), //signatures
@@ -271,11 +328,79 @@ export default function DecryptionPanel() {
     });
   };
 
-  const testDecryption = () => {
-    if (decryptionMethod === "secretKey") {
+  const checkFiles = () => {
+    numberOfFiles = files.length;
+    if (currFile <= numberOfFiles - 1) {
+      console.log(files)
+      console.log(`checking file ${currFile+1}/${numberOfFiles}`)
+      console.log(files[currFile])
+      checkFile(files[currFile]);
+    }
+
+  }
+
+  const checkFilesQueue = () => {
+    
+    if (numberOfFiles > 1) {
+      updateCurrFile();
+
+      if(currFile <= numberOfFiles - 1){
+        checkFiles();
+      }else {
+        setActiveStep(1);
+        setIsCheckingFile(false);
+        resetCurrFile()
+        console.log("all files were successfully checked!")
+        console.log(decryptionMethodState)
+      }
+    } 
+
+  }
+
+  const checkFileMixUp = () => {
+    setFileMixUp(true);
+    setIsCheckingFile(false);
+  }
+
+  
+
+  const checkFilesTestQueue = () => {
+    if (numberOfFiles > 1) {
+      updateCurrFile();
+
+      if(currFile <= numberOfFiles - 1){
+        testFilesDecryption();
+      }else {
+        setIsTestingKeys(false);
+        setIsTestingPassword(false);
+        handleNext();
+        resetCurrFile()
+        console.log("all files were successfully tested!")
+      }
+    } 
+
+  }
+
+  const testFilesDecryption = () => {
+    numberOfFiles = files.length;
+    if (currFile <= numberOfFiles - 1) {
+      console.log(files)
+      console.log(`testing file ${currFile+1}/${numberOfFiles}`)
+      console.log(files[currFile])
+      testDecryption(files[currFile]);
+    }
+
+  }
+
+  const testDecryption = (file) => {
+
+    console.log(currFile)
+
+    if (decryptionMethodState === "secretKey") {
       navigator.serviceWorker.ready.then((reg) => {
         setIsTestingPassword(true);
-        let password = Password;
+        setWrongPassword(false)
+
         Promise.all([
           file.slice(0, 11).arrayBuffer(), //signature
           file.slice(11, 27).arrayBuffer(), //salt
@@ -300,14 +425,18 @@ export default function DecryptionPanel() {
       });
     }
 
-    if (decryptionMethod === "publicKey") {
+    if (decryptionMethodState === "publicKey") {
       navigator.serviceWorker.ready.then((reg) => {
         setIsTestingKeys(true);
         setKeysError(false);
+        setWrongPrivateKey(false)
+        setWrongPublicKey(false)
+
+        console.log(decryptionMethodState)
+        console.log(privateKey)
+        console.log(publicKey)
 
         let mode = "test";
-        let privateKey = PrivateKey;
-        let publicKey = PublicKey;
 
         Promise.all([
           file.slice(11, 35).arrayBuffer(), //header
@@ -334,6 +463,7 @@ export default function DecryptionPanel() {
 
   const handlePublicKeyInput = (selectedKey) => {
     setPublicKey(selectedKey);
+    publicKey = selectedKey;
     setWrongPublicKey(false);
   };
 
@@ -345,6 +475,7 @@ export default function DecryptionPanel() {
         reader.readAsText(file);
         reader.onload = () => {
           setPublicKey(reader.result);
+          publicKey = reader.result;
         };
       }
     }
@@ -352,6 +483,7 @@ export default function DecryptionPanel() {
 
   const handlePrivateKeyInput = (selectedKey) => {
     setPrivateKey(selectedKey);
+    privateKey = selectedKey;
     setWrongPrivateKey(false);
   };
 
@@ -363,75 +495,95 @@ export default function DecryptionPanel() {
         reader.readAsText(file);
         reader.onload = () => {
           setPrivateKey(reader.result);
+          privateKey = reader.result;
         };
       }
     }
   };
 
-  const handleDecryptedFileDownload = async (e) => {
-    let fileName = formatName(file.name);
-    let safeUrl = await formatUrl(fileName);
-    e.target.setAttribute("href", "/file?name=" + safeUrl);
-    setIsDownloading(true);
+  const handleEncryptedFilesDownload = async (e) => {
+    numberOfFiles = Files.length;
+    kickOffDecryption()
+  };
 
-    if (decryptionMethod === "secretKey") {
-      navigator.serviceWorker.ready.then((reg) => {
-        let password = Password;
-        Promise.all([
-          file.slice(0, 11).arrayBuffer(), //signature
-          file.slice(11, 27).arrayBuffer(), //salt
-          file.slice(27, 51).arrayBuffer(), //header
-          file
-            .slice(
-              51,
-              51 + CHUNK_SIZE + crypto_secretstream_xchacha20poly1305_ABYTES
-            )
-            .arrayBuffer(), //17
-        ]).then(([signature, salt, header, chunk]) => {
-          reg.active.postMessage({
-            cmd: "requestDecryption",
-            password,
-            signature,
-            salt,
-            header,
+  const kickOffDecryption = async (e) => {
+
+    if (currFile <= numberOfFiles - 1) {
+
+      file = files[currFile];
+
+      let fileName = formatName(file.name);
+      let safeUrl = await formatUrl(fileName);
+      window.open(`file?name=${safeUrl}`, "_self");
+      setIsDownloading(true);
+  
+      console.log(safeUrl)
+  
+      console.log(decryptionMethodState)
+  
+      if (decryptionMethodState === "secretKey") {
+        navigator.serviceWorker.ready.then((reg) => {
+          Promise.all([
+            file.slice(0, 11).arrayBuffer(), //signature
+            file.slice(11, 27).arrayBuffer(), //salt
+            file.slice(27, 51).arrayBuffer(), //header
+            file
+              .slice(
+                51,
+                51 + CHUNK_SIZE + crypto_secretstream_xchacha20poly1305_ABYTES
+              )
+              .arrayBuffer(), //17
+          ]).then(([signature, salt, header, chunk]) => {
+            reg.active.postMessage({
+              cmd: "requestDecryption",
+              password,
+              signature,
+              salt,
+              header,
+            });
           });
         });
-      });
-    }
-
-    if (decryptionMethod === "publicKey") {
-      navigator.serviceWorker.ready.then((reg) => {
-        let mode = "derive";
-        let privateKey = PrivateKey;
-        let publicKey = PublicKey;
-
-        Promise.all([
-          file.slice(11, 35).arrayBuffer(), //header
-          file
-            .slice(
-              35,
-              35 + CHUNK_SIZE + crypto_secretstream_xchacha20poly1305_ABYTES
-            )
-            .arrayBuffer(), //17
-        ]).then(([header, chunk]) => {
-          decFileBuff = chunk;
-          reg.active.postMessage({
-            cmd: "requestDecKeyPair",
-            privateKey,
-            publicKey,
-            header,
-            decFileBuff,
-            mode,
+      }
+  
+      if (decryptionMethodState === "publicKey") {
+        navigator.serviceWorker.ready.then((reg) => {
+          let mode = "derive";
+  
+          Promise.all([
+            file.slice(11, 35).arrayBuffer(), //header
+            file
+              .slice(
+                35,
+                35 + CHUNK_SIZE + crypto_secretstream_xchacha20poly1305_ABYTES
+              )
+              .arrayBuffer(), //17
+          ]).then(([header, chunk]) => {
+            decFileBuff = chunk;
+            reg.active.postMessage({
+              cmd: "requestDecKeyPair",
+              privateKey,
+              publicKey,
+              header,
+              decFileBuff,
+              mode,
+            });
           });
         });
-      });
+      }
+
+
+    } else {
+      console.log("out of files")
     }
+
   };
 
   const startDecryption = (method) => {
     let startIndex;
     if (method === "secretKey") startIndex = 51;
     if (method === "publicKey") startIndex = 35;
+
+    file = files[currFile];
 
     navigator.serviceWorker.ready.then((reg) => {
       file
@@ -454,6 +606,9 @@ export default function DecryptionPanel() {
   };
 
   const continueDecryption = (e) => {
+
+    file = files[currFile];
+
     navigator.serviceWorker.ready.then((reg) => {
       file
         .slice(
@@ -476,6 +631,7 @@ export default function DecryptionPanel() {
       setPublicKey(query.publicKey);
       setPkAlert(true);
       setDecryptionMethod("publicKey");
+      decryptionMethodState = "publicKey";
     }
   }, [query.publicKey, query.tab]);
 
@@ -483,26 +639,66 @@ export default function DecryptionPanel() {
     navigator.serviceWorker.addEventListener("message", (e) => {
       switch (e.data.reply) {
         case "badFile":
-          setbadFile(true);
-          setIsCheckingFile(false);
+          if (numberOfFiles > 1) {
+            setbadFile(files[currFile].name);
+            setIsCheckingFile(false);
+          } else {
+            setbadFile(true);
+            setIsCheckingFile(false);
+          }
           break;
 
         case "oldVersion":
-          setOldVersion(true);
-          setIsCheckingFile(false);
+          if (numberOfFiles > 1) {
+            setOldVersion(files[currFile].name)
+            setIsCheckingFile(false);
+          } else {
+            setOldVersion(true);
+            setIsCheckingFile(false);
+          }
           break;
 
         case "secretKeyEncryption":
-          setDecryptionMethod("secretKey");
-          setActiveStep(1);
-          setIsCheckingFile(false);
-          break;
+          console.log(`${files[currFile].name} was checked successfully`)
+          if (numberOfFiles > 1) {
+            if(decryptionMethodState && decryptionMethodState !== "secretKey") {
+              checkFileMixUp()
+              return
+            }else{
+              decryptionMethodState = "secretKey";
+              setDecryptionMethod("secretKey");
+              checkFilesQueue();
+            }
+            
+          } else {
+            setDecryptionMethod("secretKey");
+            decryptionMethodState = "secretKey";
+            setActiveStep(1);
+            setIsCheckingFile(false);
+            resetCurrFile()
+          }
+        break;
 
         case "publicKeyEncryption":
-          setDecryptionMethod("publicKey");
-          setActiveStep(1);
-          setIsCheckingFile(false);
-          break;
+          console.log(`${files[currFile].name} was checked successfully`)
+          if (numberOfFiles > 1) {
+            if(decryptionMethodState && decryptionMethodState !== "publicKey") {
+              checkFileMixUp()
+              return
+            }else {
+              decryptionMethodState = "publicKey";
+              setDecryptionMethod("publicKey");
+              checkFilesQueue();
+            }
+            
+          } else {
+            setDecryptionMethod("publicKey");
+            decryptionMethodState = "publicKey";
+            setActiveStep(1);
+            setIsCheckingFile(false);
+            resetCurrFile()
+          }
+        break;
 
         case "wrongDecPrivateKey":
           setWrongPrivateKey(true);
@@ -540,9 +736,14 @@ export default function DecryptionPanel() {
           break;
 
         case "readyToDecrypt":
-          setIsTestingKeys(false);
-          setIsTestingPassword(false);
-          handleNext();
+          if (numberOfFiles > 1) {
+            checkFilesTestQueue();
+          } else {
+            setIsTestingKeys(false);
+            setIsTestingPassword(false);
+            handleNext();
+            resetCurrFile()
+          }
           break;
 
         case "decKeyPairGenerated":
@@ -558,8 +759,24 @@ export default function DecryptionPanel() {
           break;
 
         case "decryptionFinished":
-          setIsDownloading(false);
-          handleNext();
+          if (numberOfFiles > 1) {
+            updateCurrFile()
+            file = null;
+            index = null;
+            if(currFile <= numberOfFiles - 1){
+              setTimeout(function() {
+                kickOffDecryption();
+              }, 1500);
+            }else {
+              console.log("all the files are successfully decrypted")
+              setIsDownloading(false);
+              handleNext();
+            }
+          } else {
+            console.log("file successfully decrypted")
+            setIsDownloading(false);
+            handleNext();
+          }
           break;
       }
     });
@@ -624,17 +841,37 @@ export default function DecryptionPanel() {
           <StepContent>
             <div className="wrapper p-3" id="decFileWrapper">
               <div className={classes.fileArea} id="decFileArea">
-                <Typography>
-                  {File ? File.name : t('drag_drop')}
-                </Typography>
-                <Typography>{File ? formatBytes(File.size) : ""}</Typography>
+                
+              <Paper elevation={0} style={{overflow:"auto", maxHeight:"280px", backgroundColor: "transparent"}}>
+                  <List dense="true" style={{display: "flex", flex: "1",flexWrap: "wrap", alignContent: "center", justifyContent:"center",}}>
+                    
+                    {Files.length > 0 ? Files.map((file, index) =>
+                        <ListItem key={index} style={{backgroundColor: "#ebebeb", borderRadius: "8px", padding:15}}>
+                          <ListItemText
+                          style={{ width:"100px", maxWidth:"150px", minHeight: "50px", maxHeight: "50px",}}
+                            primary={file.name}
+                            secondary={formatBytes(file.size)}
+                          />
+                          <ListItemSecondaryAction>
+                            <IconButton style={{marginTop: 40}} onClick={()=>updateFilesInput(index)} edge="end" aria-label="delete">
+                              <DeleteIcon />
+                            </IconButton>
+                          </ListItemSecondaryAction>
+                        </ListItem>
+                        
+                    )
+                    : t('drag_drop')}
+
+                    </List>
+                </Paper>
 
                 <input
                   {...getInputProps()}
                   className={classes.input}
                   id="dec-file"
                   type="file"
-                  onChange={(e) => handleFileInput(e.target.files[0])}
+                  onChange={(e) => handleFilesInput(e.target.files)}
+                  multiple
                 />
                 <label htmlFor="dec-file">
                   <br />
@@ -643,7 +880,8 @@ export default function DecryptionPanel() {
                     component="span"
                     startIcon={<DescriptionIcon />}
                   >
-                    {File ? t('change_file') : t('browse_file')}
+                    {Files.length > 0 ? t('change_file') : t('browse_file')}
+
                   </Button>
                 </label>
               </div>
@@ -652,9 +890,9 @@ export default function DecryptionPanel() {
             <div className={classes.actionsContainer}>
               <div>
                 <Button
-                  disabled={isCheckingFile || !File}
+                  disabled={isCheckingFile || Files.length === 0}
                   variant="contained"
-                  onClick={checkFile}
+                  onClick={checkFiles}
                   className={`${classes.nextButton} submitFileDec`}
                   startIcon={
                     isCheckingFile && (
@@ -673,6 +911,8 @@ export default function DecryptionPanel() {
               {badFile && (
                 <Alert severity="error" style={{ marginTop: 15 }}>
                   {t('file_not_encrypted_corrupted')}
+                  <br />
+                  {Files.length>1 ? badFile : ""}
                 </Alert>
               )}
 
@@ -681,8 +921,17 @@ export default function DecryptionPanel() {
                   {t('old_version')} {" "} <a href="https://v1.hat.sh/" target="_blank" rel="noreferrer">
                     {"https://v1.hat.sh"}
                   </a>
+                  <br />
+                  {Files.length>1 ? oldVersion : ""}
                 </Alert>
               )}
+
+              {fileMixUp && (
+                <Alert severity="error" style={{ marginTop: 15 }}>
+                  There is a file mix up ...
+                </Alert>
+              )}
+
             </div>
           </StepContent>
         </Step>
@@ -750,7 +999,7 @@ export default function DecryptionPanel() {
                 <TextField
                   id="public-key-input-dec"
                   required
-                  error={wrongPublicKey ? true : false}
+                  error={(wrongPublicKey || keysError) ? true : false}
                   helperText={wrongPublicKey ? t('wrong_public_key') : ""}
                   label={t('sender_public_key')}
                   placeholder={t('enter_sender_public_key')}
@@ -800,7 +1049,7 @@ export default function DecryptionPanel() {
                   id="private-key-input-dec"
                   type={showPrivateKey ? "text" : "password"}
                   required
-                  error={wrongPrivateKey ? true : false}
+                  error={(wrongPrivateKey || keysError) ? true : false}
                   helperText={wrongPrivateKey ? t('wrong_private_key') : ""}
                   label={t('your_private_key_dec')}
                   placeholder={t('enter_private_key_dec')}
@@ -885,7 +1134,7 @@ export default function DecryptionPanel() {
                         isTestingKeys
                       }
                       variant="contained"
-                      onClick={testDecryption}
+                      onClick={testFilesDecryption}
                       className={`${classes.nextButton} submitKeysDec`}
                       startIcon={
                         (isTestingPassword || isTestingKeys) && (
@@ -898,17 +1147,41 @@ export default function DecryptionPanel() {
                       fullWidth
                     >
                       {isTestingPassword
-                        ? t('testing_password')
+                        ? `${currFileState}/${numberOfFiles} ${t('testing_password')}`
                         : isTestingKeys
-                        ? t('testing_keys')
+                        ? `${currFileState}/${numberOfFiles} ${t('testing_keys')}`
                         : t('next')}
                     </Button>
                   </Grid>
                 </Grid>
                 <br />
-                {decryptionMethod === "publicKey" && keysError && (
-                  <Alert severity="error">{keysErrorMessage}</Alert>
+
+                {decryptionMethod === "secretKey" && Files.length > 1 && wrongPassword && !isTestingPassword && (
+                  <Alert severity="error">
+                    <strong>{Files[currFile].name}</strong> {" "}
+                    has a wrong password, password testing stopped, make sure all files have the same correct decryption password
+                  </Alert>
                 )}
+
+                {decryptionMethod === "publicKey" && keysError && (
+                  <Alert severity="error">
+                    {keysErrorMessage}
+                  </Alert>
+                )}
+
+                {decryptionMethod === "publicKey" && (wrongPrivateKey || wrongPublicKey) && !isTestingKeys && !keysError && (
+                  <>
+                    {Files.length > 1 && (
+                      <Alert severity="error">
+                        <strong>{Files[currFile].name}</strong> {" "}
+                        has wrong keys, keys testing stopped, make sure all files have the same correct decryption keys
+                      </Alert>
+                    )}
+                  </>
+                )}
+
+                
+
               </div>
             </div>
           </StepContent>
@@ -926,10 +1199,14 @@ export default function DecryptionPanel() {
           >
             {t('download_decrypted_file')}
           </StepLabel>
+
           <StepContent>
-            <Alert severity="success" icon={<LockOpenIcon />}>
-              <strong>{File ? File.name : ""}</strong> {t('ready_to_download')}
-            </Alert>
+            
+            {Files.length > 0 && (
+              <Alert severity="success" icon={<LockOpenIcon />}>
+              <strong>{Files.length>1 ? Files.length : Files[0].name}</strong> {t('ready_to_download')}
+              </Alert>
+            )}
 
             <div className={classes.actionsContainer}>
               <Grid container spacing={1}>
@@ -947,7 +1224,7 @@ export default function DecryptionPanel() {
                     disabled={
                       isDownloading ||
                       (!Password && !PublicKey && !PrivateKey) ||
-                      !File
+                      Files.length === 0
                     }
                     variant="contained"
                     color="primary"
@@ -965,7 +1242,7 @@ export default function DecryptionPanel() {
                     fullWidth
                   >
                     <a
-                      onClick={(e) => handleDecryptedFileDownload(e)}
+                      onClick={(e) => handleEncryptedFilesDownload(e)}
                       className="downloadFileDec"
                       style={{
                         color: "#ffffff",

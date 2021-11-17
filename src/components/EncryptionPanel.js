@@ -42,6 +42,9 @@ import LinkIcon from "@material-ui/icons/Link";
 import Collapse from "@material-ui/core/Collapse";
 import CloseIcon from "@material-ui/icons/Close";
 import { getTranslations as t } from "../../locales";
+import { List, ListItem, ListItemSecondaryAction,ListItemText } from "@material-ui/core";
+import DeleteIcon from '@material-ui/icons/Delete';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -162,7 +165,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-let file, index;
+let file, files = [], password, index, currFile = 0, numberOfFiles, encryptionMethodState = "secretKey", privateKey, publicKey;
 
 export default function EncryptionPanel() {
   const classes = useStyles();
@@ -173,7 +176,7 @@ export default function EncryptionPanel() {
 
   const [activeStep, setActiveStep] = useState(0);
 
-  const [File, setFile] = useState();
+  const [Files, setFiles] = useState([]);
 
   const [Password, setPassword] = useState();
 
@@ -206,8 +209,8 @@ export default function EncryptionPanel() {
   const [pkAlert, setPkAlert] = useState(false);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop: (acceptedFile) => {
-      handleFileInput(acceptedFile[0]);
+    onDrop: (acceptedFiles) => {
+      handleFilesInput(acceptedFiles);
     },
     noClick: true,
     noKeyboard: true,
@@ -225,16 +228,19 @@ export default function EncryptionPanel() {
     setKeysError(false);
   };
 
-  const handleRadioChange = (e) => {
-    setEncryptionMethod(e.target.value);
+  const handleRadioChange = (method) => {
+    setEncryptionMethod(method);
+    encryptionMethodState = method;
   };
 
   const handleReset = () => {
     setActiveStep(0);
-    setFile();
+    setFiles([]);
     setPassword();
     setPublicKey();
     setPrivateKey();
+    privateKey = null;
+    publicKey = null;
     setWrongPublicKey(false);
     setWrongPrivateKey(false);
     setKeysError(false);
@@ -243,6 +249,9 @@ export default function EncryptionPanel() {
     setSnackBarMessage();
     setPkAlert(false);
     file = null;
+    files = [];
+    numberOfFiles = 0;
+    currFile = 0;
     index = null;
     router.replace(router.pathname);
   };
@@ -252,12 +261,16 @@ export default function EncryptionPanel() {
   };
 
   const handleMethodStep = () => {
-    if (encryptionMethod === "secretKey") setActiveStep(2);
-    if (encryptionMethod === "publicKey") {
+
+    console.log(encryptionMethodState)
+    if (encryptionMethodState === "secretKey") setActiveStep(2);
+    if (encryptionMethodState === "publicKey") {
       navigator.serviceWorker.ready.then((reg) => {
         let mode = "test";
-        let privateKey = PrivateKey;
-        let publicKey = PublicKey;
+
+
+        console.log(privateKey)
+        console.log(publicKey)
 
         reg.active.postMessage({
           cmd: "requestEncKeyPair",
@@ -271,20 +284,45 @@ export default function EncryptionPanel() {
 
   const generatedPassword = async () => {
     let generated = await generatePassword();
+    password = generated;
     setPassword(generated);
   };
 
-  const handleFileInput = (selectedFile) => {
-    file = selectedFile;
-    setFile(selectedFile);
+
+  const handleFilesInput = (selectedFiles) => {
+    selectedFiles = Array.from(selectedFiles)
+    if(files.length>0) {
+      files = files.concat(selectedFiles)
+      files = files.filter((thing, index, self) =>
+        index === self.findIndex((t) => (
+          t.name === thing.name && t.size === thing.size
+        ))
+      )
+    } else {
+      files = selectedFiles;
+    }
+    setFiles(files)
+    console.log(files)
+    
   };
 
+  const updateFilesInput = (index) => {
+    files = [
+      ...files.slice(0, index),
+      ...files.slice(index + 1)
+    ];
+    setFiles(files)
+    console.log(files)
+  }
+
   const handlePasswordInput = (selectedPassword) => {
+    password = selectedPassword;
     setPassword(selectedPassword);
   };
 
   const handlePublicKeyInput = (selectedKey) => {
     setPublicKey(selectedKey);
+    publicKey = selectedKey;
     setWrongPublicKey(false);
   };
 
@@ -296,6 +334,7 @@ export default function EncryptionPanel() {
         reader.readAsText(file);
         reader.onload = () => {
           setPublicKey(reader.result);
+          publicKey = reader.result;
         };
         setWrongPublicKey(false);
       }
@@ -304,6 +343,7 @@ export default function EncryptionPanel() {
 
   const handlePrivateKeyInput = (selectedKey) => {
     setPrivateKey(selectedKey);
+    privateKey = selectedKey;
     setWrongPrivateKey(false);
   };
 
@@ -315,39 +355,62 @@ export default function EncryptionPanel() {
         reader.readAsText(file);
         reader.onload = () => {
           setPrivateKey(reader.result);
+          privateKey = reader.result;
         };
         setWrongPrivateKey(false);
       }
     }
   };
 
-  const handleEncryptedFileDownload = async (e) => {
-    let safeUrl = await formatUrl(File.name + ".enc");
-    e.target.setAttribute("href", "/file?name=" + safeUrl);
-    setIsDownloading(true);
 
-    if (encryptionMethod === "secretKey") {
-      navigator.serviceWorker.ready.then((reg) => {
-        let password = Password;
-        reg.active.postMessage({ cmd: "requestEncryption", password });
-      });
-    }
-
-    if (encryptionMethod === "publicKey") {
-      navigator.serviceWorker.ready.then((reg) => {
-        let mode = "derive";
-        let privateKey = PrivateKey;
-        let publicKey = PublicKey;
-
-        reg.active.postMessage({
-          cmd: "requestEncKeyPair",
-          privateKey,
-          publicKey,
-          mode,
-        });
-      });
-    }
+  const handleEncryptedFilesDownload = async (e) => {
+    numberOfFiles = Files.length;
+    kickOffEncryption()
   };
+
+  const kickOffEncryption = async () => {
+
+    if (currFile <= numberOfFiles - 1) {
+      console.log(currFile)
+      console.log(numberOfFiles)
+      console.log(files)
+      file = files[currFile];
+      console.log(file)
+      let safeUrl = await formatUrl(files[currFile].name + ".enc");
+      window.open(`file?name=${safeUrl}`, "_self");
+      setIsDownloading(true);
+  
+      console.log(safeUrl)
+
+      console.log(encryptionMethodState)
+
+      if (encryptionMethodState === "publicKey") {
+        navigator.serviceWorker.ready.then((reg) => {
+          let mode = "derive";
+          console.log(privateKey)
+          console.log(publicKey)
+  
+          reg.active.postMessage({
+            cmd: "requestEncKeyPair",
+            privateKey,
+            publicKey,
+            mode,
+          });
+        });
+      }
+
+      
+      if (encryptionMethodState === "secretKey") {
+        navigator.serviceWorker.ready.then((reg) => {
+          
+          reg.active.postMessage({ cmd: "requestEncryption", password });
+          
+        });
+      }
+    } else {
+      console.log("out of files")
+    }
+  }
 
   const startEncryption = (method) => {
     navigator.serviceWorker.ready.then((reg) => {
@@ -414,6 +477,7 @@ export default function EncryptionPanel() {
       setPublicKey(query.publicKey);
       setPkAlert(true);
       setEncryptionMethod("publicKey");
+      encryptionMethodState = "publicKey"
     }
   }, [query.publicKey, query.tab]);
 
@@ -457,8 +521,27 @@ export default function EncryptionPanel() {
           break;
 
         case "encryptionFinished":
-          setIsDownloading(false);
-          handleNext();
+          if (numberOfFiles > 1) {
+            currFile += 1;
+            file = null;
+            index = null;
+            if(currFile <= numberOfFiles - 1){
+              setTimeout(function() {
+                kickOffEncryption();
+              }, 1500);
+              console.log(encryptionMethodState)
+            }else {
+              console.log("all the files are successfully encrypted")
+              setIsDownloading(false);
+              handleNext();
+            }
+          } else {
+            console.log("file successfully encrypted")
+            console.log(files)
+            console.log(files[currFile])
+            setIsDownloading(false);
+            handleNext();
+          }
           break;
       }
     });
@@ -536,17 +619,36 @@ export default function EncryptionPanel() {
           <StepContent>
             <div className="wrapper p-3" id="encFileWrapper">
               <div className={classes.fileArea} id="encFileArea">
-                <Typography>
-                  {File ? File.name : t('drag_drop')}
-                </Typography>
-                <Typography>{File ? formatBytes(File.size) : ""}</Typography>
+                <Paper elevation={0} style={{overflow:"auto", maxHeight:"280px", backgroundColor: "transparent"}}>
+                  <List dense="true" style={{display: "flex", flex: "1",flexWrap: "wrap", alignContent: "center", justifyContent:"center",}}>
+                    
+                    {Files.length > 0 ? Files.map((file, index) =>
+                        <ListItem key={index} style={{backgroundColor: "#ebebeb", borderRadius: "8px", padding:15}}>
+                          <ListItemText
+                          style={{ width:"100px", maxWidth:"150px", minHeight: "50px", maxHeight: "50px",}}
+                            primary={file.name}
+                            secondary={formatBytes(file.size)}
+                          />
+                          <ListItemSecondaryAction>
+                            <IconButton style={{marginTop: 40}} onClick={()=>updateFilesInput(index)} edge="end" aria-label="delete">
+                              <DeleteIcon />
+                            </IconButton>
+                          </ListItemSecondaryAction>
+                        </ListItem>
+                        
+                    )
+                    : t('drag_drop')}
+
+                    </List>
+                </Paper>
 
                 <input
                   {...getInputProps()}
                   className={classes.input}
                   id="enc-file"
                   type="file"
-                  onChange={(e) => handleFileInput(e.target.files[0])}
+                  onChange={(e) => handleFilesInput(e.target.files)}
+                  multiple
                 />
                 <label htmlFor="enc-file">
                   <br />
@@ -555,7 +657,7 @@ export default function EncryptionPanel() {
                     component="span"
                     startIcon={<DescriptionIcon />}
                   >
-                    {File ? t('change_file') : t('browse_file')}
+                    {Files.length > 0 ? t('change_file') : t('browse_file')}
                   </Button>
                 </label>
               </div>
@@ -565,7 +667,7 @@ export default function EncryptionPanel() {
               <div>
                 <Button
                   fullWidth
-                  disabled={!File}
+                  disabled={Files.length === 0}
                   variant="contained"
                   onClick={handleNext}
                   className={`${classes.nextButton} submitFile`}
@@ -599,7 +701,7 @@ export default function EncryptionPanel() {
             >
               <RadioGroup
                 row
-                defaultValue={encryptionMethod}
+                value={encryptionMethod}
                 aria-label="encryption options"
               >
                 <FormControlLabel
@@ -607,7 +709,7 @@ export default function EncryptionPanel() {
                   control={<Radio color="default" />}
                   label={t('password')}
                   labelPlacement="end"
-                  onChange={handleRadioChange}
+                  onChange={() => handleRadioChange("secretKey")}
                 />
                 <FormControlLabel
                   value="publicKey"
@@ -615,7 +717,7 @@ export default function EncryptionPanel() {
                   control={<Radio color="default" />}
                   label={t('public_key')}
                   labelPlacement="end"
-                  onChange={handleRadioChange}
+                  onChange={() => handleRadioChange("publicKey")}
                 />
               </RadioGroup>
             </FormControl>
@@ -845,9 +947,12 @@ export default function EncryptionPanel() {
             {t('download_encrypted_file')}
           </StepLabel>
           <StepContent>
-            <Alert severity="success" icon={<LockOutlinedIcon />}>
-              <strong>{File ? File.name : ""}</strong> {t('ready_to_download')}
-            </Alert>
+            
+            {Files.length > 0 && (
+              <Alert severity="success" icon={<LockOutlinedIcon />} >
+                <strong>{Files.length>1 ? Files.length : Files[0].name}</strong> {t('ready_to_download')}
+              </Alert>
+            ) }
 
             <div className={classes.actionsContainer}>
               <Grid container spacing={1}>
@@ -865,7 +970,7 @@ export default function EncryptionPanel() {
                     disabled={
                       isDownloading ||
                       (!Password && !PublicKey && !PrivateKey) ||
-                      !File
+                      Files.length === 0
                     }
                     variant="contained"
                     className={classes.nextButton}
@@ -882,7 +987,7 @@ export default function EncryptionPanel() {
                     fullWidth
                   >
                     <a
-                      onClick={(e) => handleEncryptedFileDownload(e)}
+                      onClick={(e) => handleEncryptedFilesDownload(e)}
                       className="downloadFile"
                       style={{
                         color: "#ffffff",

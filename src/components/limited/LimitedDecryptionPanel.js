@@ -35,7 +35,6 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 import CloseIcon from "@material-ui/icons/Close";
 import { getTranslations as t} from "../../../locales";
-import LimitedAlert from "./limitedAlert";
 
 const _sodium = require("libsodium-wrappers");
 
@@ -771,7 +770,6 @@ const LimitedDecryptionPanel = () => {
                     <Alert severity="error" style={{ marginTop: 15 }}>
                       <strong>{t('file_too_big')}</strong> {t('choose_file_1gb')}
                     </Alert>
-                    <LimitedAlert />
                   </>
                 )}
               </div>
@@ -854,7 +852,7 @@ const LimitedDecryptionPanel = () => {
               <>
                 <TextField
                   required
-                  error={wrongPublicKey ? true : false}
+                  error={(wrongPublicKey || keysError) ? true : false}
                   helperText={wrongPublicKey ? t('wrong_public_key') : ""}
                   label={t('sender_public_key')}
                   placeholder={t('enter_sender_public_key')}
@@ -903,7 +901,7 @@ const LimitedDecryptionPanel = () => {
                 <TextField
                   type={showPrivateKey ? "text" : "password"}
                   required
-                  error={wrongPrivateKey ? true : false}
+                  error={(wrongPrivateKey || keysError) ? true : false}
                   helperText={wrongPrivateKey ? t('wrong_private_key') : ""}
                   label={t('your_private_key_dec')}
                   placeholder={t('enter_private_key_dec')}

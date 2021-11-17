@@ -45,7 +45,6 @@ import LinkIcon from "@material-ui/icons/Link";
 import Collapse from "@material-ui/core/Collapse";
 import CloseIcon from "@material-ui/icons/Close";
 import { getTranslations as t } from "../../../locales";
-import LimitedAlert from "./limitedAlert";
 
 const _sodium = require("libsodium-wrappers");
 
@@ -667,7 +666,6 @@ const LimitedEncryptionPanel = () => {
                   <Alert severity="error" style={{ marginTop: 15 }}>
                     <strong>{t('file_too_big')}</strong> {t('choose_file_1gb')}
                   </Alert>
-                  <LimitedAlert />
                 </>
               )}
             </div>

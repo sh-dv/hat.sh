@@ -8,6 +8,8 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import LimitedEncryptionPanel from "./LimitedEncryptionPanel";
 import LimitedDecryptionPanel from "./LimitedDecryptionPanel";
+import LimitedAlert from "./LimitedAlert";
+
 import { getTranslations as t } from "../../../locales";
 
 const StyledTabs = withStyles({
@@ -103,6 +105,7 @@ export default function LimitedPanels() {
   return (
     <>
       <Container className={classes.root}>
+        <LimitedAlert />
         <AppBar position="static" className={classes.bar} elevation={0}>
           <StyledTabs
             value={value}

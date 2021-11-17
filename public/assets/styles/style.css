@@ -6,12 +6,9 @@
   padding: 0;
 }
 
-/* body > * {filter: invert(0.9) hue-rotate(180deg);} */
-
 body {
   background-color: #fafafa;
   font-family: "Roboto", sans-serif;
-  /* filter: invert(1) contrast(0.95) saturate(0.5) hue-rotate(180deg); */
 }
 
 .wrapper {
@@ -24,4 +21,14 @@ body {
 
 .darkStyle .MuiPaper-root {
   box-shadow: none;
+}
+
+.MuiListItem-container {
+  margin: 4px;
+}
+
+.MuiListItemText-primary {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }

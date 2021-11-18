@@ -34,6 +34,8 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 import CloseIcon from "@material-ui/icons/Close";
+import { List, ListItem, ListItemSecondaryAction,ListItemText } from "@material-ui/core";
+import DeleteIcon from '@material-ui/icons/Delete';
 import { getTranslations as t} from "../../../locales";
 
 const _sodium = require("libsodium-wrappers");
@@ -720,10 +722,29 @@ const LimitedDecryptionPanel = () => {
           <StepContent>
             <div className="wrapper p-3" id="encFileWrapper">
               <div className={classes.fileArea} id="encFileArea">
-                <Typography>
-                  {File ? File.name : t('drag_drop')}
-                </Typography>
-                <Typography>{File ? formatBytes(File.size) : ""}</Typography>
+                
+                <Paper elevation={0} style={{overflow:"auto", maxHeight:"280px", backgroundColor: "transparent"}}>
+                  <List dense="true" style={{display: "flex", flex: "1",flexWrap: "wrap", alignContent: "center", justifyContent:"center",}}>
+                    
+                    {File ? (
+                        <ListItem style={{backgroundColor: "#ebebeb", borderRadius: "8px", padding:15}}>
+                          <ListItemText
+                          style={{ width:"200px", minHeight: "50px", maxHeight: "50px",}}
+                            primary={File.name}
+                            secondary={formatBytes(File.size)}
+                          />
+                          <ListItemSecondaryAction>
+                            <IconButton style={{marginTop: 40}} onClick={()=>setFile()} edge="end" aria-label="delete">
+                              <DeleteIcon />
+                            </IconButton>
+                          </ListItemSecondaryAction>
+                        </ListItem>
+                        
+                    )
+                    : t('drag_drop')}
+
+                    </List>
+                </Paper>
 
                 <input
                   {...getInputProps()}

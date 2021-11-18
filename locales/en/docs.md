@@ -97,7 +97,7 @@ npm run dev
 
 ## With docker
 
-You can install the app with docker in multiple ways. You are free to choose wich method you like.
+You can install the app with docker in multiple ways. You are free to choose which method you like.
 
 <br>
 
@@ -189,7 +189,7 @@ hat.sh is also available as a Docker image. You can find it on [Docker Hub].
 
 1. Open hat.sh.
 2. Navigate to the Encryption panel.
-3. Drag & Drop or Select the file that you wish to encrypt.
+3. Drag & Drop or Select the files that you wish to encrypt.
 4. Enter a password or generate one.
 5. Download the encrypted file.
 
@@ -199,7 +199,7 @@ hat.sh is also available as a Docker image. You can find it on [Docker Hub].
 
 1. Open hat.sh.
 2. Navigate to the Encryption panel.
-3. Drag & Drop or Select the file that you wish to encrypt.
+3. Drag & Drop or Select the files that you wish to encrypt.
 4. Choose public key method.
 5. Enter or load recipient's public key and your private key.
    if you don't have public and private keys you can generate a key pair.
@@ -216,7 +216,7 @@ hat.sh is also available as a Docker image. You can find it on [Docker Hub].
 
 1. Open hat.sh.
 2. Navigate to the Decryption panel.
-3. Drag & Drop or Select the file that you wish to decrypt.
+3. Drag & Drop or Select the files that you wish to decrypt.
 4. Enter the encryption password.
 5. Download the decrypted file.
 
@@ -224,7 +224,7 @@ hat.sh is also available as a Docker image. You can find it on [Docker Hub].
 
 1. Open hat.sh.
 2. Navigate to the Decryption panel.
-3. Drag & Drop or Select the file that you wish to decrypt.
+3. Drag & Drop or Select the files that you wish to decrypt.
 4. Enter or load sender's public key and your private key.
 5. Download the decrypted file.
 
@@ -234,17 +234,13 @@ hat.sh is also available as a Docker image. You can find it on [Docker Hub].
 
 ---
 
-### Folder & Multiple Files Encryption
-
-This feature is not available for security reasons. If you wish to encrypt a whole directory or multiple files then you should make a Zip and encrypt it.
-
-### File Metadata
+### File Signature
 
 Files encrypted with hat.sh are identifiable by looking at the file signature that is used by the app to verify the content of a file, Such signatures are also known as magic numbers or Magic Bytes. These Bytes are authenticated and cannot be changed.
 
 ### Safari and Mobile Browsers
 
-Safari and Mobile browsers are limited to a file size of 1GB due to some issues related to service-workers. In addition, this limitation also applies when the app fails to register the service-worker (e.g FireFox Private Browsing).
+Safari and Mobile browsers are limited to a single file with maximum size of 1GB due to some issues related to service-workers. In addition, this limitation also applies when the app fails to register the service-worker (e.g FireFox Private Browsing).
 
 <br>
 
@@ -329,7 +325,7 @@ No, we don't know your password. Always make sure to store your passwords in a p
 
 <hr style="height: 1px">
 
-### Why am I seeing a notice that says "You have limited experience (max file size of 1GB)"?
+### Why am I seeing a notice that says "You have limited experience (single file, 1GB)"?
 
 It means that your browser doesn't support the server-worker fetch api. Hence, you are limited to small size files. see [Limitations](#limitations) for more info.
 
@@ -394,7 +390,7 @@ There is no bounty available at the moment, but your github account will be cred
 1. The app uses fast modern secure cryptographic algorithms.
 2. It's super fast and easy to use.
 3. It runs in the browser, no need to setup or install anything.
-4. It's free opensource software and can be self hosted.
+4. It's free opensource software and can be easily self hosted.
 
 <hr style="height: 1px">
 
@@ -402,8 +398,8 @@ There is no bounty available at the moment, but your github account will be cred
 
 1. If you want to encrypt a disk (e.g [VeraCrypt]).
 2. If you want to Frequently access encrypted files (e.g [Cryptomator]).
-3. If you want to encrypt multiple files and directories at once (e.g [Kryptor]).
-4. If you want to encrypt files for another person that only they can decrypt (e.g [Kryptor]).
+3. If you want to encrypt and sign files in the same tool. (e.g [Kryptor]).
+4. If you prefer a command line tool (e.g [Kryptor]).
 5. If you want something that adheres to industry standards, use [GPG].
 
 <br>

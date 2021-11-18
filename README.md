@@ -17,9 +17,9 @@
 
 ---
 
-[Hat.sh](https://hat.sh) is a web app that provides secure file encryption in the browser. It's **fast**, **secure** and runs **locally**, the app never uploads the files to the server. It uses modern secure cryptographic algorithms with chunked AEAD stream encryption/decryption.
+[Hat.sh](https://hat.sh) is a web app that provides secure local file encryption in the browser. It's fast, secure uses modern cryptographic algorithms with chunked AEAD stream encryption/decryption.
 
-V2 of hat.sh introduced memory efficient in-browser large file chunked encryption using streams with libsodium.js
+V2 of hat.sh introduced memory efficient in-browser large file chunked encryption using streams with libsodium.
 
 ## Usage
 
@@ -44,7 +44,7 @@ The libsodium library is used for all cryptographic algorithms.
 
 ### Functionality
 
-- Secure encryption/decryption of files with passwords or keys.
+- Secure multiple file encryption/decryption with passwords or keys.
 - Secure random password generation.
 - Asymmetric key pair generation.
 - Authenticated key exchange.
@@ -56,18 +56,6 @@ The libsodium library is used for all cryptographic algorithms.
 
 The app can be easily self hosted, please follow the [installation](https://hat.sh/about/#installation) instructions.
 
-<br>
-
-## What's new in v2
-
-- switching to xchacha20poly1305 for symmetric stream encryption and Argon2id for password-based key derivation. instead of AES-256-GCM and PBKDF2.
-- using the libsodium library for all cryptography instead of the WebCryptoApi.
-- in this version, the app doesn't read the whole file in memory. instead, it's sliced into 64MB chunks that are processed one by one.
-- since we are not using any server-side processing, the app registers a fake download URL (/file) that is going to be handled by the service-worker fetch api.
-- if all validations are passed, a new stream is initialized. then, file chunks are transferred from the main app to the
-  service-worker file via messages.
-- each chunk is encrypted/decrypted on it's on and added to the stream.
-- after each chunk is written on disk it is going to be immediately garbage collected by the browser, this leads to never having more than a few chunks in the memory at the same time.
 
 <br>
 
@@ -107,6 +95,10 @@ Kofi: [buy me a coffee](https://ko-fi.com/shdvapps)
 Open Collective : [https://opencollective.com/hatsh](https://opencollective.com/hatsh)
 
 <br>
+
+## Social
+
+* [Reddit](https://reddit.com/r/hatsh) 
 
 ## Credits
 

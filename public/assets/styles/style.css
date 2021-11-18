@@ -1,5 +1,5 @@
-@import url('./fonts.css');
-@import url('./highlight.css');
+@import url("./fonts.css");
+@import url("./highlight.css");
 
 * {
   margin: 0;
@@ -15,12 +15,18 @@ body {
   border-radius: 8px;
 }
 
-.darkStyle, .darkStyle canvas {
+.darkStyle,
+.darkStyle canvas {
   filter: invert(0.9) hue-rotate(180deg);
 }
 
 .darkStyle .MuiPaper-root {
   box-shadow: none;
+}
+
+.darkStyle .codeBox .language-javascript {
+  background-color: #ebebeb;
+  color: #3f3f3f;
 }
 
 .MuiListItem-container {

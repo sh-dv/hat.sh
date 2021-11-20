@@ -68,7 +68,7 @@ We officially support the last two versions of every major browser. Specifically
 - **Safari** on iOS and macOS
 - **Edge** on Windows
 
-Safari and Mobile browsers are limited to 1GB files, due to lack of support with server-worker fetch api.
+Safari and Mobile browsers are limited to single 1GB files, due to lack of support with server-worker fetch api.
 
 <br>
 

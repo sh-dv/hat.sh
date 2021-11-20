@@ -724,7 +724,7 @@ const LimitedDecryptionPanel = () => {
               <div className={classes.fileArea} id="encFileArea">
                 
                 <Paper elevation={0} style={{overflow:"auto", maxHeight:"280px", backgroundColor: "transparent"}}>
-                  <List dense="true" style={{display: "flex", flex: "1",flexWrap: "wrap", alignContent: "center", justifyContent:"center",}}>
+                  <List dense={true} style={{display: "flex", flex: "1",flexWrap: "wrap", alignContent: "center", justifyContent:"center",}}>
                     
                     {File ? (
                         <ListItem style={{backgroundColor: "#ebebeb", borderRadius: "8px", padding:15}}>

@@ -41,6 +41,7 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import LinkIcon from "@material-ui/icons/Link";
 import Collapse from "@material-ui/core/Collapse";
 import CloseIcon from "@material-ui/icons/Close";
+import AddIcon from '@material-ui/icons/Add';
 import { getTranslations as t } from "../../locales";
 import { List, ListItem, ListItemSecondaryAction,ListItemText } from "@material-ui/core";
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -262,15 +263,10 @@ export default function EncryptionPanel() {
 
   const handleMethodStep = () => {
 
-    console.log(encryptionMethodState)
     if (encryptionMethodState === "secretKey") setActiveStep(2);
     if (encryptionMethodState === "publicKey") {
       navigator.serviceWorker.ready.then((reg) => {
         let mode = "test";
-
-
-        console.log(privateKey)
-        console.log(publicKey)
 
         reg.active.postMessage({
           cmd: "requestEncKeyPair",
@@ -302,7 +298,6 @@ export default function EncryptionPanel() {
       files = selectedFiles;
     }
     setFiles(files)
-    console.log(files)
     
   };
 
@@ -312,7 +307,6 @@ export default function EncryptionPanel() {
       ...files.slice(index + 1)
     ];
     setFiles(files)
-    console.log(files)
   }
 
   const handlePasswordInput = (selectedPassword) => {
@@ -371,24 +365,15 @@ export default function EncryptionPanel() {
   const kickOffEncryption = async () => {
 
     if (currFile <= numberOfFiles - 1) {
-      console.log(currFile)
-      console.log(numberOfFiles)
-      console.log(files)
+
       file = files[currFile];
-      console.log(file)
       let safeUrl = await formatUrl(files[currFile].name + ".enc");
       window.open(`file?name=${safeUrl}`, "_self");
       setIsDownloading(true);
-  
-      console.log(safeUrl)
-
-      console.log(encryptionMethodState)
 
       if (encryptionMethodState === "publicKey") {
         navigator.serviceWorker.ready.then((reg) => {
           let mode = "derive";
-          console.log(privateKey)
-          console.log(publicKey)
   
           reg.active.postMessage({
             cmd: "requestEncKeyPair",
@@ -408,7 +393,7 @@ export default function EncryptionPanel() {
         });
       }
     } else {
-      console.log("out of files")
+      // console.log("out of files")
     }
   }
 
@@ -475,6 +460,7 @@ export default function EncryptionPanel() {
   useEffect(() => {
     if (query.tab === "encryption" && query.publicKey) {
       setPublicKey(query.publicKey);
+      publicKey = query.publicKey;
       setPkAlert(true);
       setEncryptionMethod("publicKey");
       encryptionMethodState = "publicKey"
@@ -529,16 +515,11 @@ export default function EncryptionPanel() {
               setTimeout(function() {
                 kickOffEncryption();
               }, 1500);
-              console.log(encryptionMethodState)
             }else {
-              console.log("all the files are successfully encrypted")
               setIsDownloading(false);
               handleNext();
             }
           } else {
-            console.log("file successfully encrypted")
-            console.log(files)
-            console.log(files[currFile])
             setIsDownloading(false);
             handleNext();
           }
@@ -614,13 +595,13 @@ export default function EncryptionPanel() {
               },
             }}
           >
-            {t('choose_file_enc')}
+            {t('choose_files_enc')}
           </StepLabel>
           <StepContent>
             <div className="wrapper p-3" id="encFileWrapper">
               <div className={classes.fileArea} id="encFileArea">
                 <Paper elevation={0} style={{overflow:"auto", maxHeight:"280px", backgroundColor: "transparent"}}>
-                  <List dense="true" style={{display: "flex", flex: "1",flexWrap: "wrap", alignContent: "center", justifyContent:"center",}}>
+                  <List dense={true} style={{display: "flex", flex: "1",flexWrap: "wrap", alignContent: "center", justifyContent:"center",}}>
                     
                     {Files.length > 0 ? Files.map((file, index) =>
                         <ListItem key={index} style={{backgroundColor: "#ebebeb", borderRadius: "8px", padding:15}}>
@@ -637,7 +618,7 @@ export default function EncryptionPanel() {
                         </ListItem>
                         
                     )
-                    : t('drag_drop')}
+                    : t('drag_drop_files')}
 
                     </List>
                 </Paper>
@@ -655,9 +636,9 @@ export default function EncryptionPanel() {
                   <Button
                     className={classes.browseButton}
                     component="span"
-                    startIcon={<DescriptionIcon />}
+                    startIcon={Files.length > 0 ? <AddIcon /> : <DescriptionIcon />}
                   >
-                    {Files.length > 0 ? t('change_file') : t('browse_file')}
+                    {Files.length > 0 ? t('add_files') : t('browse_files')}
                   </Button>
                 </label>
               </div>
@@ -944,13 +925,15 @@ export default function EncryptionPanel() {
               },
             }}
           >
-            {t('download_encrypted_file')}
+            {t('download_encrypted_files')}
           </StepLabel>
           <StepContent>
             
             {Files.length > 0 && (
               <Alert severity="success" icon={<LockOutlinedIcon />} >
-                <strong>{Files.length>1 ? Files.length : Files[0].name}</strong> {t('ready_to_download')}
+                <strong>{Files.length>1 ? Files.length : Files[0].name}</strong>
+                {" "}
+                {Files.length>1 ? t('files_ready_to_download') : t('ready_to_download')}
               </Alert>
             ) }
 
@@ -994,7 +977,8 @@ export default function EncryptionPanel() {
                         textDecoration: "none",
                       }}
                     >
-                      {isDownloading ? t('downloading_file') : t('encrypted_file')}
+                      
+                      {isDownloading ? t('downloading_file') : t('encrypted_files')}
                     </a>
                   </Button>
                 </Grid>
@@ -1018,7 +1002,7 @@ export default function EncryptionPanel() {
             style={{ border: "none" }}
           >
             <AlertTitle>{t('success')}</AlertTitle>
-            {t('success_downloaded_file_enc')}
+            {t('success_downloaded_files_enc')}
             {encryptionMethod === "publicKey" && (
               <>
                 <br />
@@ -1084,7 +1068,7 @@ export default function EncryptionPanel() {
                 fullWidth
                 style={{ textTransform: "none" }}
               >
-                {t('encrypt_another_file')}
+                {t('encrypt_more_files')}
               </Button>
             </Grid>
 

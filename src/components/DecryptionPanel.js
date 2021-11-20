@@ -33,6 +33,7 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 import CloseIcon from "@material-ui/icons/Close";
+import AddIcon from '@material-ui/icons/Add';
 import { getTranslations as t } from "../../locales";
 import { List, ListItem, ListItemSecondaryAction,ListItemText } from "@material-ui/core";
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -279,7 +280,6 @@ export default function DecryptionPanel() {
       files = selectedFiles;
     }
     setFiles(files)
-    console.log(files)
     setbadFile(false);
     setOldVersion(false);
     setFileMixUp(false);
@@ -293,7 +293,6 @@ export default function DecryptionPanel() {
       ...files.slice(index + 1)
     ];
     setFiles(files)
-    console.log(files)
     setbadFile(false);
     setOldVersion(false);
     setFileMixUp(false);
@@ -313,8 +312,6 @@ export default function DecryptionPanel() {
       setOldVersion(false);
       setFileMixUp(false);
 
-      console.log(file)
-
       Promise.all([
         file.slice(0, 11).arrayBuffer(), //signatures
         file.slice(0, 22).arrayBuffer(), //v1 signature
@@ -331,9 +328,6 @@ export default function DecryptionPanel() {
   const checkFiles = () => {
     numberOfFiles = files.length;
     if (currFile <= numberOfFiles - 1) {
-      console.log(files)
-      console.log(`checking file ${currFile+1}/${numberOfFiles}`)
-      console.log(files[currFile])
       checkFile(files[currFile]);
     }
 
@@ -350,8 +344,6 @@ export default function DecryptionPanel() {
         setActiveStep(1);
         setIsCheckingFile(false);
         resetCurrFile()
-        console.log("all files were successfully checked!")
-        console.log(decryptionMethodState)
       }
     } 
 
@@ -375,7 +367,6 @@ export default function DecryptionPanel() {
         setIsTestingPassword(false);
         handleNext();
         resetCurrFile()
-        console.log("all files were successfully tested!")
       }
     } 
 
@@ -384,17 +375,12 @@ export default function DecryptionPanel() {
   const testFilesDecryption = () => {
     numberOfFiles = files.length;
     if (currFile <= numberOfFiles - 1) {
-      console.log(files)
-      console.log(`testing file ${currFile+1}/${numberOfFiles}`)
-      console.log(files[currFile])
       testDecryption(files[currFile]);
     }
 
   }
 
   const testDecryption = (file) => {
-
-    console.log(currFile)
 
     if (decryptionMethodState === "secretKey") {
       navigator.serviceWorker.ready.then((reg) => {
@@ -431,10 +417,6 @@ export default function DecryptionPanel() {
         setKeysError(false);
         setWrongPrivateKey(false)
         setWrongPublicKey(false)
-
-        console.log(decryptionMethodState)
-        console.log(privateKey)
-        console.log(publicKey)
 
         let mode = "test";
 
@@ -517,10 +499,6 @@ export default function DecryptionPanel() {
       window.open(`file?name=${safeUrl}`, "_self");
       setIsDownloading(true);
   
-      console.log(safeUrl)
-  
-      console.log(decryptionMethodState)
-  
       if (decryptionMethodState === "secretKey") {
         navigator.serviceWorker.ready.then((reg) => {
           Promise.all([
@@ -573,7 +551,7 @@ export default function DecryptionPanel() {
 
 
     } else {
-      console.log("out of files")
+      // console.log("out of files")
     }
 
   };
@@ -629,6 +607,7 @@ export default function DecryptionPanel() {
   useEffect(() => {
     if (query.tab === "decryption" && query.publicKey) {
       setPublicKey(query.publicKey);
+      publicKey = query.publicKey;
       setPkAlert(true);
       setDecryptionMethod("publicKey");
       decryptionMethodState = "publicKey";
@@ -659,7 +638,6 @@ export default function DecryptionPanel() {
           break;
 
         case "secretKeyEncryption":
-          console.log(`${files[currFile].name} was checked successfully`)
           if (numberOfFiles > 1) {
             if(decryptionMethodState && decryptionMethodState !== "secretKey") {
               checkFileMixUp()
@@ -680,7 +658,6 @@ export default function DecryptionPanel() {
         break;
 
         case "publicKeyEncryption":
-          console.log(`${files[currFile].name} was checked successfully`)
           if (numberOfFiles > 1) {
             if(decryptionMethodState && decryptionMethodState !== "publicKey") {
               checkFileMixUp()
@@ -768,12 +745,10 @@ export default function DecryptionPanel() {
                 kickOffDecryption();
               }, 1500);
             }else {
-              console.log("all the files are successfully decrypted")
               setIsDownloading(false);
               handleNext();
             }
           } else {
-            console.log("file successfully decrypted")
             setIsDownloading(false);
             handleNext();
           }
@@ -837,14 +812,14 @@ export default function DecryptionPanel() {
               },
             }}
           >
-            {t('choose_file_dec')}
+            {t('choose_files_dec')}
           </StepLabel>
           <StepContent>
             <div className="wrapper p-3" id="decFileWrapper">
               <div className={classes.fileArea} id="decFileArea">
                 
               <Paper elevation={0} style={{overflow:"auto", maxHeight:"280px", backgroundColor: "transparent"}}>
-                  <List dense="true" style={{display: "flex", flex: "1",flexWrap: "wrap", alignContent: "center", justifyContent:"center",}}>
+                  <List dense={true} style={{display: "flex", flex: "1",flexWrap: "wrap", alignContent: "center", justifyContent:"center",}}>
                     
                     {Files.length > 0 ? Files.map((file, index) =>
                         <ListItem key={index} style={{backgroundColor: "#ebebeb", borderRadius: "8px", padding:15}}>
@@ -861,7 +836,7 @@ export default function DecryptionPanel() {
                         </ListItem>
                         
                     )
-                    : t('drag_drop')}
+                    : t('drag_drop_files')}
 
                     </List>
                 </Paper>
@@ -879,9 +854,9 @@ export default function DecryptionPanel() {
                   <Button
                     className={classes.browseButton}
                     component="span"
-                    startIcon={<DescriptionIcon />}
+                    startIcon={Files.length > 0 ? <AddIcon /> : <DescriptionIcon />}
                   >
-                    {Files.length > 0 ? t('change_file') : t('browse_file')}
+                    {Files.length > 0 ? t('add_files') : t('browse_files')}
 
                   </Button>
                 </label>
@@ -929,7 +904,7 @@ export default function DecryptionPanel() {
 
               {fileMixUp && (
                 <Alert severity="error" style={{ marginTop: 15 }}>
-                  There is a file mix up ...
+                  {t('file_mixup')}
                 </Alert>
               )}
 
@@ -1160,7 +1135,7 @@ export default function DecryptionPanel() {
                 {decryptionMethod === "secretKey" && Files.length > 1 && wrongPassword && !isTestingPassword && (
                   <Alert severity="error">
                     <strong>{Files[currFile].name}</strong> {" "}
-                    has a wrong password, password testing stopped, make sure all files have the same correct decryption password
+                    {t('file_has_wrong_password')}
                   </Alert>
                 )}
 
@@ -1175,7 +1150,7 @@ export default function DecryptionPanel() {
                     {Files.length > 1 && (
                       <Alert severity="error">
                         <strong>{Files[currFile].name}</strong> {" "}
-                        has wrong keys, keys testing stopped, make sure all files have the same correct decryption keys
+                        {t('file_has_wrong_keys')}
                       </Alert>
                     )}
                   </>
@@ -1198,16 +1173,18 @@ export default function DecryptionPanel() {
               },
             }}
           >
-            {t('download_decrypted_file')}
+            {t('download_decrypted_files')}
           </StepLabel>
 
           <StepContent>
             
             {Files.length > 0 && (
-              <Alert severity="success" icon={<LockOpenIcon />}>
-              <strong>{Files.length>1 ? Files.length : Files[0].name}</strong> {t('ready_to_download')}
+              <Alert severity="success" icon={<LockOpenIcon />} >
+                <strong>{Files.length>1 ? Files.length : Files[0].name}</strong>
+                {" "}
+                {Files.length>1 ? t('files_ready_to_download') : t('ready_to_download')}
               </Alert>
-            )}
+            ) }
 
             <div className={classes.actionsContainer}>
               <Grid container spacing={1}>
@@ -1250,7 +1227,7 @@ export default function DecryptionPanel() {
                         textDecoration: "none",
                       }}
                     >
-                      {isDownloading ? t('downloading_file') : t('decrypted_file')}
+                      {isDownloading ? t('downloading_file') : t('decrypted_files')}
                     </a>
                   </Button>
                 </Grid>
@@ -1274,7 +1251,7 @@ export default function DecryptionPanel() {
             style={{ border: "none" }}
           >
             <AlertTitle>{t('success')}</AlertTitle>
-            {t('success_downloaded_file_dec')}
+            {t('success_downloaded_files_dec')}
           </Alert>
 
           <Button
@@ -1284,7 +1261,7 @@ export default function DecryptionPanel() {
             startIcon={<RefreshIcon />}
             fullWidth
           >
-            {t('decrypt_another_file')}
+            {t('decrypt_other_files')}
           </Button>
         </Paper>
       )}

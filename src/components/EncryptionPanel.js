@@ -739,8 +739,7 @@ export default function EncryptionPanel() {
 
                     <small className={classes.filesInfo}>
                       {Files.length} {Files.length > 1 ? t("files") : t("file")}
-                      {", "}
-                      {formatBytes(sumFilesSizes)}
+                      {Files.length > 1 && (<>, {formatBytes(sumFilesSizes)}</>)}
                     </small>
                   </>
                 )}

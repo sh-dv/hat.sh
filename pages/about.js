@@ -229,7 +229,7 @@ export default function About(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [docContent, setDocContent] = useState("fummy");
+  const [docContent, setDocContent] = useState("");
 
   useEffect(() => {
     checkTheme();
@@ -247,6 +247,7 @@ export default function About(props) {
     let langFilter = { lang: getLocale() };
     let langResult;
 
+
     languages.forEach(function (obj) {
       let matches = true;
       for (let key in langFilter) {
@@ -256,6 +257,9 @@ export default function About(props) {
       }
       if (matches) {
         langResult = obj;
+      } else {
+        //default en docs
+        setDocContent(languages[0].content)
       }
     });
 

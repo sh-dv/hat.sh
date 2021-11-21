@@ -5,6 +5,17 @@ const en = {
   sub_title: "simple, fast, secure client-side file encryption",
   about: "about",
 
+  // About page menu
+  introduction: "Introduction",
+  features: "Features",
+  installation: "Installation",
+  usage: "Usage",
+  limitations: "Limitations",
+  best_practices: "Best-Practices",
+  faq: "FAQ",
+  technical_details: "Technical-Details",
+  changelog: "Changelog",
+
   // Settings
   settings: "Settings",
   language: "Language",

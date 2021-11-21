@@ -44,9 +44,19 @@ export const Theme = createTheme({
       light: "#f3f3f3",
     },
     alto: {
-      main: "#d2d2d2",
-      light: "#e1e1e1",
+      main: "#e1e1e1",
+      light: "#ebebeb",
     },
+    flower: {
+      main: "#fdecea",
+      light: "#fadbd7",
+      text: "#611a15",
+    },
+    cottonBoll: {
+      main: "#e8f4fd",
+      light: "#c9e1f2",
+      text: "#0d3c61",
+    }
   },
 });
 

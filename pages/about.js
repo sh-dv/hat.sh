@@ -38,7 +38,7 @@ import Settings from "../src/components/Settings";
 import { ThemeProvider } from "@material-ui/styles";
 import { Theme, checkTheme } from "../src/config/Theme";
 import locales from "../locales/locales";
-
+import { getTranslations as t} from "../locales";
 const drawerWidth = 240;
 
 marked.setOptions({
@@ -291,15 +291,15 @@ export default function About(props) {
       <Divider />
       <List>
         {[
-          { name: "Introduction", icon: <BookmarkBorderIcon /> },
-          { name: "Features", icon: <StarsIcon /> },
-          { name: "Installation", icon: <GetAppIcon /> },
-          { name: "Usage", icon: <EmojiObjectsIcon /> },
-          { name: "Limitations", icon: <ErrorOutlineIcon /> },
-          { name: "Best-Practices", icon: <VerifiedUserIcon /> },
-          { name: "FAQ", icon: <LiveHelpIcon /> },
-          { name: "Technical-Details", icon: <MenuBookIcon /> },
-          { name: "Changelog", icon: <HistoryIcon /> },
+          { name: t("introduction"), icon: <BookmarkBorderIcon /> },
+          { name: t("features"), icon: <StarsIcon /> },
+          { name: t("installation"), icon: <GetAppIcon /> },
+          { name: t("usage"), icon: <EmojiObjectsIcon /> },
+          { name: t("limitations"), icon: <ErrorOutlineIcon /> },
+          { name: t("best_practices"), icon: <VerifiedUserIcon /> },
+          { name: t("faq"), icon: <LiveHelpIcon /> },
+          { name: t("technical_details"), icon: <MenuBookIcon /> },
+          { name: t("changelog"), icon: <HistoryIcon /> },
         ].map((text, index) => (
           <div onClick={handleClose} key={index}>
             <Link href={"#" + text.name.toLowerCase()} passHref>

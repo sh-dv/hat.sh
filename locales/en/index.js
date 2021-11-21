@@ -14,8 +14,11 @@ const en = {
   reload: "RELOAD",
   dark_mode: "Dark Mode",
   close: "Close",
+  reset: "Reset",
 
   // Common
+  file: "file",
+  files: "files",
   password: "Password",
   public_key: "Public key",
   private_key: "Private key",

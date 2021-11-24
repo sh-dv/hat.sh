@@ -753,7 +753,7 @@ export default function EncryptionPanel() {
                   disabled={Files.length === 0}
                   variant="contained"
                   onClick={handleNext}
-                  className={`${classes.nextButton} submitFile`}
+                  className={`${classes.nextButton} nextBtnHs submitFile`}
                 >
                   {t("next")}
                 </Button>
@@ -1015,7 +1015,7 @@ export default function EncryptionPanel() {
                       }
                       variant="contained"
                       onClick={handleMethodStep}
-                      className={`${classes.nextButton} submitKeys`}
+                      className={`${classes.nextButton} nextBtnHs submitKeys`}
                       fullWidth
                     >
                       {t("next")}
@@ -1075,7 +1075,7 @@ export default function EncryptionPanel() {
                       Files.length === 0
                     }
                     variant="contained"
-                    className={classes.nextButton}
+                    className={`${classes.nextButton} nextBtnHs`}
                     startIcon={
                       isDownloading ? (
                         <CircularProgress
@@ -1092,7 +1092,6 @@ export default function EncryptionPanel() {
                       onClick={(e) => handleEncryptedFilesDownload(e)}
                       className="downloadFile"
                       style={{
-                        color: "#ffffff",
                         textDecoration: "none",
                       }}
                     >

@@ -678,7 +678,7 @@ const LimitedEncryptionPanel = () => {
                 disabled={!File || largeFile}
                 variant="contained"
                 onClick={handleNext}
-                className={classes.nextButton}
+                className={`${classes.nextButton} nextBtnHs`}
               >
                 {t('next')}
               </Button>
@@ -927,7 +927,7 @@ const LimitedEncryptionPanel = () => {
                       }
                       variant="contained"
                       onClick={handleMethodStep}
-                      className={classes.nextButton}
+                      className={`${classes.nextButton} nextBtnHs`}
                       fullWidth
                     >
                       {t('next')}
@@ -981,7 +981,7 @@ const LimitedEncryptionPanel = () => {
                       !File
                     }
                     variant="contained"
-                    className={classes.nextButton}
+                    className={`${classes.nextButton} nextBtnHs`}
                     startIcon={
                       isEncrypting ? (
                         <CircularProgress
@@ -1038,7 +1038,7 @@ const LimitedEncryptionPanel = () => {
             <Grid item xs={12} sm={12}>
               <Button
                 onClick={handleEncryptedFileDownload}
-                className={classes.nextButton}
+                className={`${classes.nextButton} nextBtnHs`}
                 variant="contained"
                 startIcon={<GetAppIcon />}
                 fullWidth

@@ -952,7 +952,7 @@ export default function DecryptionPanel() {
                   disabled={isCheckingFile || Files.length === 0}
                   variant="contained"
                   onClick={checkFiles}
-                  className={`${classes.nextButton} submitFileDec`}
+                  className={`${classes.nextButton} nextBtnHs submitFileDec`}
                   startIcon={
                     isCheckingFile && (
                       <CircularProgress
@@ -1203,7 +1203,7 @@ export default function DecryptionPanel() {
                       }
                       variant="contained"
                       onClick={testFilesDecryption}
-                      className={`${classes.nextButton} submitKeysDec`}
+                      className={`${classes.nextButton} nextBtnHs submitKeysDec`}
                       startIcon={
                         (isTestingPassword || isTestingKeys) && (
                           <CircularProgress
@@ -1305,7 +1305,7 @@ export default function DecryptionPanel() {
                     }
                     variant="contained"
                     color="primary"
-                    className={classes.nextButton}
+                    className={`${classes.nextButton} nextBtnHs`}
                     startIcon={
                       isDownloading ? (
                         <CircularProgress
@@ -1322,7 +1322,6 @@ export default function DecryptionPanel() {
                       onClick={(e) => handleEncryptedFilesDownload(e)}
                       className="downloadFileDec"
                       style={{
-                        color: "#ffffff",
                         textDecoration: "none",
                       }}
                     >

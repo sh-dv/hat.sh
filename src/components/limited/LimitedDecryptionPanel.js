@@ -772,7 +772,7 @@ const LimitedDecryptionPanel = () => {
                   disabled={isCheckingFile || !File}
                   variant="contained"
                   onClick={checkFile}
-                  className={classes.nextButton}
+                  className={`${classes.nextButton} nextBtnHs`}
                   startIcon={
                     isCheckingFile && (
                       <CircularProgress
@@ -1009,7 +1009,7 @@ const LimitedDecryptionPanel = () => {
                       }
                       variant="contained"
                       onClick={testLimitedDecryption}
-                      className={classes.nextButton}
+                      className={`${classes.nextButton} nextBtnHs`}
                       startIcon={
                         (isTestingPassword || isDecrypting) && (
                           <CircularProgress
@@ -1077,7 +1077,7 @@ const LimitedDecryptionPanel = () => {
               <Button
                 onClick={handleDecryptedFileDownload}
                 color="primary"
-                className={classes.nextButton}
+                className={`${classes.nextButton} nextBtnHs`}
                 variant="contained"
                 startIcon={<GetAppIcon />}
                 fullWidth

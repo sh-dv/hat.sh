@@ -24,6 +24,17 @@ body {
   box-shadow: none;
 }
 
+.darkStyle .nextBtnHs {
+  background-color: #c4c6c7;
+  color: #000;
+  box-shadow: none;
+}
+
+.darkStyle .nextBtnHs:hover {
+  background-color: #d8d7d7;
+  box-shadow: none;
+}
+
 .darkStyle .codeBox .language-javascript {
   background-color: #ebebeb;
   color: #3f3f3f;

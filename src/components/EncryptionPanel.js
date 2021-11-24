@@ -1092,6 +1092,7 @@ export default function EncryptionPanel() {
                       onClick={(e) => handleEncryptedFilesDownload(e)}
                       className="downloadFile"
                       style={{
+                        width: "100%",
                         textDecoration: "none",
                       }}
                     >

@@ -1322,6 +1322,7 @@ export default function DecryptionPanel() {
                       onClick={(e) => handleEncryptedFilesDownload(e)}
                       className="downloadFileDec"
                       style={{
+                        width: "100%",
                         textDecoration: "none",
                       }}
                     >

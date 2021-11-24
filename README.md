@@ -1,6 +1,6 @@
 <p align="center">
   <a href="#" rel="noopener">
- <img src="https://i.imgur.com/tmbgj2X.png" width="150"></a>
+ <img src="https://i.imgur.com/XB7b9C3.png" width="180"></a>
 </p>
 
 <a href="https://hat.sh" style="color:#000"><h3 align="center">hat.sh</h3></a>

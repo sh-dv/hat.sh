@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import EncryptionPanel from "./EncryptionPanel";
 import DecryptionPanel from "./DecryptionPanel";
+import DonationBar from "./DonationBar";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Container from "@material-ui/core/Container";
@@ -129,6 +130,7 @@ export default function CustomizedTabs() {
         >
           <DecryptionPanel />
         </TabPanel>
+        <DonationBar />
       </Container>
     </>
   );

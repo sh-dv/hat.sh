@@ -15,6 +15,7 @@ const en = {
   faq: "FAQ",
   technical_details: "Technical-Details",
   changelog: "Changelog",
+  donation_message: "Love hat.sh? You can donate to support the project.",
 
   // Settings
   settings: "Settings",

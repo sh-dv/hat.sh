@@ -341,7 +341,7 @@ But make sure to never share your private key with anyone!
 
 ### Why the app asks for my private key in the public key encryption mode?
 
-Hat.sh uses authenticated encryption. For verification and decryption, the sender must provide the private key also, a new shared key will be computed from provide their private key when decrypting. this way can verify that the encrypted file was not tampered with, and was sent from the real sender.
+Hat.sh uses authenticated encryption. The sender must provide their private key, a new shared key will be computed from both keys to encrypt the file. Recipient has to provide their private key when decrypting also. this way can verify that the encrypted file was not tampered with, and was sent from the real sender.
 
 <hr style="height: 1px">
 

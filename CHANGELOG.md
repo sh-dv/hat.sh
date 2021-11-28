@@ -1,7 +1,7 @@
 # [CHANGELOG](#changelog)
 
 ---
-## v2.1.1
+## v2.2.0
 
 - Multiple files encryption/decryption.
 - Adding Dark Mode and tweaking styles.

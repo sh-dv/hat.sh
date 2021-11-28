@@ -245,6 +245,8 @@ export default function EncryptionPanel() {
 
   const [Files, setFiles] = useState([]);
 
+  const [currFileState, setCurrFileState] = useState(0);
+
   const [sumFilesSizes, setSumFilesSizes] = useState(0);
 
   const [Password, setPassword] = useState();
@@ -321,13 +323,23 @@ export default function EncryptionPanel() {
     file = null;
     files = [];
     numberOfFiles = 0;
-    currFile = 0;
+    resetCurrFile();
     index = null;
     router.replace(router.pathname);
   };
 
   const showSnackBar = () => {
     setSnackBarOpen(!snackBarOpen);
+  };
+
+  const resetCurrFile = () => {
+    currFile = 0;
+    setCurrFileState(currFile);
+  };
+
+  const updateCurrFile = () => {
+    currFile += 1;
+    setCurrFileState(currFile);
   };
 
   const handleMethodStep = () => {
@@ -581,7 +593,7 @@ export default function EncryptionPanel() {
 
         case "encryptionFinished":
           if (numberOfFiles > 1) {
-            currFile += 1;
+            updateCurrFile();
             file = null;
             index = null;
             if (currFile <= numberOfFiles - 1) {
@@ -739,7 +751,7 @@ export default function EncryptionPanel() {
 
                     <small className={classes.filesInfo}>
                       {Files.length} {Files.length > 1 ? t("files") : t("file")}
-                      {Files.length > 1 && (<>, {formatBytes(sumFilesSizes)}</>)}
+                      {Files.length > 1 && <>, {formatBytes(sumFilesSizes)}</>}
                     </small>
                   </>
                 )}
@@ -1097,7 +1109,9 @@ export default function EncryptionPanel() {
                       }}
                     >
                       {isDownloading
-                        ? t("downloading_file")
+                        ? `${currFileState+1}/${numberOfFiles} ${t(
+                            "downloading_file"
+                          )}`
                         : t("encrypted_files")}
                     </a>
                   </Button>

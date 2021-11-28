@@ -1215,11 +1215,11 @@ export default function DecryptionPanel() {
                       fullWidth
                     >
                       {isTestingPassword
-                        ? `${currFileState}/${numberOfFiles} ${t(
+                        ? `${currFileState+1}/${numberOfFiles} ${t(
                             "testing_password"
                           )}`
                         : isTestingKeys
-                        ? `${currFileState}/${numberOfFiles} ${t(
+                        ? `${currFileState+1}/${numberOfFiles} ${t(
                             "testing_keys"
                           )}`
                         : t("next")}
@@ -1327,7 +1327,9 @@ export default function DecryptionPanel() {
                       }}
                     >
                       {isDownloading
-                        ? t("downloading_file")
+                        ? `${currFileState+1}/${numberOfFiles} ${t(
+                          "downloading_file"
+                        )}`
                         : t("decrypted_files")}
                     </a>
                   </Button>

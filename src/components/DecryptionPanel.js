@@ -1289,7 +1289,7 @@ export default function DecryptionPanel() {
               <Grid container spacing={1}>
                 <Grid item>
                   <Button
-                    disabled={activeStep === 0}
+                    disabled={activeStep === 0 || isDownloading}
                     onClick={handleBack}
                     className={classes.backButton}
                   >

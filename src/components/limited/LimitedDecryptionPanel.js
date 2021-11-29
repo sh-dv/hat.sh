@@ -34,9 +34,14 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 import CloseIcon from "@material-ui/icons/Close";
-import { List, ListItem, ListItemSecondaryAction,ListItemText } from "@material-ui/core";
-import DeleteIcon from '@material-ui/icons/Delete';
-import { getTranslations as t} from "../../../locales";
+import {
+  List,
+  ListItem,
+  ListItemSecondaryAction,
+  ListItemText,
+} from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { getTranslations as t } from "../../../locales";
 
 const _sodium = require("libsodium-wrappers");
 
@@ -156,7 +161,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     marginBottom: "10px",
   },
-
 }));
 
 let file,
@@ -366,7 +370,7 @@ const LimitedDecryptionPanel = () => {
       }
     } catch (error) {
       setKeysError(true);
-      setKeysErrorMessage(t('invalid_keys_input'));
+      setKeysErrorMessage(t("invalid_keys_input"));
       setIsTestingKeys(false);
     }
   };
@@ -466,9 +470,7 @@ const LimitedDecryptionPanel = () => {
           computed = sodium.to_base64(computed);
           if (ssk === cpk || cpk === computed) {
             setKeysError(true);
-            setKeysErrorMessage(
-              t('invalid_key_pair')
-            );
+            setKeysErrorMessage(t("invalid_key_pair"));
             setIsTestingKeys(false);
             return;
           }
@@ -531,7 +533,7 @@ const LimitedDecryptionPanel = () => {
           }
         } catch (error) {
           setKeysError(true);
-          setKeysErrorMessage(t('invalid_keys_input'));
+          setKeysErrorMessage(t("invalid_keys_input"));
           setIsTestingKeys(false);
         }
       });
@@ -680,7 +682,7 @@ const LimitedDecryptionPanel = () => {
             alt="hat.sh logo"
           />
           <br />
-          {t('drop_file_dec')}
+          {t("drop_file_dec")}
         </Typography>
       </Backdrop>
       <Collapse in={pkAlert} style={{ marginTop: 5 }}>
@@ -699,7 +701,7 @@ const LimitedDecryptionPanel = () => {
             </IconButton>
           }
         >
-          {t('sender_key_loaded')}
+          {t("sender_key_loaded")}
         </Alert>
       </Collapse>
       <Stepper
@@ -717,33 +719,61 @@ const LimitedDecryptionPanel = () => {
               },
             }}
           >
-            {t('choose_file_dec')}
+            {t("choose_file_dec")}
           </StepLabel>
           <StepContent>
             <div className="wrapper p-3" id="encFileWrapper">
               <div className={classes.fileArea} id="encFileArea">
-                
-                <Paper elevation={0} style={{overflow:"auto", maxHeight:"280px", backgroundColor: "transparent"}}>
-                  <List dense={true} style={{display: "flex", flex: "1",flexWrap: "wrap", alignContent: "center", justifyContent:"center",}}>
-                    
+                <Paper
+                  elevation={0}
+                  style={{
+                    overflow: "auto",
+                    maxHeight: "280px",
+                    backgroundColor: "transparent",
+                  }}
+                >
+                  <List
+                    dense={true}
+                    style={{
+                      display: "flex",
+                      flex: "1",
+                      flexWrap: "wrap",
+                      alignContent: "center",
+                      justifyContent: "center",
+                    }}
+                  >
                     {File ? (
-                        <ListItem style={{backgroundColor: "#ebebeb", borderRadius: "8px", padding:15}}>
-                          <ListItemText
-                          style={{ width:"200px", minHeight: "50px", maxHeight: "50px",}}
-                            primary={File.name}
-                            secondary={formatBytes(File.size)}
-                          />
-                          <ListItemSecondaryAction>
-                            <IconButton style={{marginTop: 40}} onClick={()=>setFile()} edge="end" aria-label="delete">
-                              <DeleteIcon />
-                            </IconButton>
-                          </ListItemSecondaryAction>
-                        </ListItem>
-                        
-                    )
-                    : t('drag_drop')}
-
-                    </List>
+                      <ListItem
+                        style={{
+                          backgroundColor: "#ebebeb",
+                          borderRadius: "8px",
+                          padding: 15,
+                        }}
+                      >
+                        <ListItemText
+                          style={{
+                            width: "200px",
+                            minHeight: "50px",
+                            maxHeight: "50px",
+                          }}
+                          primary={File.name}
+                          secondary={formatBytes(File.size)}
+                        />
+                        <ListItemSecondaryAction>
+                          <IconButton
+                            style={{ marginTop: 40 }}
+                            onClick={() => setFile()}
+                            edge="end"
+                            aria-label="delete"
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </ListItemSecondaryAction>
+                      </ListItem>
+                    ) : (
+                      t("drag_drop")
+                    )}
+                  </List>
                 </Paper>
 
                 <input
@@ -760,7 +790,7 @@ const LimitedDecryptionPanel = () => {
                     component="span"
                     startIcon={<DescriptionIcon />}
                   >
-                    {File ? t('change_file') : t('browse_file')}
+                    {File ? t("change_file") : t("browse_file")}
                   </Button>
                 </label>
               </div>
@@ -783,13 +813,14 @@ const LimitedDecryptionPanel = () => {
                   }
                   fullWidth
                 >
-                  {isCheckingFile ? t('checking_file') : t('next')}
+                  {isCheckingFile ? t("checking_file") : t("next")}
                 </Button>
 
                 {largeFile && (
                   <>
                     <Alert severity="error" style={{ marginTop: 15 }}>
-                      <strong>{t('file_too_big')}</strong> {t('choose_file_1gb')}
+                      <strong>{t("file_too_big")}</strong>{" "}
+                      {t("choose_file_1gb")}
                     </Alert>
                   </>
                 )}
@@ -797,13 +828,14 @@ const LimitedDecryptionPanel = () => {
 
               {badFile && (
                 <Alert severity="error" style={{ marginTop: 15 }}>
-                  {t('file_not_encrypted_corrupted')}
+                  {t("file_not_encrypted_corrupted")}
                 </Alert>
               )}
 
               {oldVersion && (
                 <Alert severity="error" style={{ marginTop: 15 }}>
-                  {t('old_version')} {" "} <a href="https://v1.hat.sh/" target="_blank" rel="noreferrer">
+                  {t("old_version")}{" "}
+                  <a href="https://v1.hat.sh/" target="_blank" rel="noreferrer">
                     {"https://v1.hat.sh"}
                   </a>
                 </Alert>
@@ -823,8 +855,8 @@ const LimitedDecryptionPanel = () => {
             }}
           >
             {decryptionMethod === "secretKey"
-              ? t('enter_password_dec')
-              : t('enter_keys_dec')}
+              ? t("enter_password_dec")
+              : t("enter_keys_dec")}
           </StepLabel>
           <StepContent>
             {decryptionMethod === "secretKey" && (
@@ -837,9 +869,9 @@ const LimitedDecryptionPanel = () => {
                     ? "outlined-error-helper-text"
                     : "outlined-required"
                 }
-                label={wrongPassword ? t('error') : t('required')}
-                helperText={wrongPassword ? t('wrong_password') : ""}
-                placeholder={t('password')}
+                label={wrongPassword ? t("error") : t("required")}
+                helperText={wrongPassword ? t("wrong_password") : ""}
+                placeholder={t("password")}
                 variant="outlined"
                 value={Password ? Password : ""}
                 onChange={(e) => handlePasswordInput(e.target.value)}
@@ -857,7 +889,7 @@ const LimitedDecryptionPanel = () => {
                     notchedOutline: classes.textFieldNotchedOutline,
                   },
                   endAdornment: (
-                    <Tooltip title={t('show_password')} placement="left">
+                    <Tooltip title={t("show_password")} placement="left">
                       <IconButton
                         onClick={() => setShowPassword(!showPassword)}
                       >
@@ -873,10 +905,10 @@ const LimitedDecryptionPanel = () => {
               <>
                 <TextField
                   required
-                  error={(wrongPublicKey || keysError) ? true : false}
-                  helperText={wrongPublicKey ? t('wrong_public_key') : ""}
-                  label={t('sender_public_key')}
-                  placeholder={t('enter_sender_public_key')}
+                  error={wrongPublicKey || keysError ? true : false}
+                  helperText={wrongPublicKey ? t("wrong_public_key") : ""}
+                  label={t("sender_public_key")}
+                  placeholder={t("enter_sender_public_key")}
                   variant="outlined"
                   value={PublicKey ? PublicKey : ""}
                   onChange={(e) => handlePublicKeyInput(e.target.value)}
@@ -905,9 +937,12 @@ const LimitedDecryptionPanel = () => {
                           onChange={(e) => loadPublicKey(e.target.files[0])}
                         />
                         <label htmlFor="dec-public-key-file">
-                          <Tooltip title={t('load_public_key')} placement="left">
+                          <Tooltip
+                            title={t("load_public_key")}
+                            placement="left"
+                          >
                             <IconButton
-                              aria-label={t('load_public_key')}
+                              aria-label={t("load_public_key")}
                               component="span"
                             >
                               <AttachFileIcon />
@@ -922,10 +957,10 @@ const LimitedDecryptionPanel = () => {
                 <TextField
                   type={showPrivateKey ? "text" : "password"}
                   required
-                  error={(wrongPrivateKey || keysError) ? true : false}
-                  helperText={wrongPrivateKey ? t('wrong_private_key') : ""}
-                  label={t('your_private_key_dec')}
-                  placeholder={t('enter_private_key_dec')}
+                  error={wrongPrivateKey || keysError ? true : false}
+                  helperText={wrongPrivateKey ? t("wrong_private_key") : ""}
+                  label={t("your_private_key_dec")}
+                  placeholder={t("enter_private_key_dec")}
                   variant="outlined"
                   value={PrivateKey ? PrivateKey : ""}
                   onChange={(e) => handlePrivateKeyInput(e.target.value)}
@@ -947,7 +982,10 @@ const LimitedDecryptionPanel = () => {
                     endAdornment: (
                       <>
                         {PrivateKey && (
-                          <Tooltip title={t('show_private_key')} placement="left">
+                          <Tooltip
+                            title={t("show_private_key")}
+                            placement="left"
+                          >
                             <IconButton
                               onClick={() => setShowPrivateKey(!showPrivateKey)}
                             >
@@ -968,9 +1006,12 @@ const LimitedDecryptionPanel = () => {
                           onChange={(e) => loadPrivateKey(e.target.files[0])}
                         />
                         <label htmlFor="dec-private-key-file">
-                          <Tooltip title={t('load_private_key')} placement="left">
+                          <Tooltip
+                            title={t("load_private_key")}
+                            placement="left"
+                          >
                             <IconButton
-                              aria-label={t('load_private_key')}
+                              aria-label={t("load_private_key")}
                               component="span"
                             >
                               <AttachFileIcon />
@@ -989,12 +1030,17 @@ const LimitedDecryptionPanel = () => {
                 <Grid container spacing={1}>
                   <Grid item>
                     <Button
-                      disabled={activeStep === 0}
+                      disabled={
+                        activeStep === 0 ||
+                        isTestingPassword ||
+                        isTestingKeys ||
+                        isDecrypting
+                      }
                       onClick={handleBack}
                       className={classes.backButton}
                       fullWidth
                     >
-                      {t('back')}
+                      {t("back")}
                     </Button>
                   </Grid>
                   <Grid item xs>
@@ -1021,12 +1067,12 @@ const LimitedDecryptionPanel = () => {
                       fullWidth
                     >
                       {isTestingPassword
-                        ? t('testing_password')
+                        ? t("testing_password")
                         : isTestingKeys
-                        ? t('testing_keys')
+                        ? t("testing_keys")
                         : isDecrypting
-                        ? t('decrypting_file')
-                        : t('next')}
+                        ? t("decrypting_file")
+                        : t("next")}
                     </Button>
                   </Grid>
                 </Grid>
@@ -1038,7 +1084,7 @@ const LimitedDecryptionPanel = () => {
 
                 {isDecrypting && (
                   <Alert variant="outlined" severity="info">
-                    {t('page_close_alert_dec')}
+                    {t("page_close_alert_dec")}
                   </Alert>
                 )}
               </div>
@@ -1056,7 +1102,7 @@ const LimitedDecryptionPanel = () => {
               },
             }}
           >
-            {t('download_decrypted_file')}
+            {t("download_decrypted_file")}
           </StepLabel>
         </Step>
       </Stepper>
@@ -1068,8 +1114,8 @@ const LimitedDecryptionPanel = () => {
             severity="success"
             style={{ border: "none" }}
           >
-            <AlertTitle>{t('success')}</AlertTitle>
-            {t('success_decrypted')}
+            <AlertTitle>{t("success")}</AlertTitle>
+            {t("success_decrypted")}
           </Alert>
 
           <Grid container spacing={1} style={{ marginTop: 5 }}>
@@ -1083,7 +1129,7 @@ const LimitedDecryptionPanel = () => {
                 fullWidth
                 style={{ textTransform: "none" }}
               >
-                {t('download_file')}
+                {t("download_file")}
               </Button>
             </Grid>
             <Grid item xs={12}>
@@ -1095,7 +1141,7 @@ const LimitedDecryptionPanel = () => {
                 fullWidth
                 style={{ textTransform: "none" }}
               >
-                {t('decrypt_another_file')}
+                {t("decrypt_another_file")}
               </Button>
             </Grid>
           </Grid>

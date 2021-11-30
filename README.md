@@ -98,7 +98,16 @@ Monero: `84zQq4Xt7sq8cmGryuvWsXFMDvBvHjWjnMQXZWQQRXjB1TgoZWS9zBdNcYL7CRbQBqcDdxr
 
 ## Social
 
-* [Reddit](https://reddit.com/r/hatsh) 
+* [Reddit](https://reddit.com/r/hatsh)
+
+<br>
+
+## Acknowledgements
+
+* Everyone who supported the project.
+* Samuel-lucas6 from the [Kryptor](https://github.com/samuel-lucas6/Kryptor) project for being helpful and doing alot of beta testing.
+
+<br>
 
 ## Credits
 
@@ -107,6 +116,8 @@ Monero: `84zQq4Xt7sq8cmGryuvWsXFMDvBvHjWjnMQXZWQQRXjB1TgoZWS9zBdNcYL7CRbQBqcDdxr
 [next.js](https://nextjs.org/)
 
 [material-ui](https://material-ui.com/)
+
+<br>
 
 ## License
 

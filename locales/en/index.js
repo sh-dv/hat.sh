@@ -23,10 +23,12 @@ const en = {
   change_language: "Change display language",
   change_appearance: "Change appearance",
   language_changed: "Language changed! - Page reload is needed to take effect.",
+  help_translate: "Can't find your language? you can help translate this app by following the translation guide on github.",
   reload: "RELOAD",
   dark_mode: "Dark Mode",
   close: "Close",
   reset: "Reset",
+  guide: "Guide",
 
   // Common
   file: "file",
@@ -51,6 +53,7 @@ const en = {
   show_private_key: "Show Private Key",
   load_public_key: "Load Public Key",
   load_private_key: "Load Private Key",
+  short_password: "Please enter a password with a minimum length of 12 characters. Or generate one.",
   wrong_public_key: "Wrong Public Key",
   wrong_private_key: "Wrong Private Key",
   invalid_keys_input: "Invalid keys input.",

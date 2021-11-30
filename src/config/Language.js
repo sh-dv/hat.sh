@@ -34,11 +34,11 @@ const Language = () => {
   return (
     <>
       <FormControl variant="outlined" className={classes.formControl}>
-        <InputLabel>{t('language')}</InputLabel>
+        <InputLabel>{t("language")}</InputLabel>
         <Select
           value={language}
           onChange={handleLanguageChange}
-          label={t('language')}
+          label={t("language")}
         >
           {Object.entries(locales).map(([code, name]) => (
             <MenuItem key={code} value={code}>
@@ -48,16 +48,35 @@ const Language = () => {
         </Select>
       </FormControl>
 
-      {showSaveBtn && (
+      {showSaveBtn ? (
         <Alert
           className={classes.formControl}
           action={
-            <Button onClick={()=> window.location.reload(true)} color="inherit" size="small">
-              {t('reload')}
+            <Button
+              onClick={() => window.location.reload(true)}
+              color="inherit"
+              size="small"
+            >
+              {t("reload")}
             </Button>
           }
         >
-          {t('language_changed')}
+          {t("language_changed")}
+        </Alert>
+      ) : (
+        <Alert
+          className={classes.formControl}
+          severity="info"
+          action={
+            <Button
+              href="https://github.com/sh-dv/hat.sh/blob/master/TRANSLATION.md"
+              target="_blank"
+            >
+              {t("guide")}
+            </Button>
+          }
+        >
+          {t("help_translate")}
         </Alert>
       )}
     </>

@@ -24,11 +24,14 @@ body {
   box-shadow: none;
 }
 
+.darkStyle .codeBox pre {
+  background-color: #ebebeb;
+}
+
 .darkStyle .codeBox .language-javascript {
   background-color: #ebebeb;
   color: #3f3f3f;
 }
-
 
 .darkStyle .nextBtnHs {
   background-color: #c4c6c7;

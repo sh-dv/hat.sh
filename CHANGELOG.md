@@ -6,6 +6,7 @@
 - Multiple files encryption/decryption.
 - Adding Dark Mode and tweaking styles.
 - Implementing custom localization.
+- In an effort to encourage the use of secure passwords, The minimum number of characters in the password input has been set to 12 characters.
 - Adding the ability to generate a QR code for the public key when generating a keypair.
 - Visiting different tabs through custom links (e.g ?tab=decryption).
 - Code review and bug fixes.

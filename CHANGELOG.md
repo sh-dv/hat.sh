@@ -8,8 +8,9 @@
 - Implementing custom localization.
 - In an effort to encourage the use of secure passwords, The minimum number of characters in the password input has been set to 12 characters.
 - Adding the ability to generate a QR code for the public key when generating a keypair.
+- New file picker design, display of total files counts and size. 
 - Visiting different tabs through custom links (e.g ?tab=decryption).
-- Code review and bug fixes.
+- Code review, cleanup and bug fixes.
 
 
 ## v2.1.0

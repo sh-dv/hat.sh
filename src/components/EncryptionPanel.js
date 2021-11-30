@@ -267,6 +267,8 @@ export default function EncryptionPanel() {
 
   const [keysErrorMessage, setKeysErrorMessage] = useState();
 
+  const [shortPasswordError, setShortPasswordError] = useState(false);
+
   const [encryptionMethod, setEncryptionMethod] = useState("secretKey");
 
   const [isDownloading, setIsDownloading] = useState(false);
@@ -297,6 +299,7 @@ export default function EncryptionPanel() {
     setWrongPublicKey(false);
     setWrongPrivateKey(false);
     setKeysError(false);
+    setShortPasswordError(false);
   };
 
   const handleRadioChange = (method) => {
@@ -315,6 +318,7 @@ export default function EncryptionPanel() {
     setWrongPublicKey(false);
     setWrongPrivateKey(false);
     setKeysError(false);
+    setShortPasswordError(false);
     setIsDownloading(false);
     setShareableLink();
     setSnackBarMessage();
@@ -343,7 +347,14 @@ export default function EncryptionPanel() {
   };
 
   const handleMethodStep = () => {
-    if (encryptionMethodState === "secretKey") setActiveStep(2);
+    if (encryptionMethodState === "secretKey") {
+      if(Password.length >= 12) {
+        setActiveStep(2)
+      } else {
+        setShortPasswordError(true);
+      }
+    }
+
     if (encryptionMethodState === "publicKey") {
       navigator.serviceWorker.ready.then((reg) => {
         let mode = "test";
@@ -362,6 +373,7 @@ export default function EncryptionPanel() {
     let generated = await generatePassword();
     password = generated;
     setPassword(generated);
+    setShortPasswordError(false);
   };
 
   const handleFilesInput = (selectedFiles) => {
@@ -1038,6 +1050,10 @@ export default function EncryptionPanel() {
 
                 {encryptionMethod === "publicKey" && keysError && (
                   <Alert severity="error">{keysErrorMessage}</Alert>
+                )}
+
+                {encryptionMethod === "secretKey" && shortPasswordError && (
+                  <Alert severity="error">{t('short_password')}</Alert>
                 )}
               </div>
             </div>

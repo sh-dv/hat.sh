@@ -215,6 +215,8 @@ const LimitedEncryptionPanel = () => {
 
   const [keysErrorMessage, setKeysErrorMessage] = useState();
 
+  const [shortPasswordError, setShortPasswordError] = useState(false);
+
   const [encryptionMethod, setEncryptionMethod] = useState("secretKey");
 
   const [isEncrypting, setIsEncrypting] = useState(false);
@@ -245,6 +247,7 @@ const LimitedEncryptionPanel = () => {
     setWrongPublicKey(false);
     setWrongPrivateKey(false);
     setKeysError(false);
+    setShortPasswordError(false);
   };
 
   const handleRadioChange = (e) => {
@@ -261,6 +264,7 @@ const LimitedEncryptionPanel = () => {
     setWrongPublicKey(false);
     setWrongPrivateKey(false);
     setKeysError(false);
+    setShortPasswordError(false);
     setShareableLink();
     setSnackBarMessage();
     setPkAlert(false);
@@ -276,7 +280,14 @@ const LimitedEncryptionPanel = () => {
   };
 
   const handleMethodStep = () => {
-    if (encryptionMethod === "secretKey") setActiveStep(2);
+    if (encryptionMethod === "secretKey") {
+      if(Password.length >= 12) {
+        setActiveStep(2)
+      } else {
+        setShortPasswordError(true);
+      }
+    }
+
     if (encryptionMethod === "publicKey") {
       let mode = "test";
       let privateKey = PrivateKey;
@@ -293,6 +304,7 @@ const LimitedEncryptionPanel = () => {
       sodium.base64_variants.URLSAFE_NO_PADDING
     );
     setPassword(gPassword);
+    setShortPasswordError(false);
   };
 
   const handleLimitedFileInput = (selectedFile) => {
@@ -982,6 +994,11 @@ const LimitedEncryptionPanel = () => {
                 {encryptionMethod === "publicKey" && keysError && (
                   <Alert severity="error">{keysErrorMessage}</Alert>
                 )}
+
+                {encryptionMethod === "secretKey" && shortPasswordError && (
+                  <Alert severity="error">{t('short_password')}</Alert>
+                )}
+
               </div>
             </div>
           </StepContent>

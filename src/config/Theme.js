@@ -62,21 +62,24 @@ export const Theme = createTheme({
 
 export const checkTheme = () => {
   
-  let darkMode = window.localStorage.getItem("darkTheme");
+  if (typeof window !== "undefined") {
+    let darkMode = window.localStorage.getItem("darkTheme");
 
-  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    if (localStorage) {
-      if(darkMode != 0) {
-        localStorage.setItem("darkTheme", "1");
-        document.querySelector("html").classList.add("darkStyle");
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      if (localStorage) {
+        if(darkMode != 0) {
+          localStorage.setItem("darkTheme", "1");
+          document.querySelector("html").classList.add("darkStyle");
+        }
       }
+    }
+
+    if (darkMode > 0) {
+      document.querySelector("html").classList.add("darkStyle");
     }
   }
 
-  if (darkMode > 0) {
-    document.querySelector("html").classList.add("darkStyle");
-  }
-};
+}
 
 
 export const DarkMode = () => {

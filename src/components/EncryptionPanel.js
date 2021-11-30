@@ -150,31 +150,6 @@ const useStyles = makeStyles((theme) => ({
     display: "none",
   },
 
-  textFieldLabel: {
-    // this will be applied when input focused (label color change)
-    "&$textFieldLabelFocused": {
-      color: theme.palette.emperor.main,
-    },
-  },
-  textFieldLabelFocused: {},
-
-  textFieldRoot: {
-    // this will be applied when hovered (input text color change)
-    "&:hover": {
-      color: theme.palette.emperor.main,
-    },
-    // this will applied when hovered (input border color change)
-    "&:hover $textFieldNotchedOutline": {
-      borderColor: theme.palette.emperor.main,
-    },
-    // this will be applied when focused (input border color change)
-    "&$textFieldFocused $textFieldNotchedOutline": {
-      borderColor: theme.palette.emperor.main,
-    },
-  },
-  textFieldFocused: {},
-  textFieldNotchedOutline: {},
-
   fileArea: {
     padding: "20px",
     border: "5px dashed",
@@ -348,8 +323,8 @@ export default function EncryptionPanel() {
 
   const handleMethodStep = () => {
     if (encryptionMethodState === "secretKey") {
-      if(Password.length >= 12) {
-        setActiveStep(2)
+      if (Password.length >= 12) {
+        setActiveStep(2);
       } else {
         setShortPasswordError(true);
       }
@@ -832,6 +807,7 @@ export default function EncryptionPanel() {
             {encryptionMethod === "secretKey" && (
               <TextField
                 required
+                error={shortPasswordError ? true : false}
                 type={showPassword ? "text" : "password"}
                 id="encPasswordInput"
                 label={t("required")}
@@ -847,19 +823,7 @@ export default function EncryptionPanel() {
                 value={Password ? Password : ""}
                 onChange={(e) => handlePasswordInput(e.target.value)}
                 fullWidth
-                InputLabelProps={{
-                  classes: {
-                    root: classes.textFieldLabel,
-                    focused: classes.textFieldLabelFocused,
-                  },
-                }}
                 InputProps={{
-                  classes: {
-                    root: classes.textFieldRoot,
-                    focused: classes.textFieldFocused,
-                    notchedOutline: classes.textFieldNotchedOutline,
-                  },
-
                   endAdornment: (
                     <>
                       {Password && (
@@ -901,19 +865,7 @@ export default function EncryptionPanel() {
                   onChange={(e) => handlePublicKeyInput(e.target.value)}
                   fullWidth
                   style={{ marginBottom: "15px" }}
-                  InputLabelProps={{
-                    classes: {
-                      root: classes.textFieldLabel,
-                      focused: classes.textFieldLabelFocused,
-                    },
-                  }}
                   InputProps={{
-                    classes: {
-                      root: classes.textFieldRoot,
-                      focused: classes.textFieldFocused,
-                      notchedOutline: classes.textFieldNotchedOutline,
-                    },
-
                     endAdornment: (
                       <>
                         <input
@@ -956,19 +908,7 @@ export default function EncryptionPanel() {
                   onChange={(e) => handlePrivateKeyInput(e.target.value)}
                   fullWidth
                   style={{ marginBottom: "15px" }}
-                  InputLabelProps={{
-                    classes: {
-                      root: classes.textFieldLabel,
-                      focused: classes.textFieldLabelFocused,
-                    },
-                  }}
                   InputProps={{
-                    classes: {
-                      root: classes.textFieldRoot,
-                      focused: classes.textFieldFocused,
-                      notchedOutline: classes.textFieldNotchedOutline,
-                    },
-
                     endAdornment: (
                       <>
                         {PrivateKey && (
@@ -1053,7 +993,7 @@ export default function EncryptionPanel() {
                 )}
 
                 {encryptionMethod === "secretKey" && shortPasswordError && (
-                  <Alert severity="error">{t('short_password')}</Alert>
+                  <Alert severity="error">{t("short_password")}</Alert>
                 )}
               </div>
             </div>
@@ -1125,7 +1065,7 @@ export default function EncryptionPanel() {
                       }}
                     >
                       {isDownloading
-                        ? `${currFileState+1}/${numberOfFiles} ${t(
+                        ? `${currFileState + 1}/${numberOfFiles} ${t(
                             "downloading_file"
                           )}`
                         : t("encrypted_files")}

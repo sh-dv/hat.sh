@@ -125,31 +125,6 @@ const useStyles = makeStyles((theme) => ({
     display: "none",
   },
 
-  textFieldLabel: {
-    // this will be applied when input focused (label color change)
-    "&$textFieldLabelFocused": {
-      color: theme.palette.emperor.main,
-    },
-  },
-  textFieldLabelFocused: {},
-
-  textFieldRoot: {
-    // this will be applied when hovered (input text color change)
-    "&:hover": {
-      color: theme.palette.emperor.main,
-    },
-    // this will applied when hovered (input border color change)
-    "&:hover $textFieldNotchedOutline": {
-      borderColor: theme.palette.emperor.main,
-    },
-    // this will be applied when focused (input border color change)
-    "&$textFieldFocused $textFieldNotchedOutline": {
-      borderColor: theme.palette.emperor.main,
-    },
-  },
-  textFieldFocused: {},
-  textFieldNotchedOutline: {},
-
   fileArea: {
     padding: "20px",
     border: "5px dashed",
@@ -303,6 +278,7 @@ const LimitedDecryptionPanel = () => {
 
   const handlePasswordInput = (selectedPassword) => {
     setPassword(selectedPassword);
+    setWrongPassword(false);
   };
 
   const handlePublicKeyInput = (selectedKey) => {
@@ -876,18 +852,7 @@ const LimitedDecryptionPanel = () => {
                 value={Password ? Password : ""}
                 onChange={(e) => handlePasswordInput(e.target.value)}
                 fullWidth
-                InputLabelProps={{
-                  classes: {
-                    root: classes.textFieldLabel,
-                    focused: classes.textFieldLabelFocused,
-                  },
-                }}
                 InputProps={{
-                  classes: {
-                    root: classes.textFieldRoot,
-                    focused: classes.textFieldFocused,
-                    notchedOutline: classes.textFieldNotchedOutline,
-                  },
                   endAdornment: (
                     <Tooltip title={t("show_password")} placement="left">
                       <IconButton
@@ -914,19 +879,7 @@ const LimitedDecryptionPanel = () => {
                   onChange={(e) => handlePublicKeyInput(e.target.value)}
                   fullWidth
                   style={{ marginBottom: "15px" }}
-                  InputLabelProps={{
-                    classes: {
-                      root: classes.textFieldLabel,
-                      focused: classes.textFieldLabelFocused,
-                    },
-                  }}
                   InputProps={{
-                    classes: {
-                      root: classes.textFieldRoot,
-                      focused: classes.textFieldFocused,
-                      notchedOutline: classes.textFieldNotchedOutline,
-                    },
-
                     endAdornment: (
                       <>
                         <input
@@ -966,19 +919,7 @@ const LimitedDecryptionPanel = () => {
                   onChange={(e) => handlePrivateKeyInput(e.target.value)}
                   fullWidth
                   style={{ marginBottom: "15px" }}
-                  InputLabelProps={{
-                    classes: {
-                      root: classes.textFieldLabel,
-                      focused: classes.textFieldLabelFocused,
-                    },
-                  }}
                   InputProps={{
-                    classes: {
-                      root: classes.textFieldRoot,
-                      focused: classes.textFieldFocused,
-                      notchedOutline: classes.textFieldNotchedOutline,
-                    },
-
                     endAdornment: (
                       <>
                         {PrivateKey && (

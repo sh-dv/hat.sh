@@ -6,11 +6,11 @@ import { getTranslations as t } from "../../locales";
 
 const useStyles = makeStyles((theme) => ({
   heroTitle: {
-    color: theme.palette.mountainMist.main,
+    color: theme.palette.mineShaft.main,
     marginTop: 20,
   },
   heroSubTitle: {
-    color: theme.palette.mountainMist.main,
+    color: theme.palette.mineShaft.main,
   },
 }));
 

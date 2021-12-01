@@ -1,6 +1,6 @@
 <p align="center">
   <a href="#" rel="noopener">
- <img src="https://i.imgur.com/XB7b9C3.png" width="180"></a>
+ <img src="https://i.imgur.com/8b0GE2B.png" width="180"></a>
 </p>
 
 <a href="https://hat.sh" style="color:#000"><h3 align="center">hat.sh</h3></a>
@@ -23,7 +23,7 @@ V2 of hat.sh introduced memory efficient in-browser large file chunked encryptio
 
 ## Usage
 
-![how-to-use-gif](https://i.imgur.com/nyfgF1Z.gif)
+![how-to-use-gif](https://i.imgur.com/mQT7Ynb.gif)
 
 <br>
 

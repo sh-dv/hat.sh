@@ -17,7 +17,7 @@
 
 ---
 
-[Hat.sh](https://hat.sh) is a web app that provides secure local file encryption in the browser. It's fast, secure uses modern cryptographic algorithms with chunked AEAD stream encryption/decryption.
+[Hat.sh](https://hat.sh) is a web app that provides secure local file encryption in the browser. It's fast, secure, and uses modern cryptographic algorithms with chunked AEAD stream encryption/decryption.
 
 V2 of hat.sh introduced memory efficient in-browser large file chunked encryption using streams with libsodium.
 

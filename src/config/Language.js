@@ -4,7 +4,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import { Button } from "@material-ui/core";
+import { Button, Hidden } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { checkLocale } from "../../locales";
 import { getTranslations as t } from "../../locales";
@@ -64,20 +64,22 @@ const Language = () => {
           {t("language_changed")}
         </Alert>
       ) : (
-        <Alert
-          className={classes.formControl}
-          severity="info"
-          action={
-            <Button
-              href="https://github.com/sh-dv/hat.sh/blob/master/TRANSLATION.md"
-              target="_blank"
-            >
-              {t("guide")}
-            </Button>
-          }
-        >
-          {t("help_translate")}
-        </Alert>
+        <Hidden xsDown>
+          <Alert
+            className={classes.formControl}
+            severity="info"
+            action={
+              <Button
+                href="https://github.com/sh-dv/hat.sh/blob/master/TRANSLATION.md"
+                target="_blank"
+              >
+                {t("guide")}
+              </Button>
+            }
+          >
+            {t("help_translate")}
+          </Alert>
+        </Hidden>
       )}
     </>
   );

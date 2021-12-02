@@ -1125,7 +1125,9 @@ export default function DecryptionPanel() {
                 <Grid container spacing={1}>
                   <Grid item>
                     <Button
-                      disabled={activeStep === 0}
+                      disabled={
+                        activeStep === 0 || isTestingPassword || isTestingKeys
+                      }
                       onClick={handleBack}
                       className={classes.backButton}
                       fullWidth
@@ -1156,11 +1158,11 @@ export default function DecryptionPanel() {
                       fullWidth
                     >
                       {isTestingPassword
-                        ? `${currFileState+1}/${numberOfFiles} ${t(
+                        ? `${currFileState + 1}/${numberOfFiles} ${t(
                             "testing_password"
                           )}`
                         : isTestingKeys
-                        ? `${currFileState+1}/${numberOfFiles} ${t(
+                        ? `${currFileState + 1}/${numberOfFiles} ${t(
                             "testing_keys"
                           )}`
                         : t("next")}
@@ -1268,9 +1270,9 @@ export default function DecryptionPanel() {
                       }}
                     >
                       {isDownloading
-                        ? `${currFileState+1}/${numberOfFiles} ${t(
-                          "downloading_file"
-                        )}`
+                        ? `${currFileState + 1}/${numberOfFiles} ${t(
+                            "downloading_file"
+                          )}`
                         : t("decrypted_files")}
                     </a>
                   </Button>

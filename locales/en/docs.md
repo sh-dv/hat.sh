@@ -355,7 +355,7 @@ Also, if you feel that your private key has been compromised (e.g accidentally s
 
 ### How do I generate a keypair (Public & Private)?
 
-In the encryption panel, choose Public key mode, then you can see a button that says "Generate now", make sure to [store the keys safely](#best-practices).
+You can generate keys by visit the [key generate page](https://hat.sh/generate-keys), make sure to [store the keys safely](#best-practices).
 
 <hr style="height: 1px">
 

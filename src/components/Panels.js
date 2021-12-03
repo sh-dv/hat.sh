@@ -81,8 +81,8 @@ export default function CustomizedTabs() {
   const router = useRouter();
   const query = router.query;
   const [value, setValue] = useState(0);
-  const encryption = { tab: 0, label: t('encryption') };
-  const decryption = { tab: 1, label: t('decryption') };
+  const encryption = { tab: 0, label: t("encryption") };
+  const decryption = { tab: 1, label: t("decryption") };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -90,7 +90,6 @@ export default function CustomizedTabs() {
   };
 
   useEffect(() => {
-
     if (query.tab && query.tab === "encryption") {
       setValue(encryption.tab);
     }
@@ -98,7 +97,6 @@ export default function CustomizedTabs() {
     if (query.tab && query.tab === "decryption") {
       setValue(decryption.tab);
     }
-
   }, [decryption.tab, encryption.tab, query.tab]);
 
   return (

@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const KeysGenerationLabel = () => {
+const KeysGeneration = (props) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -78,6 +78,7 @@ const KeysGenerationLabel = () => {
   );
 
   const [showPrivateKey, setShowPrivateKey] = useState(false);
+
 
   const generateKeys = async () => {
     let generated = await generateAsymmetricKeys();
@@ -104,6 +105,7 @@ const KeysGenerationLabel = () => {
 
   return (
     <>
+    {!props.opened &&
       <div>
         <Typography
           variant="caption"
@@ -127,9 +129,9 @@ const KeysGenerationLabel = () => {
           </a>
         </Hidden>
       </div>
-
+    }
       <div className={classes.root}>
-        <Collapse in={open}>
+        <Collapse in={open || props.opened}>
           <Paper elevation={0} className={classes.alertContainer}>
             <Alert
               variant="outlined"
@@ -251,4 +253,4 @@ const KeysGenerationLabel = () => {
   );
 };
 
-export default KeysGenerationLabel;
+export default KeysGeneration;

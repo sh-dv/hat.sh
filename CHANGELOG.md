@@ -1,6 +1,12 @@
 # [CHANGELOG](#changelog)
 
 ---
+## v2.2.1
+- Create special page for key pair generation (accessible at /generate-keys)
+- Alert users when duplicate tabs are opened.
+- Disable back button while testing password/keys.
+- Minor bug fixes.
+
 ## v2.2.0
 
 - Multiple files encryption/decryption.

@@ -2,7 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 import fs from "fs";
 import path from "path";
-import marked from "marked";
+import { marked } from "marked";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
@@ -38,7 +38,7 @@ import Settings from "../src/components/Settings";
 import { ThemeProvider } from "@material-ui/styles";
 import { Theme, checkTheme } from "../src/config/Theme";
 import locales from "../locales/locales";
-import { getTranslations as t} from "../locales";
+import { getTranslations as t } from "../locales";
 const drawerWidth = 240;
 
 marked.setOptions({
@@ -247,7 +247,6 @@ export default function About(props) {
     let langFilter = { lang: getLocale() };
     let langResult;
 
-
     languages.forEach(function (obj) {
       let matches = true;
       for (let key in langFilter) {
@@ -259,7 +258,7 @@ export default function About(props) {
         langResult = obj;
       } else {
         //default en docs
-        setDocContent(languages[0].content)
+        setDocContent(languages[0].content);
       }
     });
 

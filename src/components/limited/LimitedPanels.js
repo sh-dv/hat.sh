@@ -8,10 +8,9 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import LimitedEncryptionPanel from "./LimitedEncryptionPanel";
 import LimitedDecryptionPanel from "./LimitedDecryptionPanel";
-import Alert from "@material-ui/lab/Alert";
-import IconButton from "@material-ui/core/IconButton";
-import Collapse from "@material-ui/core/Collapse";
-import CloseIcon from "@material-ui/icons/Close";
+import LimitedAlert from "./LimitedAlert";
+
+import { getTranslations as t } from "../../../locales";
 
 const StyledTabs = withStyles({
   indicator: {
@@ -26,7 +25,7 @@ const StyledTab = withStyles((theme) => ({
     transition: "background-color 0.2s ease-out",
 
     "&$selected": {
-      backgroundColor: "#fff",
+      backgroundColor: theme.palette.white.main,
       boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
       borderRadius: "8px",
     },
@@ -41,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 
   bar: {
     marginTop: 15,
-    backgroundColor: "#ebebeb",
+    backgroundColor: theme.palette.gallery.main,
     borderRadius: "8px",
     padding: 8,
   },
@@ -51,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   tab: {
-    color: "#3f3f3f",
+    color: theme.palette.emperor.main,
   },
 }));
 
@@ -66,7 +65,7 @@ function TabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && children}
+      {children}
     </div>
   );
 }
@@ -82,27 +81,9 @@ export default function LimitedPanels() {
   const router = useRouter();
   const query = router.query;
   const [value, setValue] = useState(0);
-  const encryption = { tab: 0, label: "Encryption" };
-  const decryption = { tab: 1, label: "Decryption" };
-  const [alertOpen, setAlertOpen] = useState(true);
-  const [browser, setBrowser] = useState();
+  const encryption = { tab: 0, label: t('encryption') };
+  const decryption = { tab: 1, label: t('decryption') };
 
-  useEffect(() => {
-    const safariBrowser =
-      /Safari/.test(navigator.userAgent) &&
-      /Apple Computer/.test(navigator.vendor);
-
-    const mobileBrowser =
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
-      );
-
-    safariBrowser
-      ? setBrowser("safari")
-      : mobileBrowser
-      ? setBrowser("mobile")
-      : setBrowser("other");
-  }, []);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -110,37 +91,21 @@ export default function LimitedPanels() {
   };
 
   useEffect(() => {
-    if (query.tab && query.tab === decryption.label.toLowerCase()) {
+
+    if (query.tab && query.tab === "encryption") {
+      setValue(encryption.tab);
+    }
+
+    if (query.tab && query.tab === "decryption") {
       setValue(decryption.tab);
     }
-  }, [decryption.label, decryption.tab, query.publicKey, query.tab]);
+
+  }, [decryption.tab, encryption.tab, query.tab]);
 
   return (
     <>
       <Container className={classes.root}>
-        <Collapse in={alertOpen} style={{ marginTop: 5 }}>
-          <Alert
-            severity="info"
-            action={
-              <IconButton
-                aria-label="close"
-                color="inherit"
-                size="small"
-                onClick={() => {
-                  setAlertOpen(false);
-                }}
-              >
-                <CloseIcon fontSize="inherit" />
-              </IconButton>
-            }
-          >
-            {browser === "safari"
-              ? "Safari browsers have limited experience (max file size of 1GB)"
-              : browser === "mobile"
-              ? "Mobile browsers have limited experience (max file size of 1GB)"
-              : "You have limited experience (max file size of 1GB) due to Private browsing."}
-          </Alert>
-        </Collapse>
+        <LimitedAlert />
         <AppBar position="static" className={classes.bar} elevation={0}>
           <StyledTabs
             value={value}

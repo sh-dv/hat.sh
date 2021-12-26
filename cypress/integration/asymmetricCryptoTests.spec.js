@@ -13,7 +13,7 @@ const downloadsFolder = Cypress.config("downloadsFolder");
 let aliceKeys = { publicKey: null, privateKey: null };
 let bobKeys = { publicKey: null, privateKey: null };
 
-describe("Symmetric encryption test", () => {
+describe("Asymmetric encryption test", () => {
   beforeEach(() => {
     //locate app in dev mode
     cy.visit('/');
@@ -30,7 +30,7 @@ describe("Symmetric encryption test", () => {
     // the paht of the tested file
     const file = "../files/document.txt";
     // select the file
-    cy.contains("Choose a file to encrypt");
+    cy.contains("Choose files to encrypt");
     cy.get(".submitFile").should("be.disabled");
     cy.get("#enc-file").attachFile(file);
     cy.get(".submitFile").realClick();
@@ -133,7 +133,7 @@ describe("Symmetric encryption test", () => {
 
     // the path of the encrypted file
     const file = "../downloads/document.txt.enc";
-    cy.contains("Choose a file to decrypt");
+    cy.contains("Choose files to decrypt");
     cy.get(".submitFileDec").should("be.disabled");
     // select the encrypted file
     cy.fixture(file, "binary")

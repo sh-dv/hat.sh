@@ -4,8 +4,8 @@ import Chip from "@material-ui/core/Chip";
 
 const useStyles = makeStyles((theme) => ({
   chip: {
-    backgroundColor: "#ebebeb",
-    color: "#9791a1",
+    backgroundColor: theme.palette.gallery.main,
+    color: theme.palette.mountainMist.main,
     borderRadius: ".25rem",
     padding: "none",
     marginLeft: 15,

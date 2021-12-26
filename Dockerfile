@@ -1,8 +1,8 @@
 FROM node:14
 
-LABEL maintainer="sh-dv" \
+LABEL maintainer="shdv" \
       name="hat.sh" \
-      version="2.0.9"
+      version="2.2.1"
 
 WORKDIR /app
 
@@ -13,6 +13,8 @@ RUN npm install
 COPY . /app
 
 RUN npm run build
+
+COPY . /app
 
 EXPOSE 3991
 

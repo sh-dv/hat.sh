@@ -1,5 +1,5 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
-import Link from "next/link";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Container from "@material-ui/core/Container";
@@ -9,6 +9,8 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import VersionBadge from "./VersionBadge";
+import Settings from "./Settings";
+import { getTranslations as t } from "../../locales";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     textTransform: "none",
-    color: "#9791a1",
+    color: theme.palette.mountainMist.main,
   },
 }));
 
@@ -33,37 +35,25 @@ export default function NavAppBar() {
         <Container maxWidth="lg">
           <Toolbar>
             <Typography variant="h6" className={classes.logo}>
-              <Link href="/">
-                <a>
-                  <img src="/assets/images/logo.png" alt="logo" width="40" />
-                </a>
-              </Link>
+              <a href="/">
+                <img src="/assets/images/logo.png" alt="logo" width="40" />
+              </a>
               <VersionBadge />
             </Typography>
-            
-            <Link href="/about" passHref>
-              <Button color="inherit" className={classes.button}>
-                about
-              </Button>
-            </Link>
 
-            <Button
-              color="inherit"
-              href="https://v1.hat.sh"
-              target="_blank"
-              rel="noopener"
-              className={classes.button}
-            >
-              v1
+            <Button color="inherit" href="/about" className={classes.button}>
+              {t("about")}
             </Button>
+
             <IconButton
-              color="inherit"
               href="https://github.com/sh-dv/hat.sh"
               target="_blank"
               rel="noopener"
             >
               <GitHubIcon />
             </IconButton>
+
+            <Settings />
           </Toolbar>
         </Container>
       </AppBar>

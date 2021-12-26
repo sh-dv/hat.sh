@@ -31,7 +31,7 @@ The libsodium library is used for all cryptographic algorithms. [Technical detai
 
 - Secure encryption/decryption of files with passwords or keys.
 - Secure random password generation.
-- Assymetric key pair generation.
+- Asymmetric key pair generation.
 - Authenticated key exchange.
 - Password strength estimation.
 
@@ -97,7 +97,7 @@ npm run dev
 
 ## With docker
 
-You can install the app with docker in multiple ways. You are free to choose wich method you like.
+You can install the app with docker in multiple ways. You are free to choose which method you like.
 
 <br>
 
@@ -177,6 +177,8 @@ The app should be running on port 3991.
 
 hat.sh is also available as a Docker image. You can find it on [Docker Hub].
 
+<br>
+
 # [Usage](#usage)
 
 ---
@@ -187,7 +189,7 @@ hat.sh is also available as a Docker image. You can find it on [Docker Hub].
 
 1. Open hat.sh.
 2. Navigate to the Encryption panel.
-3. Drag & Drop or Select the file that you wish to encrypt.
+3. Drag & Drop or Select the files that you wish to encrypt.
 4. Enter a password or generate one.
 5. Download the encrypted file.
 
@@ -197,12 +199,12 @@ hat.sh is also available as a Docker image. You can find it on [Docker Hub].
 
 1. Open hat.sh.
 2. Navigate to the Encryption panel.
-3. Drag & Drop or Select the file that you wish to encrypt.
+3. Drag & Drop or Select the files that you wish to encrypt.
 4. Choose public key method.
-5. Enter or load recepient's public key and your private key.
+5. Enter or load recipient's public key and your private key.
    if you don't have public and private keys you can generate a key pair.
 6. Download the encrypted file.
-7. Share your public key with the recepient so he will be able to decrypt the file.
+7. Share your public key with the recipient so he will be able to decrypt the file.
 
 > Never share your private key to anyone! Only public keys should be exchanged.
 
@@ -214,7 +216,7 @@ hat.sh is also available as a Docker image. You can find it on [Docker Hub].
 
 1. Open hat.sh.
 2. Navigate to the Decryption panel.
-3. Drag & Drop or Select the file that you wish to decrypt.
+3. Drag & Drop or Select the files that you wish to decrypt.
 4. Enter the encryption password.
 5. Download the decrypted file.
 
@@ -222,7 +224,7 @@ hat.sh is also available as a Docker image. You can find it on [Docker Hub].
 
 1. Open hat.sh.
 2. Navigate to the Decryption panel.
-3. Drag & Drop or Select the file that you wish to decrypt.
+3. Drag & Drop or Select the files that you wish to decrypt.
 4. Enter or load sender's public key and your private key.
 5. Download the decrypted file.
 
@@ -232,17 +234,13 @@ hat.sh is also available as a Docker image. You can find it on [Docker Hub].
 
 ---
 
-### Folder & Multiple Files Encryption
-
-This feature is not available for security reasons. If you wish to encrypt a whole directory or multiple files then you should make a Zip and encrypt it.
-
-### File Metadata
+### File Signature
 
 Files encrypted with hat.sh are identifiable by looking at the file signature that is used by the app to verify the content of a file, Such signatures are also known as magic numbers or Magic Bytes. These Bytes are authenticated and cannot be changed.
 
 ### Safari and Mobile Browsers
 
-Safari and Mobile browsers are limited to a file size of 1GB due to some issues related to service-workers. In addition, this limitation also applies when the app fails to register the service-worker (e.g FireFox Private Browsing).
+Safari and Mobile browsers are limited to a single file with maximum size of 1GB due to some issues related to service-workers. In addition, this limitation also applies when the app fails to register the service-worker (e.g FireFox Private Browsing).
 
 <br>
 
@@ -261,7 +259,7 @@ If you want to choose a password that you are able to memorize then you should t
 
 ### Using public key encryption instead of a password
 
-If you are encrypting a file that you are going to share it with someone else then you probably should encrypt it with the recepient public key and your private key.
+If you are encrypting a file that you are going to share it with someone else then you probably should encrypt it with the recipient public key and your private key.
 
 <br>
 
@@ -283,7 +281,7 @@ Public keys are allowed to be shared, they can be sent as `.public` file or as t
 
 ### Storing the Public & Private keys
 
-Make sure to store your encrytion keys in a safe place and make a backup to an external storage.
+Make sure to store your encryption keys in a safe place and make a backup to an external storage.
 
 Storing your private key in cloud storage is not recommended!
 
@@ -291,7 +289,7 @@ Storing your private key in cloud storage is not recommended!
 
 ### Sharing Decryption Passwords
 
-Sharing decryption password can be done using a safe end-to-end encrypted messaging app. It's recommended to use a _Disappearing Messages_ feature, and to delete the password after the recepient has decrypted the file.
+Sharing decryption password can be done using a safe end-to-end encrypted messaging app. It's recommended to use a _Disappearing Messages_ feature, and to delete the password after the recipient has decrypted the file.
 
 > Never choose the same password for different files.
 
@@ -327,11 +325,11 @@ No, we don't know your password. Always make sure to store your passwords in a p
 
 <hr style="height: 1px">
 
-### Why am i seeing a notice that says "You have limited experience (max file size of 1GB)"?
+### Why am I seeing a notice that says "You have limited experience (single file, 1GB)"?
 
 It means that your browser doesn't support the server-worker fetch api. Hence, you are limited to small size files. see [Limitations](#limitations) for more info.
 
-<hr style="height: 1px">
+<hr style="height: 1px" id="why-need-private-key">
 
 ### Is it safe to share my public key?
 
@@ -341,9 +339,9 @@ But make sure to never share your private key with anyone!
 
 <hr style="height: 1px">
 
-### Why the app asks for my private key in the public key encryption mode"?
+### Why the app asks for my private key in the public key encryption mode?
 
-Because Hat.sh uses authenticated encryption. For verification and decryption, the recepient must provide the public key that belongs to the sender, this way can verify that the encrypted file was not tampered with, and was sent from the sender.
+Hat.sh uses authenticated encryption. The sender must provide their private key, a new shared key will be computed from both keys to encrypt the file. Recipient has to provide their private key when decrypting also. this way can verify that the encrypted file was not tampered with, and was sent from the real sender.
 
 <hr style="height: 1px">
 
@@ -355,9 +353,15 @@ Also, if you feel that your private key has been compromised (e.g accidentally s
 
 <hr style="height: 1px">
 
-### How do i generate a keypair (Public & Private)?
+### How do I generate a keypair (Public & Private)?
 
-In the encryption panel, choose Public key mode, then you can see a button that says "Generate now", make sure to [store the keys safely](#best-practices).
+You can generate keys by visit the [key generate page](https://hat.sh/generate-keys), make sure to [store the keys safely](#best-practices).
+
+<hr style="height: 1px">
+
+### Does the app measure password strength?
+
+We use [zxcvbn](https://github.com/dropbox/zxcvbn) JS implementation to check the entropy of the password input, this entropy will be converted to score that will be displayed on screen.
 
 <hr style="height: 1px">
 
@@ -392,7 +396,7 @@ There is no bounty available at the moment, but your github account will be cred
 1. The app uses fast modern secure cryptographic algorithms.
 2. It's super fast and easy to use.
 3. It runs in the browser, no need to setup or install anything.
-4. It's free opensource software and can be self hosted.
+4. It's free opensource software and can be easily self hosted.
 
 <hr style="height: 1px">
 
@@ -400,8 +404,8 @@ There is no bounty available at the moment, but your github account will be cred
 
 1. If you want to encrypt a disk (e.g [VeraCrypt]).
 2. If you want to Frequently access encrypted files (e.g [Cryptomator]).
-3. If you want to encrypt multiple files and directories at once (e.g [Kryptor]).
-4. If you want to encrypt files for another person that only they can decrypt (e.g [Kryptor]).
+3. If you want to encrypt and sign files in the same tool. (e.g [Kryptor]).
+4. If you prefer a command line tool (e.g [Kryptor]).
 5. If you want something that adheres to industry standards, use [GPG].
 
 <br>
@@ -416,6 +420,8 @@ Password hashing functions derive a secret key of any size from a password and a
 
 <br>
 
+<div class="codeBox">
+
 ```javascript
 let salt = sodium.randombytes_buf(sodium.crypto_pwhash_SALTBYTES);
 let key = sodium.crypto_pwhash(
@@ -427,6 +433,8 @@ let key = sodium.crypto_pwhash(
   sodium.crypto_pwhash_ALG_ARGON2ID13
 );
 ```
+
+</div>
 
 The `crypto_pwhash()` function derives an 256 bits long key from a password and a salt salt whose fixed length is 128 bits, which should be unpredictable.
 
@@ -452,6 +460,8 @@ In order to use the app to encrypt a file, the user has to provide a valid file 
 
 <br>
 
+<div class="codeBox">
+
 ```javascript
 let res = sodium.crypto_secretstream_xchacha20poly1305_init_push(key);
 header = res.header;
@@ -470,6 +480,8 @@ let encryptedChunk = sodium.crypto_secretstream_xchacha20poly1305_push(
 
 stream.enqueue(signature, salt, header, encryptedChunk);
 ```
+
+</div>
 
 The `crypto_secretstream_xchacha20poly1305_init_push` function creates an encrypted stream where it initializes a `state` using the key and an internal, automatically generated initialization vector. It then stores the stream header into `header` that has a size of 192 bits.
 
@@ -493,6 +505,8 @@ the XChaCha20 stream cipher Poly1305 MAC authentication are used for encryption.
 
 ### File Decryption (stream)
 
+<div class="codeBox">
+
 ```javascript
 let state = sodium.crypto_secretstream_xchacha20poly1305_init_pull(header, key);
 
@@ -511,6 +525,8 @@ if (result) {
 }
 ```
 
+</div>
+
 The `crypto_secretstream_xchacha20poly1305_init_pull()` function initializes a state given a secret `key` and a `header`. The key is derived from the password provided during the decryption, and the header sliced from the file. The key will not be required any more for subsequent operations.
 
 <br>
@@ -527,6 +543,8 @@ If the ciphertext or the authentication tag appear to be invalid it returns an e
 
 ### Random password generation
 
+<div class="codeBox">
+
 ```javascript
 let password = sodium.to_base64(
   sodium.randombytes_buf(16),
@@ -534,6 +552,8 @@ let password = sodium.to_base64(
 );
 return password;
 ```
+
+</div>
 
 The `randombytes_buf()` function fills 128 bits starting at buf with an unpredictable sequence of bytes.
 
@@ -543,6 +563,8 @@ The `to_base64()` function encodes buf as a Base64 string without padding.
 
 ### Keys generation and exchange
 
+<div class="codeBox">
+
 ```javascript
 const keyPair = sodium.crypto_kx_keypair();
 let keys = {
@@ -551,10 +573,13 @@ let keys = {
 };
 return keys;
 ```
+</div>
 
 The `crypto_kx_keypair()` function randomly generates a secret key and a corresponding public key. The public key is put into publicKey and the secret key into privateKey. both of 256 bits.
 
 <br>
+
+<div class="codeBox">
 
 ```javascript
 let key = sodium.crypto_kx_client_session_keys(
@@ -563,10 +588,11 @@ let key = sodium.crypto_kx_client_session_keys(
   publicKey
 );
 ```
+</div>
 
 Using the key exchange API, two parties can securely compute a set of shared keys using their peer's public key and their own secret key.
 
-The `crypto_kx_client_session_keys()` function computes a pair of 256 bits long shared keys using the recepient's public key, the sender's private key.
+The `crypto_kx_client_session_keys()` function computes a pair of 256 bits long shared keys using the recipient's public key, the sender's private key.
 
 The `crypto_scalarmult_base()` function used to compute the sender's public key from their private key.
 

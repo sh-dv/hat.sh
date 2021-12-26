@@ -1,10 +1,10 @@
 {
   "name": "hat.sh",
-  "version": "2.0.9",
+  "version": "2.2.1",
   "private": true,
   "scripts": {
     "dev": "browserify service-worker/sw.js -o public/service-worker.js && next dev",
-    "build": "next build && next export",
+    "build": "browserify service-worker/sw.js -o public/service-worker.js && next build && next export",
     "postbuild": "node ./post-build.js",
     "start": "next start -p 3991",
     "lint": "next lint",
@@ -15,20 +15,18 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.60",
     "libsodium-wrappers": "^0.7.9",
-    "marked": "3.0.4",
-    "next": "11.1.2",
+    "marked": "4.0.6",
+    "next": "^12.0.7",
     "prismjs": "^1.25.0",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
+    "qrcode.react": "^1.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-dropzone": "^11.4.2",
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
     "browserify": "^17.0.0",
-    "cypress": "^8.5.0",
-    "cypress-file-upload": "^5.0.8",
-    "cypress-real-events": "^1.5.1",
-    "eslint": "7.32.0",
-    "eslint-config-next": "11.1.2"
+    "eslint": "8.4.0",
+    "eslint-config-next": "12.0.7"
   }
 }

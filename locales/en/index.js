@@ -3,6 +3,7 @@ const en = {
 
   // Menu
   sub_title: "simple, fast, secure client-side file encryption",
+  home: "home",
   about: "about",
 
   // About page menu

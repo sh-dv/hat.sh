@@ -3,6 +3,7 @@ const fr = {
 
   // Menu
   sub_title: "Chiffrement de fichier simple, rapide et sécurisé",
+  home: "accueil",
   about: "à propos",
 
   // About page menu

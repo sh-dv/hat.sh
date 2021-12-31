@@ -2,7 +2,7 @@ FROM node:14
 
 LABEL maintainer="shdv" \
       name="hat.sh" \
-      version="2.2.1"
+      version="2.2.2"
 
 WORKDIR /app
 

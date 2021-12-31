@@ -3,9 +3,9 @@
 ---
 ## v2.2.2
 - Sending the file name to SW instead of appending them to the URL.
-- French translation (by [bbouille](https://github.com/bbouille))
-- Officialy accepting Monero for donations.
-- show english documentations as default if current locale documentations are not available.
+- French translation (by [bbouille](https://github.com/bbouille)).
+- Officially accepting Monero (xmr) for donations.
+- show English documentations as default if current locale documentations are not available.
 - Code review, cleanup and bug fixes.
 
 ## v2.2.1

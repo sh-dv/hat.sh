@@ -120,6 +120,9 @@ export default function Footer() {
               deleteIcon={<MonetizationOnIcon className={classes.monIcon} />}
             />
             <Dialog
+              scroll="body"
+              maxWidth="sm"
+              fullWidth
               open={xmrDialog}
               onClose={handleClose}
               aria-labelledby="alert-dialog-title"

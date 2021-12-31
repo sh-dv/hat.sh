@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     textTransform: "none",
-    color: Theme.palette.mountainMist.main,
+    color: Theme.palette.diamondBlack.main,
   },
 
   menuButton: {
@@ -347,7 +347,7 @@ export default function About(props) {
               </Typography>
 
               <Button color="inherit" href="/" className={classes.button}>
-                home
+                {t('home')}
               </Button>
 
               <IconButton
@@ -425,10 +425,20 @@ export async function getStaticProps() {
 
   {
     Object.entries(locales).map(([code, name]) => {
-      let docFile = fs.readFileSync(
-        path.join("locales/", `${code}/docs.md`),
-        "utf-8"
-      );
+      let docFilePath = `locales/${code}/docs.md`;
+      let docFile;
+      try {
+        docFile = fs.readFileSync(
+          path.join(docFilePath),
+          "utf-8"
+        );
+      } catch (error) {
+        docFile = fs.readFileSync(
+          path.join(`locales/en/docs.md`),
+          "utf-8"
+        );
+      }
+      
       let docStructure = { lang: code, content: docFile };
       docs.push(docStructure);
     });

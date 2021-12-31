@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDropzone } from "react-dropzone";
 import { formatBytes } from "../helpers/formatBytes";
-import { formatUrl } from "../helpers/formatUrl";
 import KeyPairGeneration from "./KeyPairGeneration";
 import { generatePassword } from "../utils/generatePassword";
 import { computePublicKey } from "../utils/computePublicKey";
@@ -438,14 +437,21 @@ export default function EncryptionPanel() {
 
   const handleEncryptedFilesDownload = async (e) => {
     numberOfFiles = Files.length;
-    kickOffEncryption();
+    prepareFile();
+  };
+
+  const prepareFile = () => {
+    // send file name to sw
+    let fileName = files[currFile].name + ".enc";
+    navigator.serviceWorker.ready.then((reg) => {
+      reg.active.postMessage({ cmd: "prepareFileName", fileName });
+    });
   };
 
   const kickOffEncryption = async () => {
     if (currFile <= numberOfFiles - 1) {
       file = files[currFile];
-      let safeUrl = await formatUrl(files[currFile].name + ".enc");
-      window.open(`file?name=${safeUrl}`, "_self");
+      window.open(`file`, "_self");
       setIsDownloading(true);
 
       if (encryptionMethodState === "publicKey") {
@@ -574,6 +580,10 @@ export default function EncryptionPanel() {
           startEncryption("publicKey");
           break;
 
+        case "filePrepared":
+          kickOffEncryption();
+          break;
+
         case "continueEncryption":
           continueEncryption(e);
           break;
@@ -585,7 +595,7 @@ export default function EncryptionPanel() {
             index = null;
             if (currFile <= numberOfFiles - 1) {
               setTimeout(function () {
-                kickOffEncryption();
+                prepareFile();
               }, 1000);
             } else {
               setIsDownloading(false);
@@ -813,11 +823,15 @@ export default function EncryptionPanel() {
                 label={t("required")}
                 placeholder={t("password")}
                 helperText={
-                  Password
-                    ? t("password_strength") +
-                      " : " +
-                      passwordStrengthCheck(Password)
-                    : t("choose_strong_password")
+                  Password ? (
+                    <>
+                      {t("password_strength")}
+                      {": "}
+                      <strong>{passwordStrengthCheck(Password)}</strong>
+                    </>
+                  ) : (
+                    t("choose_strong_password")
+                  )
                 }
                 variant="outlined"
                 value={Password ? Password : ""}

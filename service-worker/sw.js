@@ -7,12 +7,11 @@ self.addEventListener("activate", (event) =>
 
 const config = require("./config");
 
-let streamController, theKey, state, header, salt, encRx, encTx, decRx, decTx;
+let streamController, fileName, theKey, state, header, salt, encRx, encTx, decRx, decTx;
 
 self.addEventListener("fetch", (e) => {
   // console.log(e); // log fetch event
   if (e.request.url.startsWith(config.APP_URL)) {
-    const filename = e.request.url.split("?name=")[1];
     const stream = new ReadableStream({
       start(controller) {
         streamController = controller;
@@ -21,7 +20,7 @@ self.addEventListener("fetch", (e) => {
     const response = new Response(stream);
     response.headers.append(
       "Content-Disposition",
-      'attachment; filename="' + filename + '"'
+      'attachment; filename="' + fileName + '"'
     );
     e.respondWith(response);
   }
@@ -34,6 +33,10 @@ const _sodium = require("libsodium-wrappers");
 
   addEventListener("message", (e) => {
     switch (e.data.cmd) {
+      case "prepareFileName":
+        assignFileName(e.data.fileName, e.source);
+        break;
+
       case "requestEncryption":
         encKeyGenerator(e.data.password, e.source);
         break;
@@ -103,6 +106,11 @@ const _sodium = require("libsodium-wrappers");
         break;
     }
   });
+
+  const assignFileName = (name, client) => {
+    fileName = name;
+    client.postMessage({ reply: "filePrepared" })
+  }
 
   const encKeyPair = (csk, spk, mode, client) => {
     try {

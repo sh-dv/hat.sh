@@ -56,6 +56,9 @@ export const Theme = createTheme({
       main: "#e8f4fd",
       light: "#c9e1f2",
       text: "#0d3c61",
+    },
+    diamondBlack : {
+      main: "rgba(0, 0, 0, 0.54)",
     }
   },
 });

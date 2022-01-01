@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     textTransform: "none",
-    color: theme.palette.mountainMist.main,
+    color: theme.palette.diamondBlack.main,
   },
 }));
 

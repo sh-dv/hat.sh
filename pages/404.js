@@ -5,8 +5,7 @@ export default function Custom404() {
         style={{
           color: "#000",
           background: "#fff",
-          fontFamily:
-            '-apple-system, BlinkMacSystemFont, Roboto, "Segoe UI", "Fira Sans", Avenir, "Helvetica Neue", "Lucida Grande", sans-serif',
+          fontFamily: "sans-serif",
           height: "100vh",
           textAlign: "center",
           display: "flex",

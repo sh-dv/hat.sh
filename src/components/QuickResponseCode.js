@@ -48,7 +48,6 @@ const QuickResponseCode = (props) => {
       <Tooltip title={t("generate_qr_code")} placement="bottom">
         <IconButton onClick={handleClickOpen}>
           <svg
-            xmlns="http://www.w3.org/2000/svg"
             enableBackground="new 0 0 24 24"
             height="24"
             viewBox="0 0 24 24"

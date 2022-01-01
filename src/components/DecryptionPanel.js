@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { useDropzone } from "react-dropzone";
 import { formatBytes } from "../helpers/formatBytes";
 import { formatName } from "../helpers/formatName";
-import { formatUrl } from "../helpers/formatUrl";
 import {
   crypto_secretstream_xchacha20poly1305_ABYTES,
   CHUNK_SIZE,
@@ -522,16 +521,21 @@ export default function DecryptionPanel() {
 
   const handleEncryptedFilesDownload = async (e) => {
     numberOfFiles = Files.length;
-    kickOffDecryption();
+    prepareFile();
   };
+
+  const prepareFile = () => {
+    // send file name to sw
+    let fileName = formatName(files[currFile].name);
+    navigator.serviceWorker.ready.then((reg) => {
+      reg.active.postMessage({ cmd: "prepareFileName", fileName });
+    });
+  }
 
   const kickOffDecryption = async (e) => {
     if (currFile <= numberOfFiles - 1) {
       file = files[currFile];
-
-      let fileName = formatName(file.name);
-      let safeUrl = await formatUrl(fileName);
-      window.open(`file?name=${safeUrl}`, "_self");
+      window.open(`file`, "_self");
       setIsDownloading(true);
 
       if (decryptionMethodState === "secretKey") {
@@ -745,6 +749,10 @@ export default function DecryptionPanel() {
           setIsTestingPassword(false);
           break;
 
+        case "filePrepared":
+          kickOffDecryption();
+          break;
+
         case "readyToDecrypt":
           if (numberOfFiles > 1) {
             checkFilesTestQueue();
@@ -775,7 +783,7 @@ export default function DecryptionPanel() {
             index = null;
             if (currFile <= numberOfFiles - 1) {
               setTimeout(function () {
-                kickOffDecryption();
+                prepareFile();
               }, 1000);
             } else {
               setIsDownloading(false);
@@ -947,7 +955,7 @@ export default function DecryptionPanel() {
                 <Alert severity="error" style={{ marginTop: 15 }}>
                   {t("file_not_encrypted_corrupted")}
                   <br />
-                  {Files.length > 1 ? badFile : ""}
+                  {Files.length > 1 ? (<strong>{badFile}</strong>) : ""}
                 </Alert>
               )}
 
@@ -958,7 +966,7 @@ export default function DecryptionPanel() {
                     {"https://v1.hat.sh"}
                   </a>
                   <br />
-                  {Files.length > 1 ? oldVersion : ""}
+                  {Files.length > 1 ? (<strong>{oldVersion}</strong>) : ""}
                 </Alert>
               )}
 

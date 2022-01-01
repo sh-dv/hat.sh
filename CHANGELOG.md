@@ -1,6 +1,13 @@
 # [CHANGELOG](#changelog)
 
 ---
+## v2.2.2
+- Sending the file name to SW instead of appending them to the URL.
+- French translation (by [bbouille](https://github.com/bbouille)).
+- Officially accepting Monero (xmr) for donations.
+- show English documentations as default if current locale documentations are not available.
+- Code review, cleanup and bug fixes.
+
 ## v2.2.1
 - Create special page for key pair generation (accessible at /generate-keys)
 - Alert users when duplicate tabs are opened.

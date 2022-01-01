@@ -23,7 +23,7 @@ V2 of hat.sh introduced memory efficient in-browser large file chunked encryptio
 
 ## Usage
 
-![how-to-use-gif](https://i.imgur.com/EB4DZvu.gif)
+![how-to-use-gif](https://i.imgur.com/yqSsDyW.gif)
 
 <br>
 
@@ -86,14 +86,31 @@ Safari and Mobile browsers are limited to single 1GB files, due to lack of suppo
 
 The project is maintained in my free time. Donations of any size are appreciated :
 
-Kofi: [buy me a coffee](https://ko-fi.com/shdvapps)
+<br>
 
-Open Collective : [https://opencollective.com/hatsh](https://opencollective.com/hatsh)
+<div>
+  <strong>Monero</strong>
 
-Bitcoin: `bc1qh0lmuj34h2z4kr7j2sx8fegqvvaj35ycdtglw2`
+  <br>
 
-Monero: `84zQq4Xt7sq8cmGryuvWsXFMDvBvHjWjnMQXZWQQRXjB1TgoZWS9zBdNcYL7CRbQBqcDdxr4RtcvCgApmQcU6SemVXd7RuG`
+  <img src="https://i.imgur.com/1k0wRO8.png">
 
+  `84zQq4Xt7sq8cmGryuvWsXFMDvBvHjWjnMQXZWQQRXjB1TgoZWS9zBdNcYL7CRbQBqcDdxr4RtcvCgApmQcU6SemVXd7RuG`
+
+  <br>
+
+  <strong>Kofi</strong>
+
+  [https://ko-fi.com/shdvapps](https://ko-fi.com/shdvapps)
+
+  <strong>Open Collective</strong>
+
+  [https://opencollective.com/hatsh](https://opencollective.com/hatsh)
+
+
+</div>
+
+<br>
 <br>
 
 ## Social
@@ -105,7 +122,8 @@ Monero: `84zQq4Xt7sq8cmGryuvWsXFMDvBvHjWjnMQXZWQQRXjB1TgoZWS9zBdNcYL7CRbQBqcDdxr
 ## Acknowledgements
 
 * Everyone who supported the project.
-* Samuel-lucas6 from the [Kryptor](https://github.com/samuel-lucas6/Kryptor) project for being helpful and doing alot of beta testing.
+* [Samuel-lucas6](https://github.com/samuel-lucas6) from the [Kryptor](https://github.com/samuel-lucas6/Kryptor) project for being helpful and doing alot of beta testing.
+* [bbouille](https://github.com/bbouille) for translating the app to French.
 
 <br>
 

@@ -1,4 +1,4 @@
-const fr = {
+const fr_FR = {
   language_name: "français",
 
   // Menu
@@ -25,7 +25,7 @@ const fr = {
   change_appearance: "Changer l'apparence",
   language_changed: "Changer la langue! - Recharger la page pour appliquer le changement.",
   help_translate: "Votre langue est absente ? Vous pouvez voir le guide de traduction sur github pour ajouter la langue.",
-  reload: "RELOAD",
+  reload: "Recharger",
   dark_mode: "Sombre",
   close: "Fermer",
   reset: "Reset",
@@ -169,4 +169,4 @@ const fr = {
   qr_code_note_three: "Ce QR code a été généré hors ligne.",
   
 };
-export default fr;
+export default fr_FR;

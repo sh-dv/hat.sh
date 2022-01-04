@@ -60,10 +60,14 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
   },
+  offline: {
+    fontSize: 12,
+    float: "right",
+    color: theme.palette.diamondBlack.main,
+  },
   stepper: {
     backgroundColor: "transparent",
   },
-
   stepIcon: {
     "&$activeStepIcon": {
       color: theme.palette.emperor.main,
@@ -706,6 +710,11 @@ const LimitedEncryptionPanel = () => {
                 </>
               )}
             </div>
+            {!largeFile && (
+              <Typography className={classes.offline}>
+                {t("offline_note")}
+              </Typography>
+            )}
           </StepContent>
         </Step>
 
@@ -759,11 +768,23 @@ const LimitedEncryptionPanel = () => {
                 label={t("required")}
                 placeholder={t("password")}
                 helperText={
-                  Password
-                    ? t("password_strength") +
-                      " : " +
-                      passwordStrengthCheck(Password)
-                    : t("choose_strong_password")
+                  Password ? (
+                    <Tooltip
+                      title={`${t("crackTimeEstimation")} ${
+                        passwordStrengthCheck(Password)[1]
+                      }`}
+                      placement="right"
+                      arrow
+                    >
+                      <span>
+                        {t("password_strength")}
+                        {": "}
+                        <strong>{passwordStrengthCheck(Password)[0]}</strong>
+                      </span>
+                    </Tooltip>
+                  ) : (
+                    t("choose_strong_password")
+                  )
                 }
                 variant="outlined"
                 value={Password ? Password : ""}

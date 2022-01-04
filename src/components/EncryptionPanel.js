@@ -55,6 +55,11 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
   },
+  offline: {
+    fontSize: 12,
+    float: "right",
+    color: theme.palette.diamondBlack.main,
+  },
   stepper: {
     color: theme.palette.mineShaft.main,
     backgroundColor: "transparent",
@@ -768,6 +773,10 @@ export default function EncryptionPanel() {
                 </Button>
               </div>
             </div>
+
+            <Typography className={classes.offline}>
+              {t("offline_note")}
+            </Typography>
           </StepContent>
         </Step>
 
@@ -824,11 +833,19 @@ export default function EncryptionPanel() {
                 placeholder={t("password")}
                 helperText={
                   Password ? (
-                    <>
-                      {t("password_strength")}
-                      {": "}
-                      <strong>{passwordStrengthCheck(Password)}</strong>
-                    </>
+                    <Tooltip
+                      title={`${t("crackTimeEstimation")} ${
+                        passwordStrengthCheck(Password)[1]
+                      }`}
+                      placement="right"
+                      arrow
+                    >
+                      <span>
+                        {t("password_strength")}
+                        {": "}
+                        <strong>{passwordStrengthCheck(Password)[0]}</strong>
+                      </span>
+                    </Tooltip>
                   ) : (
                     t("choose_strong_password")
                   )

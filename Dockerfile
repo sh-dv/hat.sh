@@ -1,21 +1,23 @@
-FROM node:14
-
-LABEL maintainer="shdv" \
-      name="hat.sh" \
-      version="2.2.2"
+FROM node:alpine as builder
 
 WORKDIR /app
 
-COPY ./package.json /app
+COPY package*.json ./
 
-RUN npm install
+RUN npm ci
 
-COPY . /app
+COPY . ./
 
+# build
 RUN npm run build
 
-COPY . /app
+
+FROM nginx:stable-alpine
+
+COPY --from=builder /app/out /usr/share/nginx/html
 
 EXPOSE 3991
 
-CMD ["npm", "start"]
+ENV NEXT_TELEMETRY_DISABLED 1
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"]

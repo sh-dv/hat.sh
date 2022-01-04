@@ -1,7 +1,18 @@
 # [CHANGELOG](#changelog)
 
 ---
+## v2.3.0
+
+- Improve password strength checking.
+- Add password crack time estimation.
+- Automated translation according to browser locale.
+- Chinese translation (by [qaqland](https://github.com/qaqland)).
+- UI/UX tweaks.
+- Optimize docker containers.
+- Code review, cleanup and bug fixes.
+
 ## v2.2.2
+
 - Sending the file name to SW instead of appending them to the URL.
 - French translation (by [bbouille](https://github.com/bbouille)).
 - Officially accepting Monero (xmr) for donations.
@@ -9,6 +20,7 @@
 - Code review, cleanup and bug fixes.
 
 ## v2.2.1
+
 - Create special page for key pair generation (accessible at /generate-keys)
 - Alert users when duplicate tabs are opened.
 - Disable back button while testing password/keys.
@@ -24,7 +36,6 @@
 - New file picker design, display of total files counts and size. 
 - Visiting different tabs through custom links (e.g ?tab=decryption).
 - Code review, cleanup and bug fixes.
-
 
 ## v2.1.0
 

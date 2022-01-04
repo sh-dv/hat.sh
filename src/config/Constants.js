@@ -1,4 +1,4 @@
-export const currentVersion = "2.2.2";
+export const currentVersion = "2.3.0";
 export const MAX_FILE_SIZE = 1024 * 1024 * 1024;
 export const CHUNK_SIZE = 64 * 1024 * 1024;
 export const crypto_secretstream_xchacha20poly1305_ABYTES = 17;

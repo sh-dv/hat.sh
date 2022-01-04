@@ -33,6 +33,7 @@ const en = {
   multiple_tabs_alert: "Multiple tabs alert",
   multiple_tabs_alert_notice_one: "Looks like that Hat.sh is already open in another window/tab.",
   multiple_tabs_alert_notice_two: "Please avoid encrypting/decrypting files in different tabs at the same time.",
+  understand: "I UNDERSTAND",
 
   // Common
   file: "file",
@@ -67,13 +68,23 @@ const en = {
   downloading_file: "Downloading...",
   checking_file: "Checking file...",
   page_close_alert: "Don't close the page while files are downloading!",
+  offline_note: "Files are not uploaded to a server, everything is done offline in your browser.",
   
   // Password Strength Check
   very_weak: "Very Weak (guessable)",
-  weak: "Weak (guessable)",
+  weak: "Weak",
   moderate: "Moderate",
   good: "Good",
   strong: "Strong",
+  crackTimeEstimation: "crack time estimation:",
+  lessSecond: "less than a second",
+  seconds: "seconds",
+  minutes: "minutes",
+  hours: "hours",
+  days: "days",
+  months: "months",
+  years: "years",
+  centuries: "centuries",
 
   // Encryption
   encryption: "Encryption",

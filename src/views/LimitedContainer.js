@@ -8,6 +8,8 @@ const useStyles = makeStyles((theme) => ({
   body: {
     backgroundColor: theme.palette.alabaster.main,
     minHeight: "100vh",
+    display: "flex",
+    flexDirection: "column",
   }
 }))
 

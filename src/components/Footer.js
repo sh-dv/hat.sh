@@ -19,8 +19,7 @@ let QRCode = require("qrcode.react");
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
-    flexDirection: "column",
+    marginTop: "auto",
   },
 
   footer: {
@@ -111,6 +110,7 @@ export default function Footer() {
           </Typography>
           
             <Chip
+              size="small"
               className={classes.chip}
               avatar={<Avatar src={"/assets/icons/xmr-logo.png"}></Avatar>}
               label="Monero Accepted"

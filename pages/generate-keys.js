@@ -13,6 +13,8 @@ const Generate = () => {
         style={{
           backgroundColor: Theme.palette.alabaster.main,
           minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         <NavAppBar />

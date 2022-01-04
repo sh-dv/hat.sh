@@ -79,7 +79,7 @@ const CheckMultipleTabs = () => {
 
       <DialogActions>
         <Button onClick={handleClose} color="primary">
-          I UNDERSTAND
+          {t('understand')}
         </Button>
       </DialogActions>
     </Dialog>

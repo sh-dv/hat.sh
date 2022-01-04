@@ -13,9 +13,7 @@ import Settings from "./Settings";
 import { getTranslations as t } from "../../locales";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
+
   logo: {
     flexGrow: 1,
     marginTop: 10,
@@ -30,7 +28,7 @@ export default function NavAppBar() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div>
       <AppBar color="transparent" position="static" elevation={0}>
         <Container maxWidth="lg">
           <Toolbar>

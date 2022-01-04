@@ -2,6 +2,7 @@ import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
 import { useState, useEffect } from "react";
 import { Alert } from "@material-ui/lab";
+import { Hidden } from "@material-ui/core";
 import { getTranslations as t } from "../../locales";
 
 export default function DonationBar() {
@@ -27,7 +28,9 @@ export default function DonationBar() {
 
   return (
     <div>
+      <Hidden xsDown>
       <Snackbar
+      style={{zIndex: 0}}
         anchorOrigin={{
           vertical: "bottom",
           horizontal: "right",
@@ -74,6 +77,7 @@ export default function DonationBar() {
           {t("donation_message")}
         </Alert>
       </Snackbar>
+      </Hidden>
     </div>
   );
 }

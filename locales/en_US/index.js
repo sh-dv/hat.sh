@@ -1,6 +1,6 @@
-const en = {
+const en_US = {
   language_name: "English",
-
+  
   // Menu
   sub_title: "simple, fast, secure client-side file encryption",
   home: "home",
@@ -77,7 +77,7 @@ const en = {
   good: "Good",
   strong: "Strong",
   crackTimeEstimation: "crack time estimation:",
-  lessSecond: "less than a second",
+  less_second: "less than a second",
   seconds: "seconds",
   minutes: "minutes",
   hours: "hours",
@@ -182,4 +182,4 @@ const en = {
   
 };
 
-export default en;
+export default en_US;

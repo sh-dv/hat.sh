@@ -112,7 +112,7 @@ docker pull shdv/hat.sh:latest
 2. run container
 
 ```bash
-docker run -p 3991:3991 shdv/hat.sh
+docker run -d -p 3991:80 shdv/hat.sh
 ```
 
 <br>
@@ -140,7 +140,7 @@ docker build . -t shdv/hat.sh
 4. run container
 
 ```bash
-docker run -p 3991:3991 shdv/hat.sh
+docker run -d -p 3991:80 shdv/hat.sh
 ```
 
 <br>
@@ -178,6 +178,7 @@ The app should be running on port 3991.
 hat.sh is also available as a Docker image. You can find it on [Docker Hub].
 
 <br>
+
 
 # [Usage](#usage)
 

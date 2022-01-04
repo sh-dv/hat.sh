@@ -91,6 +91,7 @@ The project is maintained in my free time. Donations of any size are appreciated
 <div>
 
   <strong>Monero</strong>
+
   <img src="https://i.imgur.com/1k0wRO8.png">
 
   `84zQq4Xt7sq8cmGryuvWsXFMDvBvHjWjnMQXZWQQRXjB1TgoZWS9zBdNcYL7CRbQBqcDdxr4RtcvCgApmQcU6SemVXd7RuG`
@@ -98,6 +99,7 @@ The project is maintained in my free time. Donations of any size are appreciated
   <br>
 
   <strong>Bitcoin</strong>
+  
   <img src="https://i.imgur.com/cCtvXLh.png">
 
   `bc1qlfnq8nu2k84h3jth7a27khaq0p2l2gvtyl2dv6`

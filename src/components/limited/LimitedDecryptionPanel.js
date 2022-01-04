@@ -49,10 +49,14 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
   },
+  offline: {
+    fontSize: 12,
+    float: "right",
+    color: theme.palette.diamondBlack.main,
+  },
   stepper: {
     backgroundColor: "transparent",
   },
-
   stepIcon: {
     "&$activeStepIcon": {
       color: theme.palette.emperor.main,
@@ -247,7 +251,16 @@ const LimitedDecryptionPanel = () => {
       setFile(selectedFile);
       setLargeFile(false);
     }
+
+    setbadFile(false);
+    setOldVersion(false);
   };
+
+  const removeFile = () => {
+    setFile();
+    setbadFile(false);
+    setOldVersion(false);
+  }
 
   const checkFile = () => {
     setIsCheckingFile(true);
@@ -738,7 +751,7 @@ const LimitedDecryptionPanel = () => {
                         <ListItemSecondaryAction>
                           <IconButton
                             style={{ marginTop: 40 }}
-                            onClick={() => setFile()}
+                            onClick={() => removeFile()}
                             edge="end"
                             aria-label="delete"
                           >
@@ -817,6 +830,12 @@ const LimitedDecryptionPanel = () => {
                 </Alert>
               )}
             </div>
+
+            {!badFile && !oldVersion && !largeFile && (
+              <Typography className={classes.offline}>
+                {t("offline_note")}
+              </Typography>
+            )}
           </StepContent>
         </Step>
 

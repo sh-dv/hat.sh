@@ -47,6 +47,11 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
   },
+  offline: {
+    fontSize: 12,
+    float: "right",
+    color: theme.palette.diamondBlack.main,
+  },
   stepper: {
     backgroundColor: "transparent",
   },
@@ -530,7 +535,7 @@ export default function DecryptionPanel() {
     navigator.serviceWorker.ready.then((reg) => {
       reg.active.postMessage({ cmd: "prepareFileName", fileName });
     });
-  }
+  };
 
   const kickOffDecryption = async (e) => {
     if (currFile <= numberOfFiles - 1) {
@@ -955,7 +960,7 @@ export default function DecryptionPanel() {
                 <Alert severity="error" style={{ marginTop: 15 }}>
                   {t("file_not_encrypted_corrupted")}
                   <br />
-                  {Files.length > 1 ? (<strong>{badFile}</strong>) : ""}
+                  {Files.length > 1 ? <strong>{badFile}</strong> : ""}
                 </Alert>
               )}
 
@@ -966,7 +971,7 @@ export default function DecryptionPanel() {
                     {"https://v1.hat.sh"}
                   </a>
                   <br />
-                  {Files.length > 1 ? (<strong>{oldVersion}</strong>) : ""}
+                  {Files.length > 1 ? <strong>{oldVersion}</strong> : ""}
                 </Alert>
               )}
 
@@ -976,6 +981,12 @@ export default function DecryptionPanel() {
                 </Alert>
               )}
             </div>
+
+            {!badFile && !oldVersion && !fileMixUp && (
+              <Typography className={classes.offline}>
+                {t("offline_note")}
+              </Typography>
+            )}
           </StepContent>
         </Step>
 

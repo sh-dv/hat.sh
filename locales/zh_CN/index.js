@@ -37,7 +37,8 @@ const zh_CN = {
   multiple_tabs_alert: "重复打开提醒", // Multiple tabs alert
   multiple_tabs_alert_notice_one: "Hat.sh 已经在另一标签窗口打开", // Looks like that Hat.sh is already open in another window/tab.
   multiple_tabs_alert_notice_two: "避免不同标签页在同一时间进行加密解密", // Please avoid encrypting/decrypting files in different tabs at the same time.
-
+  understand: "明白！", // I UNDERSTAND
+  
   // Common
   file: "文件", // file
   files: "文件", // files
@@ -71,13 +72,23 @@ const zh_CN = {
   downloading_file: "下载中", // Downloading...
   checking_file: "检查文件中", // Checking file...
   page_close_alert: "下载文件中，请勿关闭页面！", // Don't close the page while files are downloading!
-  
+  offline_note: "文件不会上传服务器，所有操作都在您的浏览器离线运行", // Files are not uploaded to a server, everything is done offline in your browser.
+
   // Password Strength Check
   very_weak: "非常弱", // Very Weak (guessable)
-  weak: "弱", // Weak (guessable)
+  weak: "弱", // Weak
   moderate: "中等", // Moderate
   good: "好", // Good
   strong: "强", // Strong
+  crackTimeEstimation: "破解需要：", // crack time estimation:
+  lessSecond: "不到一秒", // less than a second
+  seconds: "数秒", // seconds
+  minutes: "数分钟", // minutes
+  hours: "数小时", // hours
+  days: "数天", // days
+  months: "数月", // months
+  years: "数年", // years
+  centuries: "数世纪", // centuries
 
   // Encryption
   encryption: "加密", // Encryption

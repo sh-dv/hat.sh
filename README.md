@@ -23,7 +23,7 @@ V2 of hat.sh introduced memory efficient in-browser large file chunked encryptio
 
 ## Usage
 
-![how-to-use-gif](https://i.imgur.com/yqSsDyW.gif)
+![how-to-use-gif](https://i.imgur.com/LbT9UGg.gif)
 
 <br>
 
@@ -89,16 +89,21 @@ The project is maintained in my free time. Donations of any size are appreciated
 <br>
 
 <div>
+
   <strong>Monero</strong>
-
-  <br>
-
   <img src="https://i.imgur.com/1k0wRO8.png">
 
   `84zQq4Xt7sq8cmGryuvWsXFMDvBvHjWjnMQXZWQQRXjB1TgoZWS9zBdNcYL7CRbQBqcDdxr4RtcvCgApmQcU6SemVXd7RuG`
 
   <br>
 
+  <strong>Bitcoin</strong>
+  <img src="https://i.imgur.com/cCtvXLh.png">
+
+  `bc1qlfnq8nu2k84h3jth7a27khaq0p2l2gvtyl2dv6`
+
+  <br>
+  
   <strong>Kofi</strong>
 
   [https://ko-fi.com/shdvapps](https://ko-fi.com/shdvapps)
@@ -123,7 +128,8 @@ The project is maintained in my free time. Donations of any size are appreciated
 
 * Everyone who supported the project.
 * [Samuel-lucas6](https://github.com/samuel-lucas6) from the [Kryptor](https://github.com/samuel-lucas6/Kryptor) project for being helpful and doing alot of beta testing.
-* [bbouille](https://github.com/bbouille) for translating the app to French.
+* [bbouille](https://github.com/bbouille) for translating to French.
+* [qaqland](https://github.com/qaqland) for translating to Chinese.
 
 <br>
 
@@ -139,4 +145,4 @@ The project is maintained in my free time. Donations of any size are appreciated
 
 ## License
 
-[Copyright (c) 2021 sh-dv](https://github.com/sh-dv/hat.sh/blob/master/LICENSE)
+[Copyright (c) 2022 sh-dv](https://github.com/sh-dv/hat.sh/blob/master/LICENSE)

@@ -239,7 +239,8 @@ export default function About(props) {
     const getLocale = () => {
       if (typeof window !== "undefined") {
         let language = window.localStorage.getItem("language");
-        return language ? language : "en";
+        let userLanguage = navigator.language.replace("-", "_");
+        return language ? language : locales[userLanguage] ? userLanguage : "en_US";
       }
     };
 
@@ -434,7 +435,7 @@ export async function getStaticProps() {
         );
       } catch (error) {
         docFile = fs.readFileSync(
-          path.join(`locales/en/docs.md`),
+          path.join(`locales/en_US/docs.md`),
           "utf-8"
         );
       }

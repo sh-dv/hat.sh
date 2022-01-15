@@ -1,6 +1,11 @@
 # [CHANGELOG](#changelog)
 
 ---
+## v2.3.1
+
+- Update packages
+- Code review, cleanup and bug fixes.
+
 ## v2.3.0
 
 - Improve password strength checking.

@@ -129,7 +129,7 @@ The project is maintained in my free time. Donations of any size are appreciated
 ## Acknowledgements
 
 * Everyone who supported the project.
-* [Samuel-lucas6](https://github.com/samuel-lucas6) from the [Kryptor](https://github.com/samuel-lucas6/Kryptor) project for being helpful and doing alot of beta testing.
+* [Samuel-lucas6](https://github.com/samuel-lucas6) from the [Kryptor](https://github.com/samuel-lucas6/Kryptor) project for being helpful and doing a lot of beta testing.
 * [bbouille](https://github.com/bbouille) for translating to French.
 * [qaqland](https://github.com/qaqland) for translating to Chinese.
 

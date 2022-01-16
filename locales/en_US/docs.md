@@ -404,7 +404,7 @@ There is no bounty available at the moment, but your github account will be cred
 ### When should I not use hat.sh?
 
 1. If you want to encrypt a disk (e.g [VeraCrypt]).
-2. If you want to Frequently access encrypted files (e.g [Cryptomator]).
+2. If you want to frequently access encrypted files (e.g [Cryptomator]).
 3. If you want to encrypt and sign files in the same tool. (e.g [Kryptor]).
 4. If you prefer a command line tool (e.g [Kryptor]).
 5. If you want something that adheres to industry standards, use [GPG].

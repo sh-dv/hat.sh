@@ -1,6 +1,16 @@
 # [CHANGELOG](#changelog)
 
 ---
+## v2.3.2
+
+> If you are self hosting the app with **v2.2.2 - v2.3.1** you need to update to this version.
+
+> If you have encrypted a file recently using **v2.2.2 - v2.3.1** please check the files for corruption or re-encrypt.
+
+- Critical bug fix that lead to file decryption errors, and file encryption in certain cases.
+
+Please accept my apologies.
+
 ## v2.3.1
 
 - Update packages

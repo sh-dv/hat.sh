@@ -533,7 +533,7 @@ export default function DecryptionPanel() {
     // send file name to sw
     let fileName = formatName(files[currFile].name);
     navigator.serviceWorker.ready.then((reg) => {
-      reg.active.postMessage({ cmd: "prepareFileName", fileName });
+      reg.active.postMessage({ cmd: "prepareFileNameDec", fileName });
     });
   };
 
@@ -754,7 +754,7 @@ export default function DecryptionPanel() {
           setIsTestingPassword(false);
           break;
 
-        case "filePrepared":
+        case "filePreparedDec":
           kickOffDecryption();
           break;
 
@@ -1325,6 +1325,7 @@ export default function DecryptionPanel() {
             variant="outlined"
             startIcon={<RefreshIcon />}
             fullWidth
+            style={{ textTransform: "none" }}
           >
             {t("decrypt_other_files")}
           </Button>

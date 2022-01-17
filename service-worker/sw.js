@@ -33,8 +33,12 @@ const _sodium = require("libsodium-wrappers");
 
   addEventListener("message", (e) => {
     switch (e.data.cmd) {
-      case "prepareFileName":
-        assignFileName(e.data.fileName, e.source);
+      case "prepareFileNameEnc":
+        assignFileNameEnc(e.data.fileName, e.source);
+        break;
+
+      case "prepareFileNameDec":
+        assignFileNameDec(e.data.fileName, e.source);
         break;
 
       case "requestEncryption":
@@ -107,9 +111,14 @@ const _sodium = require("libsodium-wrappers");
     }
   });
 
-  const assignFileName = (name, client) => {
+  const assignFileNameEnc = (name, client) => {
     fileName = name;
-    client.postMessage({ reply: "filePrepared" })
+    client.postMessage({ reply: "filePreparedEnc" })
+  }
+
+  const assignFileNameDec = (name, client) => {
+    fileName = name;
+    client.postMessage({ reply: "filePreparedDec" })
   }
 
   const encKeyPair = (csk, spk, mode, client) => {

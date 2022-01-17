@@ -449,7 +449,7 @@ export default function EncryptionPanel() {
     // send file name to sw
     let fileName = files[currFile].name + ".enc";
     navigator.serviceWorker.ready.then((reg) => {
-      reg.active.postMessage({ cmd: "prepareFileName", fileName });
+      reg.active.postMessage({ cmd: "prepareFileNameEnc", fileName });
     });
   };
 
@@ -585,7 +585,7 @@ export default function EncryptionPanel() {
           startEncryption("publicKey");
           break;
 
-        case "filePrepared":
+        case "filePreparedEnc":
           kickOffEncryption();
           break;
 

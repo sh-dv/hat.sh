@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-sync-scripts */
 import Head from "next/head";
-import { getTranslations as t } from "../locales";
+import { appWithTranslation, useTranslation } from "next-i18next";
 import "../public/assets/styles/style.css";
 import { checkTheme } from "../src/config/Theme";
 
@@ -8,6 +8,8 @@ import { checkTheme } from "../src/config/Theme";
 checkTheme();
 
 function MyApp({ Component, pageProps }) {
+  const { t } = useTranslation();
+
   return (
     <>
       <Head>
@@ -45,4 +47,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default MyApp;
+export default appWithTranslation(MyApp);

@@ -1,3 +1,5 @@
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
 import { ThemeProvider } from "@material-ui/styles";
 import { Theme } from "../src/config/Theme";
 import NavAppBar from "../src/components/AppBar";
@@ -34,3 +36,11 @@ const Generate = () => {
 };
 
 export default Generate;
+
+export const getStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
+};

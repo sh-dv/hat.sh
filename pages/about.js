@@ -5,6 +5,10 @@ import path from "path";
 import { marked } from "marked";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
+
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from "@material-ui/core/Divider";
@@ -37,8 +41,8 @@ import prism from "prismjs";
 import Settings from "../src/components/Settings";
 import { ThemeProvider } from "@material-ui/styles";
 import { Theme, checkTheme } from "../src/config/Theme";
-import locales from "../locales/locales";
-import { getTranslations as t } from "../locales";
+import { supportedLocales } from "../next-i18next.config";
+
 const drawerWidth = 240;
 
 marked.setOptions({
@@ -226,26 +230,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function About(props) {
+  const router = useRouter();
+  const { t } = useTranslation();
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [docContent, setDocContent] = useState("");
+
+  const { locale } = router;
 
   useEffect(() => {
     checkTheme();
   }, []);
 
   useEffect(() => {
-    const getLocale = () => {
-      if (typeof window !== "undefined") {
-        let language = window.localStorage.getItem("language");
-        let userLanguage = navigator.language.replace("-", "_");
-        return language ? language : locales[userLanguage] ? userLanguage : "en_US";
-      }
-    };
-
     let languages = props.docs;
-    let langFilter = { lang: getLocale() };
+    let langFilter = { lang: locale };
     let langResult;
 
     languages.forEach(function (obj) {
@@ -272,7 +272,7 @@ export default function About(props) {
     };
 
     getContent();
-  }, [props.docs]);
+  }, [props.docs, locale]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -348,7 +348,7 @@ export default function About(props) {
               </Typography>
 
               <Button color="inherit" href="/" className={classes.button}>
-                {t('home')}
+                {t("home")}
               </Button>
 
               <IconButton
@@ -419,27 +419,24 @@ About.propTypes = {
   window: PropTypes.func,
 };
 
-export async function getStaticProps() {
+export async function getStaticProps({ locale }) {
   // Get files from the posts dir
 
   let docs = [];
 
   {
-    Object.entries(locales).map(([code, name]) => {
-      let docFilePath = `locales/${code}/docs.md`;
+    Object.entries(supportedLocales).map(([code, name]) => {
+      let docFilePath = `public/locales/${code}/docs.md`;
       let docFile;
       try {
-        docFile = fs.readFileSync(
-          path.join(docFilePath),
-          "utf-8"
-        );
+        docFile = fs.readFileSync(path.join(docFilePath), "utf-8");
       } catch (error) {
         docFile = fs.readFileSync(
-          path.join(`locales/en_US/docs.md`),
+          path.join(`public/locales/en/docs.md`),
           "utf-8"
         );
       }
-      
+
       let docStructure = { lang: code, content: docFile };
       docs.push(docStructure);
     });
@@ -451,6 +448,7 @@ export async function getStaticProps() {
     props: {
       docs: docs,
       changelog: changelog,
+      ...(await serverSideTranslations(locale, ["common"])),
     },
   };
 }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import MainContainer from "../src/views/MainContainer";
 import LimitedContainer from "../src/views/LimitedContainer";
 import { ThemeProvider } from "@material-ui/styles";
@@ -39,7 +40,6 @@ const Home = () => {
       // console.log("did not register sw");
       setSwReg(false);
     }
-
   }, []);
 
   return (
@@ -50,3 +50,11 @@ const Home = () => {
 };
 
 export default Home;
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
+}

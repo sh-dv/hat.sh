@@ -1,4 +1,9 @@
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
+
 export default function Custom404() {
+  const { t } = useTranslation();
+
   return (
     <>
       <div
@@ -47,7 +52,7 @@ export default function Custom404() {
                 padding: 0,
               }}
             >
-              This page could not be found.
+              {t("pageNotFound", "This page could not be found.")}
             </h2>
           </div>
         </div>
@@ -55,3 +60,11 @@ export default function Custom404() {
     </>
   );
 }
+
+export const getStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
+};

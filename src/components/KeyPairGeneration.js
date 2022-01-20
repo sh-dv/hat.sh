@@ -15,8 +15,8 @@ import GetAppIcon from "@material-ui/icons/GetApp";
 import { generateAsymmetricKeys } from "../utils/generateAsymmetricKeys";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import Hidden from '@material-ui/core/Hidden';
-import { getTranslations as t } from "../../locales";
+import Hidden from "@material-ui/core/Hidden";
+import { useTranslation } from "next-i18next";
 import QuickResponseCode from "./QuickResponseCode";
 
 const useStyles = makeStyles((theme) => ({
@@ -68,6 +68,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const KeysGeneration = (props) => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -78,7 +79,6 @@ const KeysGeneration = (props) => {
   );
 
   const [showPrivateKey, setShowPrivateKey] = useState(false);
-
 
   const generateKeys = async () => {
     let generated = await generateAsymmetricKeys();
@@ -105,31 +105,31 @@ const KeysGeneration = (props) => {
 
   return (
     <>
-    {!props.opened &&
-      <div>
-        <Typography
-          variant="caption"
-          className={classes.generateNowText}
-          onClick={() => {
-            setOpen(true);
-          }}
-        >
-          {t("generate_now_button")}
-        </Typography>
+      {!props.opened && (
+        <div>
+          <Typography
+            variant="caption"
+            className={classes.generateNowText}
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
+            {t("generate_now_button")}
+          </Typography>
 
-        <Typography variant="caption" className={classes.caption}>
-          {t("key_pair_question")}
-        </Typography>
+          <Typography variant="caption" className={classes.caption}>
+            {t("key_pair_question")}
+          </Typography>
 
-        <Hidden xsDown>
-          <a href="/about/#why-need-private-key" target="_blank">
-            <Typography variant="caption" className={classes.keyCaption}>
-              {t('why_need_private_key')}
-            </Typography>
-          </a>
-        </Hidden>
-      </div>
-    }
+          <Hidden xsDown>
+            <a href="/about/#why-need-private-key" target="_blank">
+              <Typography variant="caption" className={classes.keyCaption}>
+                {t("why_need_private_key")}
+              </Typography>
+            </a>
+          </Hidden>
+        </div>
+      )}
       <div className={classes.root}>
         <Collapse in={open || props.opened}>
           <Paper elevation={0} className={classes.alertContainer}>

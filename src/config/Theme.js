@@ -1,7 +1,7 @@
 import { createTheme } from "@material-ui/core/styles";
 import { FormControlLabel, Switch } from "@material-ui/core";
 import { useState } from "react";
-import { getTranslations as t } from "../../locales";
+import { useTranslation } from "next-i18next";
 
 export const Theme = createTheme({
   palette: {
@@ -57,20 +57,22 @@ export const Theme = createTheme({
       light: "#c9e1f2",
       text: "#0d3c61",
     },
-    diamondBlack : {
+    diamondBlack: {
       main: "rgba(0, 0, 0, 0.54)",
-    }
+    },
   },
 });
 
 export const checkTheme = () => {
-  
   if (typeof window !== "undefined") {
     let darkMode = window.localStorage.getItem("darkTheme");
 
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    if (
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    ) {
       if (localStorage) {
-        if(darkMode != 0) {
+        if (darkMode != 0) {
           localStorage.setItem("darkTheme", "1");
           document.querySelector("html").classList.add("darkStyle");
         }
@@ -81,23 +83,25 @@ export const checkTheme = () => {
       document.querySelector("html").classList.add("darkStyle");
     }
   }
-
-}
-
+};
 
 export const DarkMode = () => {
-  const [checked, setchecked] = useState(document.querySelector("html").classList.contains("darkStyle"))
+  const { t } = useTranslation();
+
+  const [checked, setchecked] = useState(
+    document.querySelector("html").classList.contains("darkStyle")
+  );
 
   const changeTheme = () => {
     if (localStorage) {
       if (!checked) {
         localStorage.setItem("darkTheme", "1");
         document.querySelector("html").classList.add("darkStyle");
-        setchecked(true)
+        setchecked(true);
       } else {
         localStorage.setItem("darkTheme", "0");
         document.querySelector("html").classList.remove("darkStyle");
-        setchecked(false)
+        setchecked(false);
       }
     }
   };
@@ -105,10 +109,15 @@ export const DarkMode = () => {
   return (
     <FormControlLabel
       value="darkModeEnabled"
-      control={<Switch color="primary" checked={checked}  onChange={() => changeTheme()} />}
-      label={t('dark_mode')}
+      control={
+        <Switch
+          color="primary"
+          checked={checked}
+          onChange={() => changeTheme()}
+        />
+      }
+      label={t("dark_mode")}
       labelPlacement="start"
     />
   );
 };
-

@@ -6,8 +6,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
-import { getTranslations as t } from "../../locales";
-
+import { useTranslation } from "next-i18next";
 
 const useStyles = makeStyles((theme) => ({
   topScrollPaper: {
@@ -20,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CheckMultipleTabs = () => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -67,19 +67,21 @@ const CheckMultipleTabs = () => {
         paperScrollBody: classes.topPaperScrollBody,
       }}
     >
-      <DialogTitle id="alert-dialog-title">{t('multiple_tabs_alert')}</DialogTitle>
+      <DialogTitle id="alert-dialog-title">
+        {t("multiple_tabs_alert")}
+      </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          {t('multiple_tabs_alert_notice_one')}
+          {t("multiple_tabs_alert_notice_one")}
           <br />
-          {t('multiple_tabs_alert_notice_two')}
+          {t("multiple_tabs_alert_notice_two")}
           <br />
         </DialogContentText>
       </DialogContent>
 
       <DialogActions>
         <Button onClick={handleClose} color="primary">
-          {t('understand')}
+          {t("understand")}
         </Button>
       </DialogActions>
     </Dialog>

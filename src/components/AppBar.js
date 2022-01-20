@@ -8,12 +8,11 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import GitHubIcon from "@material-ui/icons/GitHub";
+import { useTranslation } from "next-i18next";
 import VersionBadge from "./VersionBadge";
 import Settings from "./Settings";
-import { getTranslations as t } from "../../locales";
 
 const useStyles = makeStyles((theme) => ({
-
   logo: {
     flexGrow: 1,
     marginTop: 10,
@@ -26,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavAppBar() {
   const classes = useStyles();
+  const { t } = useTranslation();
 
   return (
     <div>

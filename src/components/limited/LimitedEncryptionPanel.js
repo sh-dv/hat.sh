@@ -52,7 +52,7 @@ import {
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-import { getTranslations as t } from "../../../locales";
+import { useTranslation } from "next-i18next";
 
 const _sodium = require("libsodium-wrappers");
 
@@ -164,8 +164,8 @@ let file,
   encTx;
 
 const LimitedEncryptionPanel = () => {
+  const { t } = useTranslation();
   const classes = useStyles();
-
   const router = useRouter();
 
   const query = router.query;
@@ -771,7 +771,7 @@ const LimitedEncryptionPanel = () => {
                   Password ? (
                     <Tooltip
                       title={`${t("crackTimeEstimation")} ${
-                        passwordStrengthCheck(Password)[1]
+                        passwordStrengthCheck(t, Password)[1]
                       }`}
                       placement="right"
                       arrow
@@ -779,7 +779,7 @@ const LimitedEncryptionPanel = () => {
                       <span>
                         {t("password_strength")}
                         {": "}
-                        <strong>{passwordStrengthCheck(Password)[0]}</strong>
+                        <strong>{passwordStrengthCheck(t, Password)[0]}</strong>
                       </span>
                     </Tooltip>
                   ) : (

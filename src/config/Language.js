@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
+import Cookies from "universal-cookie";
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -6,9 +9,14 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { Button, Hidden } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
-import { checkLocale } from "../../locales";
-import { getTranslations as t } from "../../locales";
-import locales from "../../locales/locales";
+
+import { supportedLocales } from "../../next-i18next.config";
+
+// https://nextjs.org/docs/advanced-features/i18n-routing#leveraging-the-next_locale-cookie
+const setLocaleCookie = (locale) => {
+  const cookies = new Cookies();
+  cookies.set("NEXT_LOCALE", locale, { path: "/" });
+};
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -18,16 +26,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Language = () => {
+  const router = useRouter();
   const classes = useStyles();
 
-  const [language, setLanguage] = useState(checkLocale());
+  const { t } = useTranslation();
+  const { pathname, asPath, query, locale } = router;
+
   const [showSaveBtn, setShowSaveBtn] = useState(false);
 
   const handleLanguageChange = (e) => {
-    setLanguage(e.target.value);
-    if (localStorage) {
-      localStorage.setItem("language", e.target.value);
-    }
+    const language = e.target.value;
+    console.log(language);
+    setLocaleCookie(language);
+    router.push({ pathname, query }, asPath, { locale: language });
+
     setShowSaveBtn(true);
   };
 
@@ -36,33 +48,20 @@ const Language = () => {
       <FormControl variant="outlined" className={classes.formControl}>
         <InputLabel>{t("language")}</InputLabel>
         <Select
-          value={language}
+          value={locale}
           onChange={handleLanguageChange}
           label={t("language")}
         >
-          {Object.entries(locales).map(([code, name]) => (
+          {Object.entries(supportedLocales).map(([code, name]) => (
             <MenuItem key={code} value={code}>
-              {name.language_name}
+              {name}
             </MenuItem>
           ))}
         </Select>
       </FormControl>
 
       {showSaveBtn ? (
-        <Alert
-          className={classes.formControl}
-          action={
-            <Button
-              onClick={() => window.location.reload(true)}
-              color="inherit"
-              size="small"
-            >
-              {t("reload")}
-            </Button>
-          }
-        >
-          {t("language_changed")}
-        </Alert>
+        <Alert className={classes.formControl}>{t("language_changed")}</Alert>
       ) : (
         <Hidden xsDown>
           <Alert

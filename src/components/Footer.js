@@ -14,7 +14,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { IconButton, Tooltip, TextField } from "@material-ui/core";
-import { getTranslations as t } from "../../locales";
+import { useTranslation } from "next-i18next";
 let QRCode = require("qrcode.react");
 
 const useStyles = makeStyles((theme) => ({
@@ -73,8 +73,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Footer() {
+  const { t } = useTranslation();
   const classes = useStyles();
-
   const [xmrDialog, setXmrDialog] = useState(false);
 
   const xmrAddr =
@@ -108,92 +108,91 @@ export default function Footer() {
             </Link>
             .
           </Typography>
-          
-            <Chip
-              size="small"
-              className={classes.chip}
-              avatar={<Avatar src={"/assets/icons/xmr-logo.png"}></Avatar>}
-              label="Monero Accepted"
-              clickable
-              onClick={() => handleClickOpen()}
-              onDelete={() => handleClickOpen()}
-              deleteIcon={<MonetizationOnIcon className={classes.monIcon} />}
-            />
-            <Dialog
-              scroll="body"
-              maxWidth="sm"
-              fullWidth
-              open={xmrDialog}
-              onClose={handleClose}
-              aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description"
-              PaperProps={{
-                elevation: 0,
-              }}
-              classes={{
-                scrollPaper: classes.topScrollPaper,
-                paperScrollBody: classes.topPaperScrollBody,
-              }}
-            >
-              <DialogTitle id="alert-dialog-title">
-                {"Monero Donations"}
-              </DialogTitle>
-              <DialogContent>
-                <div className={classes.qr}>
-                  <QRCode
-                    value={
-                      "monero:84zQq4Xt7sq8cmGryuvWsXFMDvBvHjWjnMQXZWQQRXjB1TgoZWS9zBdNcYL7CRbQBqcDdxr4RtcvCgApmQcU6SemVXd7RuG"
-                    }
-                    size={200}
-                    bgColor={"#ffffff"}
-                    fgColor={"#000000"}
-                    level={"M"}
-                    includeMargin={true}
-                    renderAs={"canvas"}
-                    imageSettings={{
-                      src: "/assets/icons/xmr-logo.png",
-                      x: null,
-                      y: null,
-                      height: 40,
-                      width: 40,
-                      excavate: false,
-                    }}
-                  />
-                </div>
-                <TextField
-                  style={{ marginBottom: 15 }}
-                  defaultValue={xmrAddr}
-                  InputProps={{
-                    readOnly: true,
-                    endAdornment: (
-                      <>
-                        <Tooltip title={t("copy_link")} placement="left">
-                          <IconButton
-                            onClick={() => {
-                              navigator.clipboard.writeText(xmrAddr);
-                            }}
-                          >
-                            <FileCopyIcon />
-                          </IconButton>
-                        </Tooltip>
-                      </>
-                    ),
+
+          <Chip
+            size="small"
+            className={classes.chip}
+            avatar={<Avatar src={"/assets/icons/xmr-logo.png"}></Avatar>}
+            label="Monero Accepted"
+            clickable
+            onClick={() => handleClickOpen()}
+            onDelete={() => handleClickOpen()}
+            deleteIcon={<MonetizationOnIcon className={classes.monIcon} />}
+          />
+          <Dialog
+            scroll="body"
+            maxWidth="sm"
+            fullWidth
+            open={xmrDialog}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+            PaperProps={{
+              elevation: 0,
+            }}
+            classes={{
+              scrollPaper: classes.topScrollPaper,
+              paperScrollBody: classes.topPaperScrollBody,
+            }}
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"Monero Donations"}
+            </DialogTitle>
+            <DialogContent>
+              <div className={classes.qr}>
+                <QRCode
+                  value={
+                    "monero:84zQq4Xt7sq8cmGryuvWsXFMDvBvHjWjnMQXZWQQRXjB1TgoZWS9zBdNcYL7CRbQBqcDdxr4RtcvCgApmQcU6SemVXd7RuG"
+                  }
+                  size={200}
+                  bgColor={"#ffffff"}
+                  fgColor={"#000000"}
+                  level={"M"}
+                  includeMargin={true}
+                  renderAs={"canvas"}
+                  imageSettings={{
+                    src: "/assets/icons/xmr-logo.png",
+                    x: null,
+                    y: null,
+                    height: 40,
+                    width: 40,
+                    excavate: false,
                   }}
-                  variant="outlined"
-                  fullWidth
                 />
-                <DialogContentText id="alert-dialog-description">
-                  Hat.sh is an open-source application. The project is
-                  maintained in my free time. Donations of any size are
-                  appreciated.
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose} color="primary">
-                  {t("close")}
-                </Button>
-              </DialogActions>
-            </Dialog>
+              </div>
+              <TextField
+                style={{ marginBottom: 15 }}
+                defaultValue={xmrAddr}
+                InputProps={{
+                  readOnly: true,
+                  endAdornment: (
+                    <>
+                      <Tooltip title={t("copy_link")} placement="left">
+                        <IconButton
+                          onClick={() => {
+                            navigator.clipboard.writeText(xmrAddr);
+                          }}
+                        >
+                          <FileCopyIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </>
+                  ),
+                }}
+                variant="outlined"
+                fullWidth
+              />
+              <DialogContentText id="alert-dialog-description">
+                Hat.sh is an open-source application. The project is maintained
+                in my free time. Donations of any size are appreciated.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                {t("close")}
+              </Button>
+            </DialogActions>
+          </Dialog>
         </Container>
       </footer>
     </div>

@@ -2,7 +2,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
-import { getTranslations as t } from "../../locales";
+import { useTranslation } from "next-i18next";
 
 const useStyles = makeStyles((theme) => ({
   heroTitle: {
@@ -15,7 +15,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Hero() {
+  const { t } = useTranslation();
   const classes = useStyles();
+
   return (
     <Container maxWidth="sm" component="main" className={classes.heroContent}>
       <Typography
@@ -32,7 +34,7 @@ export default function Hero() {
         component="p"
         className={classes.heroSubTitle}
       >
-        {t('sub_title')}
+        {t("sub_title")}
         <br />
       </Typography>
     </Container>

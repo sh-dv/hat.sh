@@ -7,7 +7,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { IconButton, Tooltip, Button, TextField } from "@material-ui/core";
-import { getTranslations as t } from "../../locales";
+import { useTranslation } from "next-i18next";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 let QRCode = require("qrcode.react");
 
@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 const QuickResponseCode = (props) => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
   let url =

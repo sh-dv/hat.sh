@@ -41,7 +41,7 @@ import {
   ListItemText,
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { getTranslations as t } from "../../../locales";
+import { useTranslation } from "next-i18next";
 
 const _sodium = require("libsodium-wrappers");
 
@@ -151,6 +151,7 @@ let file,
 
 const LimitedDecryptionPanel = () => {
   const classes = useStyles();
+  const { t } = useTranslation();
 
   const [activeStep, setActiveStep] = useState(0);
 
@@ -260,7 +261,7 @@ const LimitedDecryptionPanel = () => {
     setFile();
     setbadFile(false);
     setOldVersion(false);
-  }
+  };
 
   const checkFile = () => {
     setIsCheckingFile(true);

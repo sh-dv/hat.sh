@@ -10,7 +10,7 @@ import LimitedEncryptionPanel from "./LimitedEncryptionPanel";
 import LimitedDecryptionPanel from "./LimitedDecryptionPanel";
 import LimitedAlert from "./LimitedAlert";
 
-import { getTranslations as t } from "../../../locales";
+import { useTranslation } from "next-i18next";
 
 const StyledTabs = withStyles({
   indicator: {
@@ -77,13 +77,13 @@ TabPanel.propTypes = {
 };
 
 export default function LimitedPanels() {
+  const { t } = useTranslation();
   const classes = useStyles();
   const router = useRouter();
   const query = router.query;
   const [value, setValue] = useState(0);
-  const encryption = { tab: 0, label: t('encryption') };
-  const decryption = { tab: 1, label: t('decryption') };
-
+  const encryption = { tab: 0, label: t("encryption") };
+  const decryption = { tab: 1, label: t("decryption") };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -91,7 +91,6 @@ export default function LimitedPanels() {
   };
 
   useEffect(() => {
-
     if (query.tab && query.tab === "encryption") {
       setValue(encryption.tab);
     }
@@ -99,7 +98,6 @@ export default function LimitedPanels() {
     if (query.tab && query.tab === "decryption") {
       setValue(decryption.tab);
     }
-
   }, [decryption.tab, encryption.tab, query.tab]);
 
   return (

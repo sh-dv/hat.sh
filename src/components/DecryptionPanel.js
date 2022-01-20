@@ -34,7 +34,7 @@ import AttachFileIcon from "@material-ui/icons/AttachFile";
 import CloseIcon from "@material-ui/icons/Close";
 import AddIcon from "@material-ui/icons/Add";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
-import { getTranslations as t } from "../../locales";
+import { useTranslation } from "next-i18next";
 import {
   List,
   ListItem,
@@ -205,8 +205,8 @@ let file,
   publicKey;
 
 export default function DecryptionPanel() {
+  const { t } = useTranslation();
   const classes = useStyles();
-
   const router = useRouter();
 
   const query = router.query;

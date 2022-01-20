@@ -9,7 +9,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Container from "@material-ui/core/Container";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import { getTranslations as t } from "../../locales";
+import { useTranslation } from "next-i18next";
 
 const StyledTabs = withStyles({
   indicator: {
@@ -77,6 +77,7 @@ TabPanel.propTypes = {
 };
 
 export default function CustomizedTabs() {
+  const { t } = useTranslation();
   const classes = useStyles();
   const router = useRouter();
   const query = router.query;

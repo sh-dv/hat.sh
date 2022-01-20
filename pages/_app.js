@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-sync-scripts */
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { appWithTranslation, useTranslation } from "next-i18next";
+import { supportedLocales } from "../next-i18next.config";
 import "../public/assets/styles/style.css";
 import { checkTheme } from "../src/config/Theme";
 
@@ -9,6 +11,8 @@ checkTheme();
 
 function MyApp({ Component, pageProps }) {
   const { t } = useTranslation();
+
+  const router = useRouter();
 
   return (
     <>
@@ -40,6 +44,22 @@ function MyApp({ Component, pageProps }) {
           content="#1c1c1c"
           media="(prefers-color-scheme: dark)"
         />
+
+        <link
+          key="x-default"
+          href={`${router.pathname}`}
+          rel="alternate"
+          hrefLang="x-default"
+        />
+
+        {Object.entries(supportedLocales).map(([locale], index) => (
+          <link
+            key={`${locale}-${index}`}
+            href={`/${locale}${router.pathname}`}
+            rel="alternate"
+            hrefLang={locale}
+          />
+        ))}
       </Head>
 
       <Component {...pageProps} />

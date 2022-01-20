@@ -40,6 +40,7 @@ The libsodium library is used for all cryptographic algorithms. [Technical detai
 # [Installation](#installation)
 
 ---
+
 It's easy to self host and deploy hat.sh, you can do that either with npm or docker
 
 If you wish to self host the app please follow these instructions:
@@ -179,7 +180,6 @@ hat.sh is also available as a Docker image. You can find it on [Docker Hub].
 
 <br>
 
-
 # [Usage](#usage)
 
 ---
@@ -252,7 +252,6 @@ Safari and Mobile browsers are limited to a single file with maximum size of 1GB
 ### Choosing Passwords
 
 The majority of individuals struggle to create and remember passwords, resulting in weak passwords and password reuse. Password-based encryption is substantially less safe as a result of these improper practices. That's why it is recommended to use the built in password generator and use a password manager like [Bitwarden], where you are able to store the safe password.
-
 
 If you want to choose a password that you are able to memorize then you should type a passphrase made of 8 words or more.
 
@@ -574,6 +573,7 @@ let keys = {
 };
 return keys;
 ```
+
 </div>
 
 The `crypto_kx_keypair()` function randomly generates a secret key and a corresponding public key. The public key is put into publicKey and the secret key into privateKey. both of 256 bits.
@@ -589,6 +589,7 @@ let key = sodium.crypto_kx_client_session_keys(
   publicKey
 );
 ```
+
 </div>
 
 Using the key exchange API, two parties can securely compute a set of shared keys using their peer's public key and their own secret key.

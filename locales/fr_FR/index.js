@@ -1,5 +1,5 @@
 const fr_FR = {
-  language_name: "français",
+  language_name: "Français",
 
   // Menu
   sub_title: "Chiffrement de fichier simple, rapide et sécurisé",
@@ -67,7 +67,7 @@ const fr_FR = {
   downloading_file: "Téléchargement...",
   checking_file: "Vérification du fichier...",
   page_close_alert: "Ne pas fermer la page pendant le chargement du fichier!",
-  
+
   // Password Strength Check
   very_weak: "Très failble (devinable)",
   weak: "Faible (devinable)",
@@ -167,6 +167,5 @@ const fr_FR = {
   qr_code_note_one: "Ce QR code contient votre clé publique. Après un scan, l'équipement redirige vers l'application et auto-rempli la clé publique.",
   qr_code_note_two: "Vous pouvez partager ce QR code ou le lien avec vos correspondants pour éviter la saisie manuelle de votre clé publique.",
   qr_code_note_three: "Ce QR code a été généré hors ligne.",
-  
 };
 export default fr_FR;

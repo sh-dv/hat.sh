@@ -23,7 +23,7 @@ V2 of hat.sh introduced memory efficient in-browser large file chunked encryptio
 
 ## Usage
 
-![how-to-use-gif](https://i.imgur.com/LbT9UGg.gif)
+![how-to-use-gif](https://i.imgur.com/NbAZOgP.gif)
 
 <br>
 
@@ -55,7 +55,6 @@ The libsodium library is used for all cryptographic algorithms.
 ## Offline Use
 
 The app can be easily self hosted, please follow the [installation](https://hat.sh/about/#installation) instructions.
-
 
 <br>
 
@@ -90,30 +89,42 @@ The project is maintained in my free time. Donations of any size are appreciated
 
 <div>
 
-  <strong>Monero</strong>
+<strong>Crypto</strong>
 
-  <img src="https://i.imgur.com/1k0wRO8.png">
+<table>
+<tr>
+<th></th>
+<th>Coin</th>
+<th>Address</th>
+</tr>
+<tr>
+<td><img src="https://i.imgur.com/utSCHpB.png" width="20" height="20" /></td>
+<td>Monero</td>
+<td style="word-break:break-word"><code>84zQq4Xt7sq8cmGryuvWsXFMDvBvHjWjnMQXZWQQRXjB1TgoZWS9zBdNcYL7CRbQBqcDdxr4RtcvCgApmQcU6SemVXd7RuG</code></td>
+</tr>
 
-  `84zQq4Xt7sq8cmGryuvWsXFMDvBvHjWjnMQXZWQQRXjB1TgoZWS9zBdNcYL7CRbQBqcDdxr4RtcvCgApmQcU6SemVXd7RuG`
+<tr>
+<td><img src="https://i.imgur.com/imvYFLR.png" width="20" height="20"/></td>
+<td>Bitcoin</td>
+<td><code>bc1qlfnq8nu2k84h3jth7a27khaq0p2l2gvtyl2dv6</code></td>
+</tr>
 
-  <br>
-
-  <strong>Bitcoin</strong>
-  
-  <img src="https://i.imgur.com/cCtvXLh.png">
-
-  `bc1qlfnq8nu2k84h3jth7a27khaq0p2l2gvtyl2dv6`
+<tr>
+<td><img src="https://i.imgur.com/a4vLbjm.png" width="20" height="20"/></td>
+<td>Ethereum</td>
+<td><code>0xF6F204B044CC73Fa90d7A7e4C5EC2947b83b917e</code></td>
+</tr>
+</table>
 
   <br>
   
   <strong>Kofi</strong>
 
-  [https://ko-fi.com/shdvapps](https://ko-fi.com/shdvapps)
+[https://ko-fi.com/shdvapps](https://ko-fi.com/shdvapps)
 
-  <strong>Open Collective</strong>
+<strong>Open Collective</strong>
 
-  [https://opencollective.com/hatsh](https://opencollective.com/hatsh)
-
+[https://opencollective.com/hatsh](https://opencollective.com/hatsh)
 
 </div>
 
@@ -122,16 +133,17 @@ The project is maintained in my free time. Donations of any size are appreciated
 
 ## Social
 
-* [Reddit](https://reddit.com/r/hatsh)
+- [Reddit](https://reddit.com/r/hatsh)
 
 <br>
 
 ## Acknowledgements
 
-* Everyone who supported the project.
-* [Samuel-lucas6](https://github.com/samuel-lucas6) from the [Kryptor](https://github.com/samuel-lucas6/Kryptor) project for being helpful and doing a lot of beta testing.
-* [bbouille](https://github.com/bbouille) for translating to French.
-* [qaqland](https://github.com/qaqland) for translating to Chinese.
+- Everyone who supported the project.
+- [Samuel-lucas6](https://github.com/samuel-lucas6) from the [Kryptor](https://github.com/samuel-lucas6/Kryptor) project for being helpful and doing a lot of beta testing.
+- [stophecom](https://github.com/stophecom) from the [Scrt.link](https://scrt.link/) project for translating to German.
+- [bbouille](https://github.com/bbouille) for translating to French.
+- [qaqland](https://github.com/qaqland) for translating to Chinese.
 
 <br>
 

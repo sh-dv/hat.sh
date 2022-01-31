@@ -91,30 +91,34 @@ The project is maintained in my free time. Donations of any size are appreciated
 
 <strong>Crypto</strong>
 
-<table>
-<tr>
-<th></th>
-<th>Coin</th>
-<th>Address</th>
-</tr>
-<tr>
-<td><img src="https://i.imgur.com/utSCHpB.png" width="20" height="20" /></td>
-<td>Monero</td>
-<td style="word-break:break-word"><code>84zQq4Xt7sq8cmGryuvWsXFMDvBvHjWjnMQXZWQQRXjB1TgoZWS9zBdNcYL7CRbQBqcDdxr4RtcvCgApmQcU6SemVXd7RuG</code></td>
-</tr>
+  <table>
+    <tr>
+      <th></th>
+      <th>Coin</th>
+      <th>Address</th>
+    </tr>
+    <tr>
+      <td><img src="https://i.imgur.com/utSCHpB.png" /></td>
+      <td>Monero</td>
+      <td style="word-break: break-word">
+        <code
+          >84zQq4Xt7sq8cmGryuvWsXFMDvBvHjWjnMQXZWQQRXjB1TgoZWS9zBdNcYL7CRbQBqcDdxr4RtcvCgApmQcU6SemVXd7RuG</code
+        >
+      </td>
+    </tr>
 
-<tr>
-<td><img src="https://i.imgur.com/imvYFLR.png" width="20" height="20"/></td>
-<td>Bitcoin</td>
-<td><code>bc1qlfnq8nu2k84h3jth7a27khaq0p2l2gvtyl2dv6</code></td>
-</tr>
+    <tr>
+      <td><img src="https://i.imgur.com/imvYFLR.png" /></td>
+      <td>Bitcoin</td>
+      <td><code>bc1qlfnq8nu2k84h3jth7a27khaq0p2l2gvtyl2dv6</code></td>
+    </tr>
 
-<tr>
-<td><img src="https://i.imgur.com/a4vLbjm.png" width="20" height="20"/></td>
-<td>Ethereum</td>
-<td><code>0xF6F204B044CC73Fa90d7A7e4C5EC2947b83b917e</code></td>
-</tr>
-</table>
+    <tr>
+      <td><img src="https://i.imgur.com/a4vLbjm.png" /></td>
+      <td>Ethereum</td>
+      <td><code>0xF6F204B044CC73Fa90d7A7e4C5EC2947b83b917e</code></td>
+    </tr>
+  </table>
 
   <br>
   

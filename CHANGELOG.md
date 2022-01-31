@@ -6,6 +6,7 @@
 - Added page loading indicator.
 - Multiple UI elements redesign.
 - German translation (by [stophecom](https://github.com/stophecom)).
+- Fix file name encoding bug.
 - Update packages.
 - Code review, cleanup and bug fixes.
 

@@ -106,13 +106,11 @@ The project is maintained in my free time. Donations of any size are appreciated
         >
       </td>
     </tr>
-
     <tr>
       <td><img src="https://i.imgur.com/imvYFLR.png" /></td>
       <td>Bitcoin</td>
       <td><code>bc1qlfnq8nu2k84h3jth7a27khaq0p2l2gvtyl2dv6</code></td>
     </tr>
-
     <tr>
       <td><img src="https://i.imgur.com/a4vLbjm.png" /></td>
       <td>Ethereum</td>

@@ -3,10 +3,12 @@ import MainContainer from "../src/views/MainContainer";
 import LimitedContainer from "../src/views/LimitedContainer";
 import { ThemeProvider } from "@material-ui/styles";
 import { Theme } from "../src/config/Theme";
+import LoadingCom from "../src/components/Loading";
 
 const Home = () => {
   const [swReg, setSwReg] = useState();
   const [browserSupport, setBrowserSupport] = useState();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const safariBrowser =
@@ -30,21 +32,25 @@ const Home = () => {
         .then((reg) => {
           reg.update();
           setSwReg(true);
+          setLoading(false);
         })
         .catch((err) => {
           console.log("ServiceWorker registration failed", err);
           setSwReg(false);
+          setLoading(false);
         });
     } else {
       // console.log("did not register sw");
       setSwReg(false);
+      setLoading(false);
     }
-
   }, []);
 
   return (
     <ThemeProvider theme={Theme}>
-      {swReg && browserSupport ? <MainContainer /> : <LimitedContainer />}
+      <LoadingCom open={loading} />
+      {!loading &&
+        (swReg && browserSupport ? <MainContainer /> : <LimitedContainer />)}
     </ThemeProvider>
   );
 };

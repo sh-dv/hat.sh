@@ -531,7 +531,7 @@ export default function DecryptionPanel() {
 
   const prepareFile = () => {
     // send file name to sw
-    let fileName = formatName(files[currFile].name);
+    let fileName = encodeURIComponent(formatName(files[currFile].name));
     navigator.serviceWorker.ready.then((reg) => {
       reg.active.postMessage({ cmd: "prepareFileNameDec", fileName });
     });

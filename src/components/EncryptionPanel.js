@@ -447,7 +447,7 @@ export default function EncryptionPanel() {
 
   const prepareFile = () => {
     // send file name to sw
-    let fileName = files[currFile].name + ".enc";
+    let fileName = encodeURIComponent(files[currFile].name + ".enc");
     navigator.serviceWorker.ready.then((reg) => {
       reg.active.postMessage({ cmd: "prepareFileNameEnc", fileName });
     });

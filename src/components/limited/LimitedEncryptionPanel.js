@@ -558,11 +558,11 @@ const LimitedEncryptionPanel = () => {
         autoHideDuration={2000}
         onClose={showSnackBar}
       >
-        <Alert onClose={showSnackBar} severity="success">
+        <Alert severity="success">
           {snackBarMessage}
         </Alert>
       </Snackbar>
-      <Backdrop open={isDragActive} style={{ zIndex: 1 }}>
+      <Backdrop open={isDragActive} style={{ zIndex: 10 }}>
         <Typography
           variant="h2"
           gutterBottom
@@ -650,6 +650,7 @@ const LimitedEncryptionPanel = () => {
                             width: "200px",
                             minHeight: "50px",
                             maxHeight: "50px",
+                            textAlign: "center",
                           }}
                           primary={File.name}
                           secondary={formatBytes(File.size)}

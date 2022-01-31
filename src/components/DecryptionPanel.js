@@ -806,7 +806,7 @@ export default function DecryptionPanel() {
 
   return (
     <div className={classes.root} {...getRootProps()}>
-      <Backdrop open={isDragActive} style={{ zIndex: 1 }}>
+      <Backdrop open={isDragActive} style={{ zIndex: 10 }}>
         <Typography
           variant="h2"
           gutterBottom

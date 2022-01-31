@@ -658,7 +658,7 @@ const LimitedDecryptionPanel = () => {
 
   return (
     <div className={classes.root} {...getRootProps()}>
-      <Backdrop open={isDragActive} style={{ zIndex: 1 }}>
+      <Backdrop open={isDragActive} style={{ zIndex: 10 }}>
         <Typography
           variant="h2"
           gutterBottom
@@ -744,6 +744,7 @@ const LimitedDecryptionPanel = () => {
                             width: "200px",
                             minHeight: "50px",
                             maxHeight: "50px",
+                            textAlign: "center",
                           }}
                           primary={File.name}
                           secondary={formatBytes(File.size)}

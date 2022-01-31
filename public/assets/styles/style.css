@@ -15,9 +15,12 @@ body {
   border-radius: 8px;
 }
 
-.darkStyle,
-.darkStyle canvas {
+.darkStyle {
   filter: invert(0.9) hue-rotate(180deg);
+}
+
+.darkStyle canvas {
+  filter: invert(1) hue-rotate(180deg);
 }
 
 .darkStyle .MuiPaper-root {

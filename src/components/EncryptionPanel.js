@@ -626,11 +626,11 @@ export default function EncryptionPanel() {
         autoHideDuration={2000}
         onClose={showSnackBar}
       >
-        <Alert onClose={showSnackBar} severity="success">
+        <Alert severity="success">
           {snackBarMessage}
         </Alert>
       </Snackbar>
-      <Backdrop open={isDragActive} style={{ zIndex: 1 }}>
+      <Backdrop open={isDragActive} style={{ zIndex: 10 }}>
         <Typography
           variant="h2"
           gutterBottom

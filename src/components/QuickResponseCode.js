@@ -88,6 +88,7 @@ const QuickResponseCode = (props) => {
         <DialogContent>
           <div className={classes.form}>
             <QRCode
+              style={{ borderRadius: 8, marginTop:15, boxShadow: "0px 0px 35px 2px rgba(0,0,0,0.2)" }}
               value={url}
               size={200}
               bgColor={"#ffffff"}

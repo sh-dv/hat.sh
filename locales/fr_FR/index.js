@@ -33,7 +33,7 @@ const fr_FR = {
   multiple_tabs_alert: "Alerte à cause de plusieurs fenêtres",
   multiple_tabs_alert_notice_one: "Hat.sh semble être ouvert dans une autre fenêtre.",
   multiple_tabs_alert_notice_two: "Merci d'éviter le chiffrement/déchiffrement de fichier dans plusieurs fenêtres.",
-
+  understand: "je comprends",
   // Common
   file: "fichier",
   files: "fichiers",

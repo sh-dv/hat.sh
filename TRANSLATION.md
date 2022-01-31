@@ -41,7 +41,7 @@ Copy `en_US` file content and create new language folder and file :
 ```
 const de_DE = {
   language_name: "Deutsch",
-  sub_title: "Einfache, schnelle, sichere Datenverschlüsselung",
+  sub_title: "Einfache, schnelle, sichere Client-seitige Dateiverschlüsselung",
 };
 export default de_DE;
 ```

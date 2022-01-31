@@ -21,14 +21,13 @@ const Language = () => {
   const classes = useStyles();
 
   const [language, setLanguage] = useState(checkLocale());
-  const [showSaveBtn, setShowSaveBtn] = useState(false);
 
   const handleLanguageChange = (e) => {
     setLanguage(e.target.value);
     if (localStorage) {
       localStorage.setItem("language", e.target.value);
     }
-    setShowSaveBtn(true);
+    window.location.reload(true);
   };
 
   return (
@@ -48,39 +47,22 @@ const Language = () => {
         </Select>
       </FormControl>
 
-      {showSaveBtn ? (
+      <Hidden xsDown>
         <Alert
           className={classes.formControl}
+          severity="info"
           action={
             <Button
-              onClick={() => window.location.reload(true)}
-              color="inherit"
-              size="small"
+              href="https://github.com/sh-dv/hat.sh/blob/master/TRANSLATION.md"
+              target="_blank"
             >
-              {t("reload")}
+              {t("guide")}
             </Button>
           }
         >
-          {t("language_changed")}
+          {t("help_translate")}
         </Alert>
-      ) : (
-        <Hidden xsDown>
-          <Alert
-            className={classes.formControl}
-            severity="info"
-            action={
-              <Button
-                href="https://github.com/sh-dv/hat.sh/blob/master/TRANSLATION.md"
-                target="_blank"
-              >
-                {t("guide")}
-              </Button>
-            }
-          >
-            {t("help_translate")}
-          </Alert>
-        </Hidden>
-      )}
+      </Hidden>
     </>
   );
 };

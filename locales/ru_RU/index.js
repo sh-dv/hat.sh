@@ -10,7 +10,7 @@ const ru_RU = {
   introduction: "Вступление",
   features: "Возможности",
   installation: "Установка",
-  usage: "Использоваине",
+  usage: "Использование",
   limitations: "Ограничения",
   best_practices: "Рекомендации",
   faq: "ЧАВО",

@@ -146,6 +146,8 @@ The project is maintained in my free time. Donations of any size are appreciated
 - [stophecom](https://github.com/stophecom) from the [Scrt.link](https://scrt.link/) project for translating to German.
 - [bbouille](https://github.com/bbouille) for translating to French.
 - [qaqland](https://github.com/qaqland) for translating to Chinese.
+- [Ser-Bul](https://github.com/Ser-Bul) for translating to Russian.
+- [matteotardito](https://github.com/matteotardito) for translating to Italian.
 
 <br>
 

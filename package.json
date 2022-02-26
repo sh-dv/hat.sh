@@ -17,7 +17,7 @@
     "libsodium-wrappers": "^0.7.9",
     "marked": "4.0.12",
     "next": "^12.0.9",
-    "prismjs": "^1.26.0",
+    "prismjs": "^1.27.0",
     "qrcode.react": "^1.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

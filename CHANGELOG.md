@@ -1,6 +1,12 @@
 # [CHANGELOG](#changelog)
 
 ---
+## v2.3.4
+
+- Update packages
+- Russian translation (by [Ser-Bul](https://github.com/Ser-Bul)).
+- Italian translation (by [matteotardito](https://github.com/matteotardito)).
+
 ## v2.3.3
 
 - Added page loading indicator.

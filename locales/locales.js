@@ -4,7 +4,7 @@ import de_DE from "./de_DE";
 import zh_CN from "./zh_CN";
 import ru_RU from "./ru_RU";
 import it_IT from "./it_IT";
-import it_IT from "./sk_SK";
+import sk_SK from "./sk_SK";
 
 const locales = {
   en_US,

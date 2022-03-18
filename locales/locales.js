@@ -5,6 +5,7 @@ import zh_CN from "./zh_CN";
 import ru_RU from "./ru_RU";
 import it_IT from "./it_IT";
 import sk_SK from "./sk_SK";
+import es_ES from "./es_ES";
 
 const locales = {
   en_US,
@@ -13,7 +14,8 @@ const locales = {
   zh_CN,
   ru_RU,
   it_IT,
-  sk_SK
+  sk_SK,
+  es_ES
 };
 
 export default locales;

@@ -1,6 +1,12 @@
 # [CHANGELOG](#changelog)
 
 ---
+## v2.3.5
+
+- Update packages
+- Slovak translation (by [t0mzSK](https://github.com/t0mzSK)).
+- Spanish translation (by [Xurdejl](https://github.com/Xurdejl)).
+
 ## v2.3.4
 
 - Update packages

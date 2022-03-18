@@ -148,6 +148,8 @@ The project is maintained in my free time. Donations of any size are appreciated
 - [qaqland](https://github.com/qaqland) for translating to Chinese.
 - [Ser-Bul](https://github.com/Ser-Bul) for translating to Russian.
 - [matteotardito](https://github.com/matteotardito) for translating to Italian.
+- [t0mzSK](https://github.com/t0mzSK) for translating to Slovak.
+- [Xurdejl](https://github.com/Xurdejl) for translating to Spanish.
 
 <br>
 

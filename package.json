@@ -1,6 +1,6 @@
 {
   "name": "hat.sh",
-  "version": "2.3.4",
+  "version": "2.3.5",
   "private": true,
   "scripts": {
     "dev": "browserify service-worker/sw.js -o public/service-worker.js && next dev",
@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "browserify": "^17.0.0",
-    "eslint": "8.10.0",
+    "eslint": "8.11.0",
     "eslint-config-next": "12.1.0"
   }
 }

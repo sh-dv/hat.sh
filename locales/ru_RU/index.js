@@ -1,5 +1,5 @@
 const ru_RU = {
-  language_name: "Russian",
+  language_name: "Pусский",
   
   // Menu
   sub_title: "Простое, быстрое, безопасное шифрование файлов на стороне клиента",

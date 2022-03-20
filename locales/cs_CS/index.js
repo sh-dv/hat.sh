@@ -2,7 +2,7 @@ const cs_CS = {
   language_name: "Čeština",
   
   // Menu
-  sub_title: "Jesnoduché, rychlé, bezpečné šifrování souborů v prohlížeči", //client-side replaced by "in browser", other translations would sound extremely weird
+  sub_title: "Jednoduché, rychlé, bezpečné šifrování souborů v prohlížeči", //client-side replaced by "in browser", other translations would sound extremely weird
   home: "Domů",
   about: "Více",
 
@@ -178,7 +178,7 @@ const cs_CS = {
   generate_qr_code: "Vygenerovat QR kód",
   qr_code_note_one: "Tento QR kód obsahuje Váš veřejný klíč. Po jeho naskenování naše aplikace automaticky klíč načte.",
   qr_code_note_two: "S tímto QR kódem nebudou ostatní muset při šifrování ručně vkládat Váš veřejny klíč.",
-  qr_code_note_three: "Tento QR kód byl votvořen offline.",
+  qr_code_note_three: "Tento QR kód byl vytvořen offline.",
   
 };
 

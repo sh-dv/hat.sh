@@ -171,7 +171,7 @@ const cs_CS = {
   download_public_key: "Stáhnout Veřejný Klíč",
   download_private_key: "Stáhnout Soukromý Klíč",
   generate_public_key: "Vygenerovat Veřejný Klíč",
-  generate_private_key: "Vygenerovat Veřejný Klíč",
+  generate_private_key: "Vygenerovat Soukromý Klíč",
   show_private_key: "Ukázat Soukromý Klíč",
   why_need_private_key: "Proč je potřeba můj soukromý klíč?",
   private_key_notice: "Nikomu svůj soukromý klíč nedávejte! Ke sdílení je pouze veřejný klíč.",

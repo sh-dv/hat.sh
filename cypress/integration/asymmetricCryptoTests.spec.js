@@ -117,6 +117,8 @@ describe("Asymmetric encryption test", () => {
 
         cy.get(".downloadFile").realClick();
       });
+
+      cy.wait(2500);
   });
 
   it("verify the encrypted file path", () => {
@@ -194,6 +196,8 @@ describe("Asymmetric encryption test", () => {
 
         cy.get(".downloadFileDec").realClick();
       });
+
+      cy.wait(2500);
   });
 
   it("verify the decrypted file path", () => {

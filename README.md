@@ -150,6 +150,9 @@ The project is maintained in my free time. Donations of any size are appreciated
 - [matteotardito](https://github.com/matteotardito) for translating to Italian.
 - [t0mzSK](https://github.com/t0mzSK) for translating to Slovak.
 - [Xurdejl](https://github.com/Xurdejl) for translating to Spanish.
+- [Franatrtur](https://github.com/Franatrtur) for translating to Czech.
+- [darkao](https://github.com/darkao) for translating to Turkish.
+- [Frank7sun](https://github.com/Frank7sun) for translating to Japanese.
 
 <br>
 

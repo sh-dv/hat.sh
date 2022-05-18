@@ -7,6 +7,7 @@ import it_IT from "./it_IT";
 import sk_SK from "./sk_SK";
 import es_ES from "./es_ES";
 import cs_CS from "./cs_CS";
+import tr_TR from "./tr_TR";
 
 const locales = {
   en_US,
@@ -17,7 +18,8 @@ const locales = {
   it_IT,
   sk_SK,
   es_ES,
-  cs_CS
+  cs_CS,
+  tr_TR
 };
 
 export default locales;

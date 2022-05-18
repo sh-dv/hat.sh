@@ -1,6 +1,13 @@
 # [CHANGELOG](#changelog)
 
 ---
+## v2.3.6
+
+- Update packages
+- Czech translation (by [Franatrtur](https://github.com/Franatrtur)).
+- Turkish translation (by [darkao](https://github.com/darkao)).
+- Japanese translation (by [Frank7sun](https://github.com/Frank7sun)).
+
 ## v2.3.5
 
 - Update packages

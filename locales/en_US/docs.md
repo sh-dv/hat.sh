@@ -611,7 +611,7 @@ Internally, XChaCha20 works like a block cipher used in counter mode. It uses th
 
 ### V2 vs V1
 
-- Switching to xchacha20poly1305 for symmetric stream encryption and Argon2id for password-based key derivation. instead of AES-256-GCM and PBKDF2.
+- Switching to Xchacha20-Poly1305 for symmetric stream encryption and Argon2id for password-based key derivation. Instead of AES-256-GCM and PBKDF2.
 - Using the libsodium library for all cryptography instead of the WebCryptoApi.
 - In this version, the app doesn't read the whole file in memory. Instead, it's sliced into 64MB chunks that are processed one by one.
 - Since we are not using any server-side processing, the app registers a fake download URL (/file) that is going to be handled by the service-worker fetch api.

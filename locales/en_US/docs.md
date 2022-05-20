@@ -23,7 +23,7 @@ The libsodium library is used for all cryptographic algorithms. [Technical detai
 ### Privacy
 
 - The app runs locally in your browser.
-- No data is ever collected or sent to anyone.​
+- No data is ever collected or sent to anyone.
 
 <br>
 
@@ -40,7 +40,7 @@ The libsodium library is used for all cryptographic algorithms. [Technical detai
 # [Installation](#installation)
 
 ---
-It's easy to self host and deploy hat.sh, you can do that either with npm or docker
+It's easy to self host and deploy hat.sh, you can do that either with npm or Docker.
 
 If you wish to self host the app please follow these instructions:
 
@@ -48,44 +48,44 @@ If you wish to self host the app please follow these instructions:
 
 ## With npm
 
-Before installation make sure you are running [nodejs](https://nodejs.org/en/) and have [npm](https://www.npmjs.com/) installed
+Before installation make sure you are running [nodejs](https://nodejs.org/en/) and have [npm](https://www.npmjs.com/) installed.
 
 <br >
 
-1. clone the github repository
+1. Clone the GitHub repository:
 
 ```bash
 git clone https://github.com/sh-dv/hat.sh.git hat.sh
 ```
 
-2. move to the folder
+2. Move to the folder:
 
 ```bash
 cd hat.sh
 ```
 
-3. install dependencies
+3. Install dependencies:
 
 ```bash
 npm install
 ```
 
-4. build app
+4. Build app:
 
 ```bash
 npm run build
 ```
 
-5. start hat.sh
+5. Start hat.sh:
 
 ```bash
 npm run start
 ```
 
-the app should be running on port 3391.
+The app should be running on port 3391.
 <br>
 
-if you wish to run the app in development enviroment run :
+If you wish to run the app in development enviroment run:
 
 <br>
 
@@ -95,21 +95,21 @@ npm run dev
 
 <br>
 
-## With docker
+## With Docker
 
-You can install the app with docker in multiple ways. You are free to choose which method you like.
+You can install the app with Docker in multiple ways. You are free to choose which method you like.
 
 <br>
 
-- #### install from docker hub
+- #### install from Docker Hub
 
-1. pull image from docker hub
+1. Pull image from Docker Hub:
 
 ```bash
 docker pull shdv/hat.sh:latest
 ```
 
-2. run container
+2. Run container:
 
 ```bash
 docker run -d -p 3991:80 shdv/hat.sh
@@ -119,25 +119,25 @@ docker run -d -p 3991:80 shdv/hat.sh
 
 - #### Build an image from source
 
-1. clone the github repository
+1. Clone the GitHub repository:
 
 ```bash
 git clone https://github.com/sh-dv/hat.sh.git hat.sh
 ```
 
-2. move to the folder
+2. Move to the folder:
 
 ```bash
 cd hat.sh
 ```
 
-3. build image using docker
+3. Build image using Docker:
 
 ```bash
 docker build . -t shdv/hat.sh
 ```
 
-4. run container
+4. Run container:
 
 ```bash
 docker run -d -p 3991:80 shdv/hat.sh
@@ -147,25 +147,25 @@ docker run -d -p 3991:80 shdv/hat.sh
 
 - #### Using docker compose
 
-1. clone the github repository
+1. Clone the GitHub repository:
 
 ```bash
 git clone https://github.com/sh-dv/hat.sh.git hat.sh
 ```
 
-2. move to the folder
+2. Move to the folder:
 
 ```bash
 cd hat.sh
 ```
 
-3. build image using docker compose
+3. Build image using Docker compose:
 
 ```bash
 docker compose build
 ```
 
-4. run container
+4. Run container:
 
 ```bash
 docker compose up
@@ -175,7 +175,7 @@ docker compose up
 
 The app should be running on port 3991.
 
-hat.sh is also available as a Docker image. You can find it on [Docker Hub].
+Hat.sh is also available as a Docker image. You can find it on [Docker Hub].
 
 <br>
 
@@ -186,7 +186,7 @@ hat.sh is also available as a Docker image. You can find it on [Docker Hub].
 
 ## File Encryption
 
-- ### using a password
+- ### Using a password
 
 1. Open hat.sh.
 2. Navigate to the Encryption panel.
@@ -196,24 +196,24 @@ hat.sh is also available as a Docker image. You can find it on [Docker Hub].
 
 > You should always use a strong password!
 
-- ### using public and private keys
+- ### Using public and private keys
 
 1. Open hat.sh.
 2. Navigate to the Encryption panel.
 3. Drag & Drop or Select the files that you wish to encrypt.
 4. Choose public key method.
 5. Enter or load recipient's public key and your private key.
-   if you don't have public and private keys you can generate a key pair.
+   If you don't have public and private keys you can generate a key pair.
 6. Download the encrypted file.
 7. Share your public key with the recipient so he will be able to decrypt the file.
 
-> Never share your private key to anyone! Only public keys should be exchanged.
+> **Never** share your private key to anyone! Only public keys should be exchanged.
 
 <br>
 
 ## File Decryption
 
-- ### using a password
+- ### Using a password
 
 1. Open hat.sh.
 2. Navigate to the Decryption panel.
@@ -221,7 +221,7 @@ hat.sh is also available as a Docker image. You can find it on [Docker Hub].
 4. Enter the encryption password.
 5. Download the decrypted file.
 
-- ### using public and private keys
+- ### Using public and private keys
 
 1. Open hat.sh.
 2. Navigate to the Decryption panel.
@@ -237,7 +237,7 @@ hat.sh is also available as a Docker image. You can find it on [Docker Hub].
 
 ### File Signature
 
-Files encrypted with hat.sh are identifiable by looking at the file signature that is used by the app to verify the content of a file, Such signatures are also known as magic numbers or Magic Bytes. These Bytes are authenticated and cannot be changed.
+Files encrypted with hat.sh are identifiable by looking at the file signature that is used by the app to verify the content of a file, such signatures are also known as magic numbers or Magic Bytes. These Bytes are authenticated and cannot be changed.
 
 ### Safari and Mobile Browsers
 
@@ -276,7 +276,7 @@ The file can be shared in any safe file sharing app.
 
 Public keys are allowed to be shared, they can be sent as `.public` file or as text.
 
-> Never share your private key to anyone! Only public keys should be exchanged.
+> **Never** share your private key to anyone! Only public keys should be exchanged.
 
 <br>
 
@@ -308,7 +308,7 @@ No, hat.sh never stores any of your data. It only runs locally in your browser.
 
 ### Is hat.sh free?
 
-Yes, Hat.sh is free and always will be. However, please consider [donating](https://github.com/sh-dv/hat.sh#donations) to support the project.
+Yes, hat.sh is free and always will be. However, please consider [donating](https://github.com/sh-dv/hat.sh#donations) to support the project.
 
 <hr style="height: 1px">
 
@@ -342,13 +342,13 @@ But make sure to never share your private key with anyone!
 
 ### Why the app asks for my private key in the public key encryption mode?
 
-Hat.sh uses authenticated encryption. The sender must provide their private key, a new shared key will be computed from both keys to encrypt the file. Recipient has to provide their private key when decrypting also. this way can verify that the encrypted file was not tampered with, and was sent from the real sender.
+Hat.sh uses authenticated encryption. The sender must provide their private key, a new shared key will be computed from both keys to encrypt the file. Recipient has to provide their private key when decrypting also. This way can verify that the encrypted file was not tampered with, and was sent from the real sender.
 
 <hr style="height: 1px">
 
 ### I have lost my private key, is it possible to recover it?
 
-Nope. lost private keys cannot be recovered.
+Nope. Lost private keys cannot be recovered.
 
 Also, if you feel that your private key has been compromised (e.g accidentally shared / computer hacked) then you must decrypt all files that were encrypted with that key, generate a new keypair and re-encrypt the files.
 
@@ -380,7 +380,7 @@ Hat.sh is an open-source application. You can help make it better by making comm
 
 ### How do I report bugs?
 
-Please report bugs via [Github] by opening an issue labeled with "bug".
+Please report bugs via [GitHub] by opening an issue labeled with "bug".
 
 <hr style="height: 1px">
 
@@ -388,7 +388,7 @@ Please report bugs via [Github] by opening an issue labeled with "bug".
 
 If you identify a valid security issue, please write an email to hatsh-security@pm.me
 
-There is no bounty available at the moment, but your github account will be credited in the acknowledgements section in the app documentation.
+There is no bounty available at the moment, but your GitHub account will be credited in the acknowledgements section in the app documentation.
 
 <hr style="height: 1px">
 
@@ -405,7 +405,7 @@ There is no bounty available at the moment, but your github account will be cred
 
 1. If you want to encrypt a disk (e.g [VeraCrypt]).
 2. If you want to frequently access encrypted files (e.g [Cryptomator]).
-3. If you want to encrypt and sign files in the same tool. (e.g [Kryptor]).
+3. If you want to encrypt and sign files in the same tool (e.g [Kryptor]).
 4. If you prefer a command line tool (e.g [Kryptor]).
 5. If you want something that adheres to industry standards, use [GPG].
 
@@ -457,7 +457,7 @@ The `crypto_pwhash()` function derives an 256 bits long key from a password and 
 
 ### File Encryption (stream)
 
-In order to use the app to encrypt a file, the user has to provide a valid file and a password. this password gets hashed and a secure key is derived from it with Argon2id to encrypt the file.
+In order to use the app to encrypt a file, the user has to provide a valid file and a password. This password gets hashed and a secure key is derived from it with Argon2id to encrypt the file.
 
 <br>
 
@@ -500,9 +500,9 @@ A tag is attached to each message accoring to the value of `last`, which indicat
 The `crypto_secretstream_xchacha20poly1305_push()` function encrypts the file `chunk` using the `state` and the `tag`, without any additional information (`null`).
 <br>
 
-the XChaCha20 stream cipher Poly1305 MAC authentication are used for encryption.
+The XChaCha20 stream cipher Poly1305 MAC authentication are used for encryption.
 
-`stream.enqueue()` function adds the hat.sh signature(magic bytes), salt and header followed by the encrypted chunks.
+`stream.enqueue()` function adds the hat.sh signature (magic bytes), salt and header followed by the encrypted chunks.
 
 ### File Decryption (stream)
 
@@ -576,7 +576,7 @@ return keys;
 ```
 </div>
 
-The `crypto_kx_keypair()` function randomly generates a secret key and a corresponding public key. The public key is put into publicKey and the secret key into privateKey. both of 256 bits.
+The `crypto_kx_keypair()` function randomly generates a secret key and a corresponding public key. The public key is put into publicKey and the secret key into privateKey. Both of 256 bits.
 
 <br>
 
@@ -611,14 +611,14 @@ Internally, XChaCha20 works like a block cipher used in counter mode. It uses th
 
 ### V2 vs V1
 
-- switching to xchacha20poly1305 for symmetric stream encryption and Argon2id for password-based key derivation. instead of AES-256-GCM and PBKDF2.
-- using the libsodium library for all cryptography instead of the WebCryptoApi.
-- in this version, the app doesn't read the whole file in memory. instead, it's sliced into 64MB chunks that are processed one by one.
-- since we are not using any server-side processing, the app registers a fake download URL (/file) that is going to be handled by the service-worker fetch api.
-- if all validations are passed, a new stream is initialized. then, file chunks are transferred from the main app to the
+- Switching to xchacha20poly1305 for symmetric stream encryption and Argon2id for password-based key derivation. instead of AES-256-GCM and PBKDF2.
+- Using the libsodium library for all cryptography instead of the WebCryptoApi.
+- In this version, the app doesn't read the whole file in memory. Instead, it's sliced into 64MB chunks that are processed one by one.
+- Since we are not using any server-side processing, the app registers a fake download URL (/file) that is going to be handled by the service-worker fetch api.
+- If all validations are passed, a new stream is initialized. Then, file chunks are transferred from the main app to the
   service-worker file via messages.
-- each chunk is encrypted/decrypted on it's own and added to the stream.
-- after each chunk is written on disk it is going to be immediately garbage collected by the browser, this leads to never having more than a few chunks in the memory at the same time.
+- Each chunk is encrypted/decrypted on it's own and added to the stream.
+- After each chunk is written on disk it is going to be immediately garbage collected by the browser, this leads to never having more than a few chunks in the memory at the same time.
 
 <br>
 

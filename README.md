@@ -77,7 +77,10 @@ Safari and Mobile browsers are limited to single 1GB files, due to lack of suppo
 | --- | ----------------------------------------- |
 | 1   | [hat.sh](https://hat.sh/)                 |
 | 2   | [hat.now.sh](https://hat.now.sh/)         |
-| 2   | [hat.vercel.app](https://hat.vercel.app/) |
+| 3   | [hat.vercel.app](https://hat.vercel.app/) |
+| 4   | [hat.vern.cc](https://hat.vern.cc/)        |
+| 4   | [hat.vernccvbvyi5qhfzyqengccj7lkove6bjot2xhh5kajhwvidqafczrad.onion](http://hat.vernccvbvyi5qhfzyqengccj7lkove6bjot2xhh5kajhwvidqafczrad.onion/) |
+| 4   | [verndu4wjpud2cs7yoqfbcoorqn2nwajuxi2qdoas2vg4zdddf5a.b32.i2p](http://verndu4wjpud2cs7yoqfbcoorqn2nwajuxi2qdoas2vg4zdddf5a.b32.i2p/)
 
 <br>
 

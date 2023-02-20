@@ -173,7 +173,7 @@ const pl_PL = {
   generate_public_key: "Wygeneruj klucz publiczny",
   generate_private_key: "Wygeneruj klucz prywatny",
   show_private_key: "Pokaż klucz prywatny",
-  Why_need_private_key: "Po co mi mój klucz prywatny?",
+  why_need_private_key: "Po co mi mój klucz prywatny?",
   private_key_notice: "Nigdy nikomu nie udostępniaj swojego klucza prywatnego! Należy wymieniać tylko klucze publiczne.",
   generate_qr_code: "Wygeneruj kod QR",
   qr_code_note_one: "Ten kod QR zawiera Twój klucz publiczny. Po zeskanowaniu urządzenie przekieruje do aplikacji i automatycznie wypełni klucz publiczny.",

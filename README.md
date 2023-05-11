@@ -19,11 +19,11 @@ Encrypt and Decrypt files securely in your browser.
 
 2. ```apt install git```
 
-3. ```git clone https://github.com/WhateverItWorks/my-uptime-kuma-docker-compose.git status```
+3. ```git clone https://github.com/WhateverItWorks/my-hat.sh-docker-compose.git hat```
 
 4. ```nano docker-compose.yml```
 
 5. ```docker-compose up -d```
 
 
-```http://localhost:3001```
+```http://localhost:3991```

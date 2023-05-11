@@ -23,7 +23,7 @@ Encrypt and Decrypt files securely in your browser.
 
 4. ```nano docker-compose.yml```
 
-5. ```docker-compose up -d```
+5. ```docker-compose up -d --build```
 
 
 ```http://localhost:3991```

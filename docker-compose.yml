@@ -1,4 +1,4 @@
-version: "3"
+version: "3.7"
 
 services:
   web:
@@ -6,7 +6,11 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     ports:
-      - 3991:80
+      - '127.0.0.1:3991:80'
     volumes:
       - ./src:/usr/share/nginx/html/out

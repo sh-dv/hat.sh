@@ -3,7 +3,7 @@ const en_US = {
   
   // Menu
   sub_title: "Simple, Fast, & Secure Client-Side File Encryption In The Browser",
-  home: "Home"
+  home: "Home",
 
   // Settings
   settings: "Settings",

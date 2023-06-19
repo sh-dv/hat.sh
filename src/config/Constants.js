@@ -5,7 +5,7 @@ export const crypto_secretstream_xchacha20poly1305_ABYTES = 17;
 export const encoder = new TextEncoder();
 export const decoder = new TextDecoder();
 export const SIGNATURES = {
-  v1: "Encrypted Using Hat.sh",
+  v1: "Encrypted Using Client-side Encryption",
   v2_symmetric: "zDKO6XYXioc",
   v2_asymmetric: "hTWKbfoikeg",
 };

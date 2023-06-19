@@ -4,19 +4,6 @@ const sk_SK = {
   // Menu
   sub_title: "Jednoduché, rýchle a bezpečné šifrovanie súborov na strane klienta",
   home: "Domov",
-  about: "O projekte",
-
-  // About page menu
-  introduction: "Úvod",
-  features: "Funkcie",
-  installation: "Inštalácia",
-  usage: "Použitie",
-  limitations: "Obmedzenia",
-  best_practices: "Osvedčené postupy",
-  faq: "Často kladené otázky",
-  technical_details: "Technické detaily",
-  changelog: "Zoznam zmien",
-  donation_message: "Máte radi hat.sh? Na podporu projektu môžete prispieť.",
 
   // Settings
   settings: "Nastavenia",

@@ -4,19 +4,6 @@ const zh_CN = {
     // Menu
     sub_title: "简洁、快速、安全的用户端文件加密", // simple, fast, secure client-side file encryption
     home: "主页", // home
-    about: "关于",
-  
-    // About page menu
-    introduction: "介绍", // Introduction
-    features: "特点", // Features
-    installation: "安装", // Installation
-    usage: "使用", // Usage
-    limitations: "限制", // Limitations
-    best_practices: "最佳实践", // Best-Practices
-    faq: "问与答", // FAQ
-    technical_details: "技术细节", // Technical-Details
-    changelog: "更新日志", // Changelog
-    donation_message: "喜欢 hat.sh 吗？您可以捐赠来支持本项目", // Love hat.sh? You can donate to support the project.
   
     // Settings
     settings: "设置", // Settings

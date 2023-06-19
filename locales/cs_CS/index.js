@@ -4,19 +4,6 @@ const cs_CS = {
   // Menu
   sub_title: "Jednoduché, rychlé, bezpečné šifrování souborů v prohlížeči", //client-side replaced by "in browser", other translations would sound extremely weird
   home: "Domů",
-  about: "Více",
-
-  // About page menu
-  introduction: "Úvod",
-  features: "Vlastnosti",
-  installation: "Instalace",
-  usage: "Používání",
-  limitations: "Omezení",
-  best_practices: "Správné používání",
-  faq: "FAQ",
-  technical_details: "Technické detaily",
-  changelog: "Záznam změn",
-  donation_message: "Líbí se Vám hat.sh? Můžete projekt podpořit.",
 
   // Settings
   settings: "Nastvení",

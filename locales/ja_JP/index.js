@@ -4,19 +4,6 @@ const ja_JP = {
   // Menu
   sub_title: "シンプル、高速、セキュアなクライアントサイドでのファイル暗号化",
   home: "ホーム",
-  about: "私たちについて",
-
-  // About page menu
-  introduction: "紹介",
-  features: "特徴",
-  installation: "インストール手順",
-  usage: "使用方法",
-  limitations: "制約",
-  best_practices: "ベストプラクティス",
-  faq: "FAQ",
-  technical_details: "技術的な詳細",
-  changelog: "変更履歴",
-  donation_message: "hat.shを気に入ってくれましたか? 寄付をすることでこのプロジェクトを支援できます。",
 
   // Settings
   settings: "設定",

@@ -4,19 +4,6 @@ const de_DE = {
   // Menu
   sub_title: "Einfache, schnelle, sichere Client-seitige Dateiverschlüsselung",
   home: "Startseite",
-  about: "Über",
-
-  // About page menu
-  introduction: "Einführung",
-  features: "Merkmale",
-  installation: "Installation",
-  usage: "Verwendung",
-  limitations: "Beschränkungen",
-  best_practices: "Best Practices",
-  faq: "FAQ",
-  technische_details: "Technische Details",
-  changelog: "Changelog",
-  donation_message: "Liebst du hat.sh? Unterstütze das Projekt mit einer Spende.",
 
   // Settings
   settings: "Einstellungen",

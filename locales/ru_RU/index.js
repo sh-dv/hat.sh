@@ -4,19 +4,6 @@ const ru_RU = {
   // Menu
   sub_title: "Простое, быстрое, безопасное шифрование файлов на стороне клиента",
   home: "Домой",
-  about: "О проекте",
-
-  // About page menu
-  introduction: "Вступление",
-  features: "Возможности",
-  installation: "Установка",
-  usage: "Использование",
-  limitations: "Ограничения",
-  best_practices: "Рекомендации",
-  faq: "ЧАВО",
-  technical_details: "Технические детали",
-  changelog: "История изменений",
-  donation_message: "Нравится hat.sh? Вы можете поддержать проект небольшим взносом.",
 
   // Settings
   settings: "Настройки",

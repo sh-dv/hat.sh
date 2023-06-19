@@ -2,21 +2,8 @@ const en_US = {
   language_name: "English",
   
   // Menu
-  sub_title: "Simple, fast, secure client-side file encryption",
-  home: "Home",
-  about: "About",
-
-  // About page menu
-  introduction: "Introduction",
-  features: "Features",
-  installation: "Installation",
-  usage: "Usage",
-  limitations: "Limitations",
-  best_practices: "Best-Practices",
-  faq: "FAQ",
-  technical_details: "Technical-Details",
-  changelog: "Changelog",
-  donation_message: "Love hat.sh? You can donate to support the project.",
+  sub_title: "Simple, Fast, & Secure Client-Side File Encryption In The Browser",
+  home: "Home"
 
   // Settings
   settings: "Settings",

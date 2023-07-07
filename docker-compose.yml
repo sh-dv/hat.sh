@@ -1,11 +1,13 @@
 version: "3.7"
 
 services:
-  web:
-    image: shdv/hat.sh
+  hat:
     build:
-      context: ./
+      context: .
       dockerfile: Dockerfile
+    #image: shdv/hat.sh:latest
+    container_name: hat
+    hostname: hat
     security_opt:
       - no-new-privileges:true
     cap_drop:

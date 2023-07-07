@@ -157,12 +157,12 @@ export default function Footer() {
           <Typography variant="body1">
             Built and developed by{" "}
             <Link
-              href="https://github.com/sh-dv"
+              href="https://github.com/WhateverItWorks/my-hat.sh-docker-compose"
               target="_blank"
               rel="noopener"
               color="inherit"
             >
-              {"sh-dv"}
+              {"WhateverItWorks"}
             </Link>
           </Typography>
 
@@ -271,17 +271,6 @@ export default function Footer() {
               ))}
             </DialogContent>
             <DialogActions>
-              <Button
-                style={{ marginBottom: 1 }}
-                href="https://ko-fi.com/shdvapps"
-                target="_blank"
-              >
-                <img
-                  src="/assets/icons/ko-fi.png"
-                  width="200"
-                  alt="open collective"
-                ></img>
-              </Button>
               <div style={{ flex: "1 0 0" }} />
               <Button onClick={handleClose} color="primary">
                 {t("close")}

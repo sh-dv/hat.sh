@@ -1,6 +1,21 @@
 # [CHANGELOG](#changelog)
 
 ---
+### v2.3.7
+- Update packages
+- Delete about.js (Removed about page)
+- Removed Centralized Payments
+- Added NGINX CONF EXAMPLE
+- Update Footer.js
+- Update AppBar.js
+- Update Constants.js
+- Update Language.js
+- Update config.js
+- update title
+- Update Dockerfile
+- Cleanup the code for users to self-host easily with docker
+- Build the source with dockerfile to make changes incase the hat.sh maintain owner or myself doesn't feel like doing it do to laziness
+
 ## v2.3.6
 
 - Update packages

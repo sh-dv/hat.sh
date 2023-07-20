@@ -58,9 +58,6 @@ Safari and Mobile browsers are limited to single 1GB files, due to lack of suppo
 | Instance URL                                                                    | Region                           | Notes                                                                                            |
 | ------------------------------------------------------------------------------- | -------------------------------- | ------------------------------------------------------------------------------------------------ |
 | [hat.whateveritworks.org](https://hat.whateveritworks.org)                      | Germany                          | Operated by [WhateverItWorks](https://whateveritworks.org) and [xbdm](https://xbdm.fun)          |
-| [hat.sh](https://hat.sh)                                                        |                                  |                                                                                                  |  
-| [hat.now.sh](https://hat.now.sh)
-| [hat.vercel.app](https://hat.vercel.app)
 
 ### Donations
 The project is maintained in my free time. Donations of any size are appreciated:

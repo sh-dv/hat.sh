@@ -5,7 +5,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    #image: shdv/hat.sh:latest
     container_name: hat
     hostname: hat
     security_opt:

@@ -40,7 +40,7 @@ export default function NavAppBar() {
             </Typography>
 
             <IconButton
-              href="https://github.com/WhateverItWorks/my-hat.sh-docker-compose"
+              href="https://github.com/WhateverItWorks/hat.sh-reworked"
               target="_blank"
               rel="noopener"
             >

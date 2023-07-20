@@ -102,17 +102,17 @@ export default function Footer() {
     {
       type: "monero",
       alt: "xmr",
-      addr: "84zQq4Xt7sq8cmGryuvWsXFMDvBvHjWjnMQXZWQQRXjB1TgoZWS9zBdNcYL7CRbQBqcDdxr4RtcvCgApmQcU6SemVXd7RuG",
+      addr: "",
     },
     {
       type: "bitcoin",
       alt: "btc",
-      addr: "bc1qlfnq8nu2k84h3jth7a27khaq0p2l2gvtyl2dv6",
+      addr: "",
     },
     {
       type: "ethereum",
       alt: "eth",
-      addr: "0xF6F204B044CC73Fa90d7A7e4C5EC2947b83b917e",
+      addr: "",
     },
   ];
 
@@ -157,7 +157,7 @@ export default function Footer() {
           <Typography variant="body1">
             Built and developed by{" "}
             <Link
-              href="https://github.com/WhateverItWorks/my-hat.sh-docker-compose"
+              href="https://github.com/WhateverItWorks/hat.sh-reworked"
               target="_blank"
               rel="noopener"
               color="inherit"

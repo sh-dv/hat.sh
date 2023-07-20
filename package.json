@@ -1,6 +1,6 @@
 {
-  "name": "hat.sh",
-  "version": "2.3.6",
+  "name": "hat.sh-reworked",
+  "version": "2.3.7",
   "private": true,
   "scripts": {
     "dev": "browserify service-worker/sw.js -o public/service-worker.js && next dev",

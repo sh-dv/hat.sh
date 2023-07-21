@@ -16,6 +16,7 @@
 - Cleanup the code for users to self-host easily with docker
 - Build the source with dockerfile to make changes incase the hat.sh maintain owner or myself doesn't feel like doing it do to laziness
 - Update LICENSE.md to GNU Affero General Public License v3.0
+- Changed the Repo name from hat.sh to hat.sh-reworked
 
 ## v2.3.6
 

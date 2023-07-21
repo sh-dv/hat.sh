@@ -1,8 +1,8 @@
-### hat.sh
+### hat.sh-reworked
 
-Hat.sh is a web app that provides secure local file encryption in the browser. It's fast, secure, and uses modern cryptographic algorithms with chunked AEAD stream encryption/decryption.
+Hat.sh-Reworked is a web app that provides secure local file encryption in the browser. It's fast, secure, and uses modern cryptographic algorithms with chunked AEAD stream encryption/decryption.
 
-V2 of hat.sh introduced memory efficient in-browser large file chunked encryption using streams with libsodium.
+V2 of hat.sh-reworked introduced memory efficient in-browser large file chunked encryption using streams with libsodium.
 
 ### Screenshots
 ![](https://camo.githubusercontent.com/f318a430202b6dbec2db62b84bd614720de8dda55f0f0dd362d5ea8ad33a1515/68747470733a2f2f692e696d6775722e636f6d2f4e62415a4f67502e676966)
@@ -35,7 +35,7 @@ https://github.com/WhateverItWorks/Watchtower
 ```
 
 ```
-git clone https://github.com/WhateverItWorks/my-hat.sh-docker-compose.git hat
+git clone https://github.com/WhateverItWorks/hat.sh-reworked.git hat
 cd hat
 nano docker-compose.yml
 docker-compose up -d --build

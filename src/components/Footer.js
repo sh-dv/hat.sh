@@ -199,7 +199,7 @@ export default function Footer() {
             <DialogContent>
               <Hidden xsDown>
                 <DialogContentText style={{ textAlign: "center" }}>
-                  Hat.sh is an open-source application. The project is
+                  Hat.sh-Reworked is an open-source application. The project is
                   maintained in my free time. Donations of any size are
                   appreciated.
                 </DialogContentText>

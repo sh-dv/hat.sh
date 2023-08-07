@@ -78,7 +78,7 @@ The project is maintained in my free time. Donations of any size are appreciated
       <td>Monero</td>
       <td style="word-break: break-word">
         <code
-          >adding soon</code
+          >45K3QyhGGysAGDvFhGnYne3qcajeGmjRXXGZ8p3LeWBxFgiDkZ7XhLuNxDB5QsjS8ySQtHmjGaoWc6Vg5wtfaPmoCHRDmC4</code
         >
       </td>
     </tr>

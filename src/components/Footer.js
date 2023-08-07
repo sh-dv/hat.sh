@@ -102,7 +102,7 @@ export default function Footer() {
     {
       type: "monero",
       alt: "xmr",
-      addr: "",
+      addr: "45K3QyhGGysAGDvFhGnYne3qcajeGmjRXXGZ8p3LeWBxFgiDkZ7XhLuNxDB5QsjS8ySQtHmjGaoWc6Vg5wtfaPmoCHRDmC4",
     },
     {
       type: "bitcoin",

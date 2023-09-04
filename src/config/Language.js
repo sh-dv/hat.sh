@@ -53,7 +53,7 @@ const Language = () => {
           severity="info"
           action={
             <Button
-              href="https://github.com/sh-dv/hat.sh/blob/master/TRANSLATION.md"
+              href="https://github.com/WhateverItWorks/hat.sh-reworked/blob/master/TRANSLATION.md"
               target="_blank"
             >
               {t("guide")}

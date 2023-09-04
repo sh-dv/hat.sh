@@ -4,19 +4,6 @@ const it_IT = {
   // Menu
   sub_title: "Una semplice, veloce e sicura crittografia di file in locale",
   home: "Home",
-  about: "Dettagli",
-
-  // About page menu
-  introduction: "Introduzione",
-  features: "Caratteristiche",
-  installation: "Installazione",
-  usage: "Utilizzo",
-  limitations: "Limitazioni",
-  best_practices: "Consigli sull'utilizzo",
-  faq: "Domande frequenti",
-  technical_details: "Dettagli tecnici",
-  changelog: "Registro modifiche",
-  donation_message: "Ti piace hat.sh? Puoi donare per supportare il progetto.",
 
   // Settings
   settings: "Impostazioni",

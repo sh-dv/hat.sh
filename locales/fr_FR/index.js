@@ -4,19 +4,6 @@ const fr_FR = {
   // Menu
   sub_title: "Chiffrement de fichier simple, rapide et sécurisé",
   home: "accueil",
-  about: "à propos",
-
-  // About page menu
-  introduction: "Introduction",
-  features: "Fonctionnalités",
-  installation: "Installation",
-  usage: "Utilisation",
-  limitations: "Limitations",
-  best_practices: "Bonnes pratiques",
-  faq: "FAQ",
-  technical_details: "Détails techniques",
-  changelog: "Journaux",
-  donation_message: "Vous amez hat.sh? Vous pouvez donner pour supporter le projet.",
 
   // Settings
   settings: "Paramètre",

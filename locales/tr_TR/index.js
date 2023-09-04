@@ -4,19 +4,6 @@ const tr_TR = {
   // Menu
   sub_title: "Basit, hızlı, güvenli istemci taraflı dosya şifreleme",
   home: "Anasayfa",
-  about: "Hakkında",
-
-  // About page menu
-  introduction: "Giriş",
-  features: "Özellikler",
-  installation: "Kurulum",
-  usage: "Kullanım",
-  limitations: "Sınırlandırmalar",
-  best_practices: "En İyi Uygulama",
-  faq: "SSS",
-  technical_details: "Teknik-Detaylar",
-  changelog: "Değişiklik Günlüğü",
-  donation_message: "Hat.sh'yi sevdin mi? Bu projeye bağış yaparak destekleyebilirsin.",
 
   // Settings
   settings: "Ayarlar",

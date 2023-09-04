@@ -4,19 +4,6 @@ const es_ES = {
   // Menu
   sub_title: "Cifrado de archivos del lado del cliente sencillo, rápido y seguro",
   home: "Inicio",
-  about: "Acerca de",
-
-  // About page menu
-  introduction: "Introducción",
-  features: "Características",
-  installation: "Instalación",
-  usage: "Uso",
-  limitations: "Limitaciones",
-  best_practices: "Mejores practicas",
-  faq: "FAQ",
-  technical_details: "Detalles técnicos",
-  changelog: "Registro de cambios",
-  donation_message: "¿Te encanta hat.sh? Puedes donar para apoyar el proyecto.",
 
   // Settings
   settings: "Ajustes",

@@ -388,7 +388,7 @@ Please report bugs via [Github] by opening an issue labeled with "bug".
 
 If you identify a valid security issue, please write an email to hatsh-security@pm.me
 
-There is no bounty available at the moment, but your github account will be credited in the acknowledgements section in the app documentation.
+There is no bounty available at the moment, but your github account will be credited in the acknowledgments section in the app documentation.
 
 <hr style="height: 1px">
 

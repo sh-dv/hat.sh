@@ -1,4 +1,3 @@
-
 <p align="center">
   <a href="#" rel="noopener">
  <img src="https://i.imgur.com/8b0GE2B.png" width="180"></a>
@@ -14,17 +13,6 @@
 [![Node.js CI](https://github.com/sh-dv/hat.sh/actions/workflows/node.js.yml/badge.svg?branch=master)](https://github.com/sh-dv/hat.sh/actions/workflows/node.js.yml)
 [![Snyk](https://github.com/sh-dv/hat.sh/actions/workflows/snyk.yml/badge.svg)](https://github.com/sh-dv/hat.sh/actions/workflows/snyk.yml)
 
-</div>
-
----
-
-<div>
-  ## Fork changes
-
-<strong>27/02/'24</strong>
-- added Dutch translation
-
-<br>
 </div>
 
 ---

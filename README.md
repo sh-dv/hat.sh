@@ -1,11 +1,3 @@
-<div>
-  ## Fork changes
-
-<strong>27/02/'24</strong>
-- added Dutch translation
-
-<br>
-</div>
 
 <p align="center">
   <a href="#" rel="noopener">
@@ -22,6 +14,17 @@
 [![Node.js CI](https://github.com/sh-dv/hat.sh/actions/workflows/node.js.yml/badge.svg?branch=master)](https://github.com/sh-dv/hat.sh/actions/workflows/node.js.yml)
 [![Snyk](https://github.com/sh-dv/hat.sh/actions/workflows/snyk.yml/badge.svg)](https://github.com/sh-dv/hat.sh/actions/workflows/snyk.yml)
 
+</div>
+
+---
+
+<div>
+  ## Fork changes
+
+<strong>27/02/'24</strong>
+- added Dutch translation
+
+<br>
 </div>
 
 ---

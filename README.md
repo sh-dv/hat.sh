@@ -1,7 +1,9 @@
 ## Fork changes
 
-27/02/'24
-  - Added dutch translation
+<strong>27/02/'24</strong>
+- added Dutch translation
+
+<br>
 
 
 <p align="center">

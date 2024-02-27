@@ -1,10 +1,11 @@
-## Fork changes
+<div>
+  ## Fork changes
 
 <strong>27/02/'24</strong>
 - added Dutch translation
 
 <br>
-
+</div>
 
 <p align="center">
   <a href="#" rel="noopener">

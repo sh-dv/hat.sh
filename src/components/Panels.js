@@ -8,6 +8,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Container from "@material-ui/core/Container";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import Box from "@material-ui/core/Box";
 import { getTranslations as t } from "../../locales";
 
 const StyledTabs = withStyles({
@@ -52,20 +53,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
+// ----------------------------------------
+// FIX: aceptar className explícitamente
+// ----------------------------------------
+function TabPanel({ children, value, index, className, ...other }) {
   return (
-    <div
-      component="div"
+    <Box
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
+      className={className}
       {...other}
     >
-      {children}
-    </div>
+      {value === index && children}
+    </Box>
   );
 }
 
@@ -73,6 +75,7 @@ TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
   value: PropTypes.any.isRequired,
+  className: PropTypes.string,
 };
 
 export default function CustomizedTabs() {
@@ -89,14 +92,9 @@ export default function CustomizedTabs() {
   };
 
   useEffect(() => {
-    if (query.tab && query.tab === "encryption") {
-      setValue(encryption.tab);
-    }
-
-    if (query.tab && query.tab === "decryption") {
-      setValue(decryption.tab);
-    }
-  }, [decryption.tab, encryption.tab, query.tab]);
+    if (query.tab === "encryption") setValue(encryption.tab);
+    if (query.tab === "decryption") setValue(decryption.tab);
+  }, [query.tab]);
 
   return (
     <>
@@ -120,6 +118,7 @@ export default function CustomizedTabs() {
         >
           <EncryptionPanel />
         </TabPanel>
+
         <TabPanel
           value={value}
           index={decryption.tab}

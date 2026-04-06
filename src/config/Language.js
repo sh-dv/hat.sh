@@ -1,16 +1,17 @@
 import { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import { Button, Hidden } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
+import { makeStyles } from "tss-react/mui";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import { Button } from "@mui/material";
+import { Alert } from "@mui/material";
+import Box from "@mui/material/Box";
 import { checkLocale } from "../../locales";
 import { getTranslations as t } from "../../locales";
 import locales from "../../locales/locales";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Language = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   const [language, setLanguage] = useState(checkLocale());
 
@@ -47,7 +48,7 @@ const Language = () => {
         </Select>
       </FormControl>
 
-      <Hidden xsDown>
+      <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
         <Alert
           className={classes.formControl}
           severity="info"
@@ -62,7 +63,7 @@ const Language = () => {
         >
           {t("help_translate")}
         </Alert>
-      </Hidden>
+      </Box>
     </>
   );
 };

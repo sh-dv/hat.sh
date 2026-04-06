@@ -1,5 +1,5 @@
-import { createTheme } from "@material-ui/core/styles";
-import { FormControlLabel, Switch } from "@material-ui/core";
+import { createTheme } from "@mui/material/styles";
+import { FormControlLabel, Switch } from "@mui/material";
 import { useState } from "react";
 import { getTranslations as t } from "../../locales";
 

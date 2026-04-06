@@ -1,5 +1,16 @@
-import zxcvbn from "zxcvbn";
+import { zxcvbn, zxcvbnOptions } from "@zxcvbn-ts/core";
+import * as zxcvbnCommonPackage from "@zxcvbn-ts/language-common";
+import * as zxcvbnEnPackage from "@zxcvbn-ts/language-en";
 import { getTranslations as t } from "../../locales";
+
+zxcvbnOptions.setOptions({
+  translations: zxcvbnEnPackage.translations,
+  graphs: zxcvbnCommonPackage.adjacencyGraphs,
+  dictionary: {
+    ...zxcvbnCommonPackage.dictionary,
+    ...zxcvbnEnPackage.dictionary,
+  },
+});
 
 const minute = 60,
       hour = minute * 60,
@@ -42,7 +53,7 @@ const display_time = (seconds) => {
 const passwordStrengthCheck = (password) => {
   let strengthResult = zxcvbn(password);
   let score = strengthResult.score;
-  let crackTimeInSeconds = strengthResult.crack_times_seconds.offline_slow_hashing_1e4_per_second;
+  let crackTimeInSeconds = strengthResult.crackTimesSeconds.offlineSlowHashing1e4PerSecond;
   let crackTime = display_time(crackTimeInSeconds);
 
   return [strength[score], crackTime];

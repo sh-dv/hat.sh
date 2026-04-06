@@ -1,6 +1,12 @@
 # [CHANGELOG](#changelog)
 
 ---
+## v2.3.7+brw
+
+- Replace browserify with esbuild for service worker bundling to fix build failure caused by libsodium 0.7.16 using ES2020+ syntax (`?.` optional chaining) unsupported by browserify's parser.
+- Fix `@zxcvbn-ts/core` v3 API change: `ZxcvbnOptions` (class) renamed to `zxcvbnOptions` (singleton instance).
+- Add Emotion cache setup (`@emotion/server`, `createEmotionCache`) required by updated MUI/tss-react for SSR prerendering compatibility.
+
 ## v2.3.6
 
 - Update packages

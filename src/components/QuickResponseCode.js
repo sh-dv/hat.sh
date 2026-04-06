@@ -1,17 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import { IconButton, Tooltip, Button, TextField } from "@material-ui/core";
+import { makeStyles } from "tss-react/mui";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { IconButton, Tooltip, Button, TextField } from "@mui/material";
 import { getTranslations as t } from "../../locales";
-import FileCopyIcon from "@material-ui/icons/FileCopy";
-let QRCode = require("qrcode.react");
+import FileCopyIcon from "@mui/icons-material/FileCopy";
+import { QRCodeCanvas } from "qrcode.react";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   form: {
     display: "flex",
     flexDirection: "column",
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const QuickResponseCode = (props) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const [open, setOpen] = useState(false);
 
   let url =
@@ -87,19 +87,16 @@ const QuickResponseCode = (props) => {
         <DialogTitle id="alert-dialog-title" />
         <DialogContent>
           <div className={classes.form}>
-            <QRCode
+            <QRCodeCanvas
               style={{ borderRadius: 8, marginTop:15, boxShadow: "0px 0px 35px 2px rgba(0,0,0,0.2)" }}
               value={url}
               size={200}
               bgColor={"#ffffff"}
               fgColor={"#000000"}
               level={"M"}
-              includeMargin={true}
-              renderAs={"canvas"}
+              marginSize={4}
               imageSettings={{
                 src: "/assets/icons/qr-logo.png",
-                x: null,
-                y: null,
                 height: 40,
                 width: 40,
                 excavate: false,

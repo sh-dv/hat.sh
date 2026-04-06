@@ -11,41 +11,40 @@ import {
   SIGNATURES,
   decoder,
 } from "../../config/Constants";
-import { Alert, AlertTitle } from "@material-ui/lab";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Stepper from "@material-ui/core/Stepper";
-import Step from "@material-ui/core/Step";
-import StepLabel from "@material-ui/core/StepLabel";
-import StepContent from "@material-ui/core/StepContent";
-import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import Backdrop from "@material-ui/core/Backdrop";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
-import Collapse from "@material-ui/core/Collapse";
-import RefreshIcon from "@material-ui/icons/Refresh";
-import DescriptionIcon from "@material-ui/icons/Description";
-import GetAppIcon from "@material-ui/icons/GetApp";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import AttachFileIcon from "@material-ui/icons/AttachFile";
-import CloseIcon from "@material-ui/icons/Close";
+import { Alert, AlertTitle } from "@mui/material";
+import { makeStyles } from "tss-react/mui";
+import Grid from "@mui/material/Grid";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import StepContent from "@mui/material/StepContent";
+import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import Collapse from "@mui/material/Collapse";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import DescriptionIcon from "@mui/icons-material/Description";
+import GetAppIcon from "@mui/icons-material/GetApp";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import CloseIcon from "@mui/icons-material/Close";
 import {
   List,
   ListItem,
-  ListItemSecondaryAction,
   ListItemText,
-} from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { getTranslations as t } from "../../../locales";
 
 const _sodium = require("libsodium-wrappers");
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   root: {
     width: "100%",
   },
@@ -57,16 +56,6 @@ const useStyles = makeStyles((theme) => ({
   stepper: {
     backgroundColor: "transparent",
   },
-  stepIcon: {
-    "&$activeStepIcon": {
-      color: theme.palette.emperor.main,
-    },
-    "&$completedStepIcon": {
-      color: theme.palette.emperor.main,
-    },
-  },
-  activeStepIcon: {},
-  completedStepIcon: {},
 
   button: {
     marginTop: theme.spacing(1),
@@ -150,7 +139,7 @@ let file,
   decTx;
 
 const LimitedDecryptionPanel = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   const [activeStep, setActiveStep] = useState(0);
 
@@ -697,17 +686,13 @@ const LimitedDecryptionPanel = () => {
         activeStep={activeStep}
         orientation="vertical"
         className={classes.stepper}
+        sx={{
+          "& .MuiStepIcon-root.Mui-active": { color: "emperor.main" },
+          "& .MuiStepIcon-root.Mui-completed": { color: "emperor.main" },
+        }}
       >
         <Step key={1}>
-          <StepLabel
-            StepIconProps={{
-              classes: {
-                root: classes.stepIcon,
-                active: classes.activeStepIcon,
-                completed: classes.completedStepIcon,
-              },
-            }}
-          >
+          <StepLabel>
             {t("choose_file_dec")}
           </StepLabel>
           <StepContent>
@@ -738,6 +723,16 @@ const LimitedDecryptionPanel = () => {
                           borderRadius: "8px",
                           padding: 15,
                         }}
+                        secondaryAction={
+                          <IconButton
+                            style={{ marginTop: 40 }}
+                            onClick={() => removeFile()}
+                            edge="end"
+                            aria-label="delete"
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        }
                       >
                         <ListItemText
                           style={{
@@ -749,16 +744,6 @@ const LimitedDecryptionPanel = () => {
                           primary={File.name}
                           secondary={formatBytes(File.size)}
                         />
-                        <ListItemSecondaryAction>
-                          <IconButton
-                            style={{ marginTop: 40 }}
-                            onClick={() => removeFile()}
-                            edge="end"
-                            aria-label="delete"
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </ListItemSecondaryAction>
                       </ListItem>
                     ) : (
                       t("drag_drop")
@@ -841,15 +826,7 @@ const LimitedDecryptionPanel = () => {
         </Step>
 
         <Step key={2}>
-          <StepLabel
-            StepIconProps={{
-              classes: {
-                root: classes.stepIcon,
-                active: classes.activeStepIcon,
-                completed: classes.completedStepIcon,
-              },
-            }}
-          >
+          <StepLabel>
             {decryptionMethod === "secretKey"
               ? t("enter_password_dec")
               : t("enter_keys_dec")}
@@ -1054,15 +1031,7 @@ const LimitedDecryptionPanel = () => {
         </Step>
 
         <Step key={3}>
-          <StepLabel
-            StepIconProps={{
-              classes: {
-                root: classes.stepIcon,
-                active: classes.activeStepIcon,
-                completed: classes.completedStepIcon,
-              },
-            }}
-          >
+          <StepLabel>
             {t("download_decrypted_file")}
           </StepLabel>
         </Step>

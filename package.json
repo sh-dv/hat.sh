@@ -1,32 +1,37 @@
 {
   "name": "hat.sh",
-  "version": "2.3.6",
+  "version": "2.3.7+brw",
   "private": true,
   "scripts": {
-    "dev": "browserify service-worker/sw.js -o public/service-worker.js && next dev",
-    "build": "browserify service-worker/sw.js -o public/service-worker.js && next build && next export",
+    "dev": "esbuild service-worker/sw.js --bundle --platform=browser --outfile=public/service-worker.js && next dev",
+    "build": "esbuild service-worker/sw.js --bundle --platform=browser --outfile=public/service-worker.js && next build",
     "postbuild": "node ./post-build.js",
     "start": "next start -p 3991",
     "lint": "next lint",
     "test": "cypress open"
   },
   "dependencies": {
-    "@material-ui/core": "^4.12.4",
-    "@material-ui/icons": "^4.11.3",
-    "@material-ui/lab": "^4.0.0-alpha.61",
-    "libsodium-wrappers": "^0.7.10",
-    "marked": "4.0.16",
-    "next": "^12.1.6",
-    "prismjs": "^1.28.0",
-    "qrcode.react": "^1.0.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-dropzone": "^14.2.1",
-    "zxcvbn": "^4.4.2"
+    "@emotion/react": "^11.14.0",
+    "@emotion/server": "^11.11.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.3.9",
+    "@mui/material": "^7.3.9",
+    "@zxcvbn-ts/core": "^3.0.4",
+    "@zxcvbn-ts/language-common": "^3.0.4",
+    "@zxcvbn-ts/language-en": "^3.0.2",
+    "libsodium-wrappers": "^0.7.16",
+    "marked": "^17.0.5",
+    "next": "^15.5.14",
+    "prismjs": "^1.30.0",
+    "qrcode.react": "^4.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-dropzone": "^15.0.0",
+    "tss-react": "^4.9.20"
   },
   "devDependencies": {
-    "browserify": "^17.0.0",
-    "eslint": "8.15.0",
-    "eslint-config-next": "12.1.6"
+    "esbuild": "^0.25.0",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^15.5.14"
   }
 }

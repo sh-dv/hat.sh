@@ -3,35 +3,36 @@ import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import EncryptionPanel from "./EncryptionPanel";
 import DecryptionPanel from "./DecryptionPanel";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Container from "@material-ui/core/Container";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
+import { makeStyles } from "tss-react/mui";
+import { styled } from "@mui/material/styles";
+import AppBar from "@mui/material/AppBar";
+import Container from "@mui/material/Container";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 import { getTranslations as t } from "../../locales";
 
-const StyledTabs = withStyles({
-  indicator: {
+const StyledTabs = styled((props) => (
+  <Tabs {...props} TabIndicatorProps={{ children: <span /> }} />
+))({
+  "& .MuiTabs-indicator": {
     display: "none",
   },
-})((props) => <Tabs {...props} TabIndicatorProps={{ children: <span /> }} />);
+});
 
-const StyledTab = withStyles((theme) => ({
-  root: {
+const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
+  ({ theme }) => ({
     textTransform: "none",
     padding: "8px",
     transition: "background-color 0.2s ease-out",
-
-    "&$selected": {
+    "&.Mui-selected": {
       backgroundColor: theme.palette.white.main,
       boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
       borderRadius: "8px",
     },
-  },
-  selected: {},
-}))((props) => <Tab disableRipple {...props} />);
+  })
+);
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   root: {
     maxWidth: "768px",
   },
@@ -76,7 +77,7 @@ TabPanel.propTypes = {
 };
 
 export default function CustomizedTabs() {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const router = useRouter();
   const query = router.query;
   const [value, setValue] = useState(0);

@@ -1,15 +1,19 @@
 /* eslint-disable @next/next/no-sync-scripts */
 import Head from "next/head";
+import { CacheProvider } from "@emotion/react";
 import { getTranslations as t } from "../locales";
 import "../public/assets/styles/style.css";
 import { checkTheme } from "../src/config/Theme";
+import createEmotionCache from "../src/createEmotionCache";
 
 //check wether the user prefers/chose dark theme
 checkTheme();
 
-function MyApp({ Component, pageProps }) {
+const clientSideEmotionCache = createEmotionCache();
+
+function MyApp({ Component, pageProps, emotionCache = clientSideEmotionCache }) {
   return (
-    <>
+    <CacheProvider value={emotionCache}>
       <Head>
         <title>
           {"Hat.sh"}
@@ -41,7 +45,7 @@ function MyApp({ Component, pageProps }) {
       </Head>
 
       <Component {...pageProps} />
-    </>
+    </CacheProvider>
   );
 }
 

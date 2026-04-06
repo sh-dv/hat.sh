@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import { makeStyles } from "@material-ui/core/styles";
-import Backdrop from "@material-ui/core/Backdrop";
+import { makeStyles } from "tss-react/mui";
+import Backdrop from "@mui/material/Backdrop";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   backDrop: {
     backgroundColor: theme.palette.alabaster.main,
     opacity: "96%",
@@ -51,8 +51,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LoadingCom = (props) => {
-  const classes = useStyles();
-  
+  const { classes } = useStyles();
+
 
   return (
     <Backdrop className={classes.backDrop} open={props.open}>

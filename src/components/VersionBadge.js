@@ -1,8 +1,8 @@
 import { currentVersion } from "../config/Constants";
-import { makeStyles } from "@material-ui/core/styles";
-import Chip from "@material-ui/core/Chip";
+import { makeStyles } from "tss-react/mui";
+import Chip from "@mui/material/Chip";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   chip: {
     backgroundColor: theme.palette.gallery.main,
     color: theme.palette.mountainMist.main,
@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const VersionBadge = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   return (
     <Chip className={classes.chip} label={"v" + currentVersion} size="small" />
   );

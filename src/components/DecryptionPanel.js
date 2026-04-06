@@ -8,42 +8,41 @@ import {
   crypto_secretstream_xchacha20poly1305_ABYTES,
   CHUNK_SIZE,
 } from "../config/Constants";
-import { Alert, AlertTitle } from "@material-ui/lab";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Stepper from "@material-ui/core/Stepper";
-import Step from "@material-ui/core/Step";
-import StepLabel from "@material-ui/core/StepLabel";
-import StepContent from "@material-ui/core/StepContent";
-import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import TextField from "@material-ui/core/TextField";
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
-import Backdrop from "@material-ui/core/Backdrop";
-import Collapse from "@material-ui/core/Collapse";
-import LockOpenIcon from "@material-ui/icons/LockOpen";
-import RefreshIcon from "@material-ui/icons/Refresh";
-import DescriptionIcon from "@material-ui/icons/Description";
-import GetAppIcon from "@material-ui/icons/GetApp";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import AttachFileIcon from "@material-ui/icons/AttachFile";
-import CloseIcon from "@material-ui/icons/Close";
-import AddIcon from "@material-ui/icons/Add";
-import RotateLeftIcon from "@material-ui/icons/RotateLeft";
+import { Alert, AlertTitle } from "@mui/material";
+import { makeStyles } from "tss-react/mui";
+import Grid from "@mui/material/Grid";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import StepContent from "@mui/material/StepContent";
+import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import CircularProgress from "@mui/material/CircularProgress";
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import Backdrop from "@mui/material/Backdrop";
+import Collapse from "@mui/material/Collapse";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import DescriptionIcon from "@mui/icons-material/Description";
+import GetAppIcon from "@mui/icons-material/GetApp";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import CloseIcon from "@mui/icons-material/Close";
+import AddIcon from "@mui/icons-material/Add";
+import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 import { getTranslations as t } from "../../locales";
 import {
   List,
   ListItem,
-  ListItemSecondaryAction,
   ListItemText,
-} from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   root: {
     width: "100%",
   },
@@ -55,17 +54,6 @@ const useStyles = makeStyles((theme) => ({
   stepper: {
     backgroundColor: "transparent",
   },
-
-  stepIcon: {
-    "&$activeStepIcon": {
-      color: theme.palette.emperor.main,
-    },
-    "&$completedStepIcon": {
-      color: theme.palette.emperor.main,
-    },
-  },
-  activeStepIcon: {},
-  completedStepIcon: {},
 
   button: {
     marginTop: theme.spacing(1),
@@ -205,7 +193,7 @@ let file,
   publicKey;
 
 export default function DecryptionPanel() {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   const router = useRouter();
 
@@ -655,7 +643,7 @@ export default function DecryptionPanel() {
   }, [query.publicKey, query.tab]);
 
   useEffect(() => {
-    navigator.serviceWorker.addEventListener("message", (e) => {
+    const handleSWMessage = (e) => {
       switch (e.data.reply) {
         case "badFile":
           if (numberOfFiles > 1) {
@@ -800,7 +788,9 @@ export default function DecryptionPanel() {
           }
           break;
       }
-    });
+    };
+    navigator.serviceWorker.addEventListener("message", handleSWMessage);
+    return () => navigator.serviceWorker.removeEventListener("message", handleSWMessage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -847,17 +837,13 @@ export default function DecryptionPanel() {
         activeStep={activeStep}
         orientation="vertical"
         className={classes.stepper}
+        sx={{
+          "& .MuiStepIcon-root.Mui-active": { color: "emperor.main" },
+          "& .MuiStepIcon-root.Mui-completed": { color: "emperor.main" },
+        }}
       >
         <Step key={1}>
-          <StepLabel
-            StepIconProps={{
-              classes: {
-                root: classes.stepIcon,
-                active: classes.activeStepIcon,
-                completed: classes.completedStepIcon,
-              },
-            }}
-          >
+          <StepLabel>
             {t("choose_files_dec")}
           </StepLabel>
           <StepContent>
@@ -874,13 +860,7 @@ export default function DecryptionPanel() {
                           <ListItem
                             key={index}
                             className={classes.filesListItem}
-                          >
-                            <ListItemText
-                              className={classes.filesListItemText}
-                              primary={file.name}
-                              secondary={formatBytes(file.size)}
-                            />
-                            <ListItemSecondaryAction>
+                            secondaryAction={
                               <IconButton
                                 style={{ marginTop: 40 }}
                                 onClick={() => updateFilesInput(index)}
@@ -889,7 +869,13 @@ export default function DecryptionPanel() {
                               >
                                 <DeleteIcon />
                               </IconButton>
-                            </ListItemSecondaryAction>
+                            }
+                          >
+                            <ListItemText
+                              className={classes.filesListItemText}
+                              primary={file.name}
+                              secondary={formatBytes(file.size)}
+                            />
                           </ListItem>
                         ))
                       : t("drag_drop_files")}
@@ -991,15 +977,7 @@ export default function DecryptionPanel() {
         </Step>
 
         <Step key={2}>
-          <StepLabel
-            StepIconProps={{
-              classes: {
-                root: classes.stepIcon,
-                active: classes.activeStepIcon,
-                completed: classes.completedStepIcon,
-              },
-            }}
-          >
+          <StepLabel>
             {decryptionMethod === "secretKey"
               ? t("enter_password_dec")
               : t("enter_keys_dec")}
@@ -1223,15 +1201,7 @@ export default function DecryptionPanel() {
         </Step>
 
         <Step key={3}>
-          <StepLabel
-            StepIconProps={{
-              classes: {
-                root: classes.stepIcon,
-                active: classes.activeStepIcon,
-                completed: classes.completedStepIcon,
-              },
-            }}
-          >
+          <StepLabel>
             {t("download_decrypted_files")}
           </StepLabel>
 

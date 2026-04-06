@@ -1,18 +1,18 @@
 import { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import SettingsIcon from "@material-ui/icons/Settings";
+import { makeStyles } from "tss-react/mui";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import SettingsIcon from "@mui/icons-material/Settings";
 import Language from "../config/Language";
 import { DarkMode } from "../config/Theme";
 import { getTranslations as t } from "../../locales";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   topScrollPaper: {
     alignItems: "start",
     marginTop: "20vh",
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Settings = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {

@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "tss-react/mui";
 import NavAppBar from "../components/AppBar";
 import Hero from "../components/Hero";
 import Panels from "../components/Panels";
@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 import CheckMultipleTabs from "../config/CheckMultipleTabs";
 
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   body: {
     backgroundColor: theme.palette.alabaster.main,
     minHeight: "100vh",
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 
 const MainContainer = () => {
 
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <div className={classes.body}>

@@ -5,53 +5,55 @@ import path from "path";
 import { marked } from "marked";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import AppBar from "@material-ui/core/AppBar";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Divider from "@material-ui/core/Divider";
-import Drawer from "@material-ui/core/Drawer";
-import Hidden from "@material-ui/core/Hidden";
-import IconButton from "@material-ui/core/IconButton";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import MenuIcon from "@material-ui/icons/Menu";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import AppBar from "@mui/material/AppBar";
+import CssBaseline from "@mui/material/CssBaseline";
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import MenuIcon from "@mui/icons-material/Menu";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import { makeStyles } from "tss-react/mui";
+import { useTheme } from "@mui/material/styles";
 import Link from "next/link";
-import Container from "@material-ui/core/Container";
-import Button from "@material-ui/core/Button";
-import GitHubIcon from "@material-ui/icons/GitHub";
+import Container from "@mui/material/Container";
+import Button from "@mui/material/Button";
+import GitHubIcon from "@mui/icons-material/GitHub";
 import Footer from "../src/components/Footer";
-import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
-import StarsIcon from "@material-ui/icons/Stars";
-import GetAppIcon from "@material-ui/icons/GetApp";
-import EmojiObjectsIcon from "@material-ui/icons/EmojiObjects";
-import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
-import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
-import MenuBookIcon from "@material-ui/icons/MenuBook";
-import LiveHelpIcon from "@material-ui/icons/LiveHelp";
-import HistoryIcon from "@material-ui/icons/History";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import StarsIcon from "@mui/icons-material/Stars";
+import GetAppIcon from "@mui/icons-material/GetApp";
+import EmojiObjectsIcon from "@mui/icons-material/EmojiObjects";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+import LiveHelpIcon from "@mui/icons-material/LiveHelp";
+import HistoryIcon from "@mui/icons-material/History";
 import prism from "prismjs";
 import Settings from "../src/components/Settings";
-import { ThemeProvider } from "@material-ui/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import { Theme, checkTheme } from "../src/config/Theme";
 import locales from "../locales/locales";
 import { getTranslations as t } from "../locales";
 const drawerWidth = 240;
 
-marked.setOptions({
-  highlight: function (code, lang) {
-    if (prism.languages[lang]) {
-      return prism.highlight(code, prism.languages[lang], lang);
-    } else {
-      return code;
-    }
+marked.use({
+  renderer: {
+    code({ text, lang }) {
+      if (lang && prism.languages[lang]) {
+        return `<pre><code class="language-${lang}">${prism.highlight(text, prism.languages[lang], lang)}</code></pre>`;
+      }
+      return `<pre><code>${text}</code></pre>`;
+    },
   },
 });
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   root: {
     backgroundColor: Theme.palette.alabaster.main,
     minHeight: "100vh",
@@ -226,7 +228,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function About(props) {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [docContent, setDocContent] = useState("");
@@ -366,7 +368,7 @@ export default function About(props) {
 
         <nav className={classes.drawer} aria-label="mailbox folders">
           {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-          <Hidden smUp implementation="css">
+          <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
             <Drawer
               variant="temporary"
               anchor="left"
@@ -381,8 +383,8 @@ export default function About(props) {
             >
               {drawer}
             </Drawer>
-          </Hidden>
-          <Hidden xsDown implementation="css">
+          </Box>
+          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             <Drawer
               classes={{
                 paper: classes.drawerPaper,
@@ -392,15 +394,15 @@ export default function About(props) {
             >
               {drawer}
             </Drawer>
-          </Hidden>
+          </Box>
         </nav>
         <main className={classes.content}>
           <Container maxWidth="lg">
             <div className={classes.toolbar} />
 
-            <div dangerouslySetInnerHTML={{ __html: marked(docContent) }}></div>
+            <div dangerouslySetInnerHTML={{ __html: marked.parse(docContent) }}></div>
             <div
-              dangerouslySetInnerHTML={{ __html: marked(props.changelog) }}
+              dangerouslySetInnerHTML={{ __html: marked.parse(props.changelog) }}
             ></div>
           </Container>
         </main>

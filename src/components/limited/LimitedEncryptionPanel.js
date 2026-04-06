@@ -12,51 +12,50 @@ import {
 } from "../../config/Constants";
 import { formatBytes } from "../../helpers/formatBytes";
 import { computePublicKey } from "../../utils/computePublicKey";
-import { Alert, AlertTitle } from "@material-ui/lab";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Stepper from "@material-ui/core/Stepper";
-import Step from "@material-ui/core/Step";
-import StepLabel from "@material-ui/core/StepLabel";
-import StepContent from "@material-ui/core/StepContent";
-import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import Tooltip from "@material-ui/core/Tooltip";
-import Backdrop from "@material-ui/core/Backdrop";
-import IconButton from "@material-ui/core/IconButton";
-import Snackbar from "@material-ui/core/Snackbar";
-import FileCopyIcon from "@material-ui/icons/FileCopy";
-import RefreshIcon from "@material-ui/icons/Refresh";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import DescriptionIcon from "@material-ui/icons/Description";
-import GetAppIcon from "@material-ui/icons/GetApp";
-import CachedIcon from "@material-ui/icons/Cached";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import AttachFileIcon from "@material-ui/icons/AttachFile";
-import LinkIcon from "@material-ui/icons/Link";
-import Collapse from "@material-ui/core/Collapse";
-import CloseIcon from "@material-ui/icons/Close";
+import { Alert, AlertTitle } from "@mui/material";
+import { makeStyles } from "tss-react/mui";
+import Grid from "@mui/material/Grid";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import StepContent from "@mui/material/StepContent";
+import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import CircularProgress from "@mui/material/CircularProgress";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import Tooltip from "@mui/material/Tooltip";
+import Backdrop from "@mui/material/Backdrop";
+import IconButton from "@mui/material/IconButton";
+import Snackbar from "@mui/material/Snackbar";
+import FileCopyIcon from "@mui/icons-material/FileCopy";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import DescriptionIcon from "@mui/icons-material/Description";
+import GetAppIcon from "@mui/icons-material/GetApp";
+import CachedIcon from "@mui/icons-material/Cached";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import LinkIcon from "@mui/icons-material/Link";
+import Collapse from "@mui/material/Collapse";
+import CloseIcon from "@mui/icons-material/Close";
 import {
   List,
   ListItem,
-  ListItemSecondaryAction,
   ListItemText,
-} from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import { getTranslations as t } from "../../../locales";
 
 const _sodium = require("libsodium-wrappers");
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   root: {
     width: "100%",
   },
@@ -68,16 +67,6 @@ const useStyles = makeStyles((theme) => ({
   stepper: {
     backgroundColor: "transparent",
   },
-  stepIcon: {
-    "&$activeStepIcon": {
-      color: theme.palette.emperor.main,
-    },
-    "&$completedStepIcon": {
-      color: theme.palette.emperor.main,
-    },
-  },
-  activeStepIcon: {},
-  completedStepIcon: {},
 
   button: {
     marginTop: theme.spacing(1),
@@ -164,7 +153,7 @@ let file,
   encTx;
 
 const LimitedEncryptionPanel = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   const router = useRouter();
 
@@ -603,17 +592,13 @@ const LimitedEncryptionPanel = () => {
         activeStep={activeStep}
         orientation="vertical"
         className={classes.stepper}
+        sx={{
+          "& .MuiStepIcon-root.Mui-active": { color: "emperor.main" },
+          "& .MuiStepIcon-root.Mui-completed": { color: "emperor.main" },
+        }}
       >
         <Step key={1}>
-          <StepLabel
-            StepIconProps={{
-              classes: {
-                root: classes.stepIcon,
-                active: classes.activeStepIcon,
-                completed: classes.completedStepIcon,
-              },
-            }}
-          >
+          <StepLabel>
             {t("choose_file_enc")}
           </StepLabel>
           <StepContent>
@@ -644,6 +629,16 @@ const LimitedEncryptionPanel = () => {
                           borderRadius: "8px",
                           padding: 15,
                         }}
+                        secondaryAction={
+                          <IconButton
+                            style={{ marginTop: 40 }}
+                            onClick={() => setFile()}
+                            edge="end"
+                            aria-label="delete"
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        }
                       >
                         <ListItemText
                           style={{
@@ -655,16 +650,6 @@ const LimitedEncryptionPanel = () => {
                           primary={File.name}
                           secondary={formatBytes(File.size)}
                         />
-                        <ListItemSecondaryAction>
-                          <IconButton
-                            style={{ marginTop: 40 }}
-                            onClick={() => setFile()}
-                            edge="end"
-                            aria-label="delete"
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </ListItemSecondaryAction>
                       </ListItem>
                     ) : (
                       t("drag_drop")
@@ -720,15 +705,7 @@ const LimitedEncryptionPanel = () => {
         </Step>
 
         <Step key={2}>
-          <StepLabel
-            StepIconProps={{
-              classes: {
-                root: classes.stepIcon,
-                active: classes.activeStepIcon,
-                completed: classes.completedStepIcon,
-              },
-            }}
-          >
+          <StepLabel>
             {encryptionMethod === "secretKey"
               ? t("enter_password_enc")
               : t("enter_keys_enc")}
@@ -967,15 +944,7 @@ const LimitedEncryptionPanel = () => {
         </Step>
 
         <Step key={3}>
-          <StepLabel
-            StepIconProps={{
-              classes: {
-                root: classes.stepIcon,
-                active: classes.activeStepIcon,
-                completed: classes.completedStepIcon,
-              },
-            }}
-          >
+          <StepLabel>
             {t("encrypt_file")}
           </StepLabel>
           <StepContent>
